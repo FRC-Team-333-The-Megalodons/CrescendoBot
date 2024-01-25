@@ -1,3 +1,15 @@
-Files placed in this directory will be deployed to the RoboRIO into the
-'deploy' directory in the home folder. Use the 'Filesystem.getDeployDirectory' wpilib function
-to get a proper path relative to the deploy directory.
+Swerve: Driving, Takes in 8 motors (SpartFlex)
+Intake: Intakes, Scores into the AMP, 2 motors, 2 photoelectic sensor
+Wrist: Holds on the Intake and has 1 motor, absolute encoder from REV (use rev lib for it)
+Pivot:  Holds the Slides, Shooter and the Intake, has 2 motors, 1 absolute encoder
+Shooter: Shoots, two motors 
+Climber:  Climbs, two motors
+Led: For indication   with the drive team, co-operate with the Limelight subsystem, Intake subsystem, Shooter subsystem
+Limelight: for april tag detection, co operates with Shooter and Swerve 
+
+order:
+INTAKE GROUND Track -> Wrist -> Intake 
+DRIVE ALIGN Limelight -> Swerve,
+SCORE SPEAKER Limelight -> Pivot -> Shooter
+SCORE AMP Limelight -> Track -> Wrist -> Intake 
+CLIMB Climb - independent, extend all in, extend all out 
