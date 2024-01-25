@@ -7,9 +7,31 @@ Climber:  Climbs, two motors
 Led: For indication   with the drive team, co-operate with the Limelight subsystem, Intake subsystem, Shooter subsystem
 Limelight: for april tag detection, co operates with Shooter and Swerve 
 
-order:
+Mechanism order order:
 INTAKE GROUND Track -> Wrist -> Intake 
 DRIVE ALIGN Limelight -> Swerve,
 SCORE SPEAKER Limelight -> Pivot -> Shooter
 SCORE AMP Limelight -> Track -> Wrist -> Intake 
 CLIMB Climb - independent, extend all in, extend all out 
+
+Buttons:
+
+    Driver PS5Controller:                           CoDriver PS5Controller:
+    Left Joystick -> Driving                        Left Joystick   ->  Pivot
+    Right Joystick -> Turning                       Right Joystick  ->  Wrist
+    Share Button ->  Reset the odometry             R3  ->  TrackDown
+    Face Button -> Locking the wheels/preset        L3  ->  TrackUp
+    R2 -> Fire                                    
+    L2 -> Auto allign                               Triangle -> Score Speaker Sabwoofer
+    Face Buttons preset ->                          Square  ->  Score Speaker Wing
+    TrackPad -> Fancy LED                           Circle  ->  Score Speaker Podium
+                                                    X   ->  Score AMP 
+                                                    LeftDown -> AMP 
+                                                    R1 -> intake manual
+                                                    L1 -> eject manual
+                                                    R2 -> INTAKE home
+                                                    L2 -> Go Home
+                                                    LeftUP -> Climbers up (on Hold)
+                                                    RightDown -> Climbers down (on Hold)
+
+                                                    manual override on the dashboard?
