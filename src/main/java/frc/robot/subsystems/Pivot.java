@@ -4,5 +4,11 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkFlex;
+
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 /** Add your docs here. */
-public class Pivot {}
+public class Pivot extends SubsystemBase {
+  
+}
