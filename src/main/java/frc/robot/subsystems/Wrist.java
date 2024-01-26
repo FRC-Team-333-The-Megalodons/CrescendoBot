@@ -18,6 +18,7 @@ public class Wrist extends SubsystemBase {
     private CANSparkFlex wristMotor;
     private DutyCycleEncoder wristEncoder;
     private PIDController wristPIDController;
+    
 
     public Wrist() {
         wristMotor = new CANSparkFlex(0, MotorType.kBrushless);
@@ -31,5 +32,6 @@ public class Wrist extends SubsystemBase {
         wristPIDController.enableContinuousInput(0, 1);
 
         
+
     }
 }
