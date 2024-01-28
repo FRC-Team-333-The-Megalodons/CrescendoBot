@@ -1,12 +1,23 @@
 Swerve: Driving, Takes in 8 motors (SpartFlex)
-Intake: Intakes, Scores into the AMP, 2 motors, 2 photoelectic sensor
+Intake: Intakes, Scores into the AMP, 1 motors, 2 photoelectic sensor
+        MotorID = 1 
+        using absolute encoders builtin Flex  reletive
 Wrist: Holds on the Intake and has 1 motor, absolute encoder from REV (use rev lib for it)
+        MotorID = 2
+    using dutyCycle, converted into degrees, thrubore encoder 
 Pivot:  Holds the Slides, Shooter and the Intake, has 2 motors, 1 absolute encoder
-Shooter: Shoots, two motors 
-Climber:  Climbs, two motors
+        MotorID = 2,3
+    using dutyCycle, converted into degrees, thrubore encoder
+Shooter: Shoots, 2 motors 
+        MotorID = 4,5
+    using absolute encoders from flex
+Climber:  Climbs, 2 motors
+        MotorID = 6,7
+    absolute encoders built into the flex
 Led: For indication   with the drive team, co-operate with the Limelight subsystem, Intake subsystem, Shooter subsystem
+    PMW port
 Limelight: for april tag detection, co operates with Shooter and Swerve 
-
+    network
 Mechanism order order:
 INTAKE GROUND Track -> Wrist -> Intake 
 DRIVE ALIGN Limelight -> Swerve,

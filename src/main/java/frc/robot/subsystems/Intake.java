@@ -38,11 +38,17 @@ public class Intake extends SubsystemBase {
     photoElectric_2 = new DigitalInput(9);
   }
 
-  public void intake() { intakeMotor.set(-0.15); } // intake speed
+  public void intake() { 
+    intakeMotor.set(-0.15); 
+  } // intake speed
   
-  public void eject() { intakeMotor.set(0.15); } // eject speed 
+  public void eject() { 
+    intakeMotor.set(0.15); 
+  } // eject speed 
 
-  public void notake() { intakeMotor.set(0); }
+  public void stopIntake() { 
+    intakeMotor.set(0); 
+  }
 
   public boolean intakeAutoDone() {
     if (intakeMotor.getEncoder().getPosition() <= -0) { // intake encoder position 
@@ -58,17 +64,17 @@ public class Intake extends SubsystemBase {
     return false;
   }
 
-  public void resetIntakeEncoder() { intakeMotor.getEncoder().setPosition(0); }
+  public void resetIntakeEncoder() { 
+    intakeMotor.getEncoder().setPosition(0); 
+  }
   
   public boolean detect() {
     if (photoElectric_1.get() || photoElectric_2.get()) {
-        return true;
-    } else { return false;  }
+      return true;
+    } else { 
+      return false;  
+    }
 }
-  public void intakeIn() {
-    do { notake();
-    } while (detect());
-  }
 
   @Override
   public void periodic() {
