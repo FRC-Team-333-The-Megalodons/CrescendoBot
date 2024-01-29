@@ -18,19 +18,8 @@ public class LEDs extends SubsystemBase {
     m_led.setLength(m_ledBuffer.getLength());
 
     m_led.start();
-
   }
-
-  public void setColorLED() {
-    for (var i = 0; i < m_ledBuffer.getLength(); i++) {
-      m_ledBuffer.setRGB(i, 032, 564, 543);
-    }
-  }
-  public void whatLightLED() {
-    for (var i = 0; i < m_ledBuffer.getLength(); i++) {
-        m_ledBuffer.setLED(i, Color.kBlueViolet);
-    }
-  }
+  
   public void royalBlueLED() {
     for (var i = 0; i< m_ledBuffer.getLength(); i++) {
         m_ledBuffer.setRGB(i, 0, 32, 135);
