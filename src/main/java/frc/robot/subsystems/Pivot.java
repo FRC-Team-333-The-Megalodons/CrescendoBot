@@ -32,8 +32,6 @@ public class Pivot extends SubsystemBase {
 
         
 
-        intakePIDController = new PIDController(1.5, 0, 0);
-        intakePIDController.enableContinuousInput(0, 1);
 
     }
 }
