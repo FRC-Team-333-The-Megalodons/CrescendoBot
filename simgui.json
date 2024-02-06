@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "HALProvider": {
     "Other Devices": {
       "SPARK MAX [2]": {
@@ -108,6 +109,11 @@
           "open": true
         }
       }
+=======
+  "NTProvider": {
+    "types": {
+      "/FMSInfo": "FMSInfo"
+>>>>>>> 2f53002cb9f8d40829aacb9075a695c4a121c3c7
     }
   },
   "NetworkTables Info": {
