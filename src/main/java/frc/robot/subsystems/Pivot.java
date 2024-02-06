@@ -10,28 +10,17 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /** Add your docs here. */
 public class Pivot extends SubsystemBase {
     CANSparkFlex pivotMotorRight;
     CANSparkFlex pivotMotorLeft;
-    DutyCycleEncoder rightEncoder;
-    DutyCycleEncoder leftEncoder;
+    DutyCycleEncoder pivotEncoder;
     PIDController rightPivotPidController;
 
     public Pivot(){
-        pivotMotorRight = new CANSparkFlex(2, MotorType.kBrushless);
-        pivotMotorRight.setIdleMode(IdleMode.kBrake);
-        pivotMotorLeft = new CANSparkFlex(3, MotorType.kBrushless);
-        pivotMotorLeft.setIdleMode(IdleMode.kBrake);
-
-        rightEncoder = new DutyCycleEncoder(0);
-        rightEncoder.setConnectedFrequencyThreshold(900);
-        rightEncoder.reset();
-
-        
-
-
+       
     }
 }

@@ -17,38 +17,27 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Intake extends SubsystemBase {
   private CANSparkFlex intakeMotor;
+  private DigitalInput peLeft;
+  private DigitalInput peRight;
+
   private DutyCycleEncoder intakeEncoder;
   private PIDController intakePIDController;
-  private DigitalInput photoElectric_1;
-  private DigitalInput photoElectric_2;
 
   /** Creates a new Intake. */
   public Intake() {
-    intakeMotor = new CANSparkFlex(1, MotorType.kBrushless);
+    intakeMotor = new CANSparkFlex(3, MotorType.kBrushless);
     intakeMotor.setIdleMode(IdleMode.kCoast);
-
     intakeEncoder = new DutyCycleEncoder(0);
     intakeEncoder.setConnectedFrequencyThreshold(900);
     intakeEncoder.reset();
-
     intakePIDController = new PIDController(1.5, 0, 0);
     intakePIDController.enableContinuousInput(0, 1);
-
-    photoElectric_1 = new DigitalInput(8);
-    photoElectric_2 = new DigitalInput(9);
+    peLeft = new DigitalInput(3);
+    peRight = new DigitalInput(2);
   }
-
-  public void intake() { 
-    intakeMotor.set(-0.15); 
-  } // intake speed
-  
-  public void eject() { 
-    intakeMotor.set(0.15); 
-  } // eject speed 
-
-  public void stopIntake() { 
-    intakeMotor.set(0); 
-  }
+    public void intake(){intakeMotor.set(0.3);}
+    public void outake(){intakeMotor.set(-0.3);}
+    public void intakeStop(){intakeMotor.set(0);}
 
   public boolean intakeAutoDone() {
     if (intakeMotor.getEncoder().getPosition() <= -0) { // intake encoder position 
@@ -68,18 +57,19 @@ public class Intake extends SubsystemBase {
     intakeMotor.getEncoder().setPosition(0); 
   }
   
-  public boolean detect() {
-    if (photoElectric_1.get() || photoElectric_2.get()) {
-      return true;
-    } else { 
-      return false;  
-    }
+  public boolean detectNote(){
+    if (peLeft.get() || peRight.get()){
+        return true;
+    } else {return false; }
 }
 
-  @Override
-  public void periodic() {
-    SmartDashboard.putNumber("Intake encoder", intakeEncoder.get());
-    SmartDashboard.getBoolean("NodeIN?", detect());
-    SmartDashboard.getBoolean("IsIntakeAutoDone?", intakeAutoDone());
+@Override
+public void periodic(){
+    SmartDashboard.putBoolean("Left", peLeft.get());
+    SmartDashboard.putBoolean("Right", peRight.get());
+    SmartDashboard.putBoolean("GetNote", detectNote());
+
+    SmartDashboard.putNumber("encoder", intakeEncoder.get());
+    SmartDashboard.putBoolean("Encoder at positoin?", intakePIDController.atSetpoint());
   }
 }
