@@ -6,12 +6,12 @@
   "absoluteEncoderOffset": -18.281,
   "drive": {
     "type": "sparkflex",
-    "id": 14,
+    "id": 13,
     "canbus": null
   },
   "angle": {
     "type": "sparkflex",
-    "id": 24,
+    "id": 23,
     "canbus": null
   },
   "conversionFactor": {
@@ -20,8 +20,8 @@
   },
   "encoder": {
     "type": "cancoder",
-    "id": 34,
-    "canbus": null
+    "id": 33,
+    "canbus": "rio"
   },
   "inverted": {
     "drive": false,
