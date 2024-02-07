@@ -62,6 +62,7 @@
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
       "/SmartDashboard/Field": "Field2d",
       "/SmartDashboard/Pigeon 2 (v6) [13]": "Gyro",
+      "/SmartDashboard/Pigeon 2 (v6) [2]": "Gyro",
       "/SmartDashboard/Pigeon 2 [13]": "Gyro",
       "/SmartDashboard/SendableChooser[0]": "String Chooser",
       "/SmartDashboard/navX-Sensor[1]": "Gyro",
@@ -74,6 +75,20 @@
         }
       },
       "/SmartDashboard/Field": {
+        "Robot": {
+          "arrowColor": [
+            1.0,
+            1.0,
+            1.0,
+            255.0
+          ],
+          "color": [
+            0.9834983348846436,
+            0.37970244884490967,
+            0.1915062963962555,
+            255.0
+          ]
+        },
         "XModules": {
           "arrowColor": [
             0.09611687064170837,
@@ -99,12 +114,23 @@
   },
   "NetworkTables": {
     "transitory": {
+      "PathPlanner": {
+        "double[]##v_/PathPlanner/currentPose": {
+          "open": true
+        }
+      },
       "SmartDashboard": {
         "Field": {
+          "double[]##v_/SmartDashboard/Field/Robot": {
+            "open": true
+          },
           "open": true
         },
         "open": true,
         "swerve": {
+          "double[]##v_/SmartDashboard/swerve/desiredChassisSpeeds": {
+            "open": true
+          },
           "open": true
         }
       }
