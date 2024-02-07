@@ -9,17 +9,25 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.PS5Controller;
 import edu.wpi.first.wpilibj.RobotBase;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
+import frc.robot.commands.RunIntake;
+import frc.robot.commands.RunPivot;
+import frc.robot.commands.RunShooter;
+import frc.robot.commands.RunTrolley;
+import frc.robot.commands.RunWrist;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Pivot;
+import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Trolley;
+import frc.robot.subsystems.Wrist;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 
@@ -31,15 +39,27 @@ import java.io.File;
 public class RobotContainer
 {
 
+  private final Intake intake = new Intake();
+  private final Wrist wrist = new Wrist();
+  private final Trolley trolley = new Trolley();
+  private final Pivot pivot = new Pivot();
+  private final Shooter shooter = new Shooter();
+
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
                                                                          "swerve/neo"));
-  // CommandJoystick rotationController = new CommandJoystick(1);
-  // Replace with CommandPS4Controller or CommandJoystick if needed
-  CommandJoystick driverController = new CommandJoystick(1);
 
-  // CommandJoystick driverController   = new CommandJoystick(3);//(OperatorConstants.DRIVER_CONTROLLER_PORT);
-  XboxController driverXbox = new XboxController(0);
+  PS5Controller roller = new PS5Controller(0);
+
+  private final JoystickButton INTAKE = new JoystickButton(roller, PS5Controller.Button.kCross.value);
+  private final JoystickButton WRIST_IN = new JoystickButton(roller, PS5Controller.Button.kR1.value);
+  private final JoystickButton WRIST_OUT = new JoystickButton(roller, PS5Controller.Button.kL1.value);
+  private final JoystickButton TROLLEY_IN = new JoystickButton(roller, PS5Controller.Button.kR3.value);
+  private final JoystickButton TROLLEY_OUT = new JoystickButton(roller, PS5Controller.Button.kL3.value);
+  private final JoystickButton PIVOT_IN = new JoystickButton(roller, PS5Controller.Button.kR2.value);
+  private final JoystickButton PIVOT_OUT = new JoystickButton(roller, PS5Controller.Button.kL2.value);
+  private final JoystickButton REV_SHOOTER = new JoystickButton(roller, PS5Controller.Button.kSquare.value);
+  private final JoystickButton GET_LITTT = new JoystickButton(roller, PS5Controller.Button.kTouchpad.value);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -48,29 +68,16 @@ public class RobotContainer
   {
     // Configure the trigger bindings
     configureBindings();
-
-    AbsoluteDriveAdv closedAbsoluteDriveAdv = new AbsoluteDriveAdv(drivebase,
-                                                                   () -> MathUtil.applyDeadband(driverXbox.getLeftY(),
-                                                                                                OperatorConstants.LEFT_Y_DEADBAND),
-                                                                   () -> MathUtil.applyDeadband(driverXbox.getLeftX(),
-                                                                                                OperatorConstants.LEFT_X_DEADBAND),
-                                                                   () -> MathUtil.applyDeadband(driverXbox.getRightX(),
-                                                                                                OperatorConstants.RIGHT_X_DEADBAND),
-                                                                   driverXbox::getYButtonPressed,
-                                                                   driverXbox::getAButtonPressed,
-                                                                   driverXbox::getXButtonPressed,
-                                                                   driverXbox::getBButtonPressed);
-
     // Applies deadbands and inverts controls because joysticks
     // are back-right positive while robot
     // controls are front-left positive
     // left stick controls translation
     // right stick controls the desired angle NOT angular rotation
     Command driveFieldOrientedDirectAngle = drivebase.driveCommand(
-        () -> MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
-        () -> MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> driverXbox.getRightX(),
-        () -> driverXbox.getRightY());
+        () -> MathUtil.applyDeadband(roller.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
+        () -> MathUtil.applyDeadband(roller.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
+        () -> roller.getRightX(),
+        () -> roller.getRightY());
 
     // Applies deadbands and inverts controls because joysticks
     // are back-right positive while robot
@@ -78,14 +85,14 @@ public class RobotContainer
     // left stick controls translation
     // right stick controls the angular velocity of the robot
     Command driveFieldOrientedAnglularVelocity = drivebase.driveCommand(
-        () -> MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
-        () -> MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> driverXbox.getRawAxis(2));
+        () -> MathUtil.applyDeadband(roller.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
+        () -> MathUtil.applyDeadband(roller.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
+        () -> roller.getRawAxis(2));
 
     Command driveFieldOrientedDirectAngleSim = drivebase.simDriveCommand(
-        () -> MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
-        () -> MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> driverXbox.getRawAxis(2));
+        () -> -MathUtil.applyDeadband(roller.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
+        () -> -MathUtil.applyDeadband(roller.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
+        () -> -roller.getRawAxis(2));
 
     drivebase.setDefaultCommand(
         !RobotBase.isSimulation() ? driveFieldOrientedDirectAngle : driveFieldOrientedDirectAngleSim);
@@ -100,16 +107,26 @@ public class RobotContainer
    */
   private void configureBindings()
   {
+
+    INTAKE.whileTrue(new RunIntake(intake, 0.3));
+    WRIST_IN.whileTrue(new RunWrist(wrist, 0.3));
+    WRIST_OUT.whileTrue(new RunWrist(wrist, -0.3));
+    TROLLEY_IN.whileTrue(new RunTrolley(trolley, 0.3));
+    TROLLEY_OUT.whileTrue(new RunTrolley(trolley, -0.3));
+    PIVOT_IN.whileTrue(new RunPivot(pivot, 0.3));
+    PIVOT_OUT.whileTrue(new RunPivot(pivot, -0.3));
+    REV_SHOOTER.whileTrue(new RunShooter(shooter, 1.0));
+
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
 
-    new JoystickButton(driverXbox, 1).onTrue((new InstantCommand(drivebase::zeroGyro)));
-    new JoystickButton(driverXbox, 3).onTrue(new InstantCommand(drivebase::addFakeVisionReading));
-    new JoystickButton(driverXbox,
-                       2).whileTrue(
-        Commands.deferredProxy(() -> drivebase.driveToPose(
-                                   new Pose2d(new Translation2d(4, 4), Rotation2d.fromDegrees(0)))
-                              ));
-//    new JoystickButton(driverXbox, 3).whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
+    // new JoystickButton(roller, 1).onTrue((new InstantCommand(drivebase::zeroGyro)));
+    // // new JoystickButton(roller, 3).onTrue(new InstantCommand(drivebase::addFakeVisionReading));
+    // new JoystickButton(roller,
+    //                    2).whileTrue(
+    //     Commands.deferredProxy(() -> drivebase.driveToPose(
+    //                                new Pose2d(new Translation2d(4, 4), Rotation2d.fromDegrees(0)))
+    //                           ));
+    // new JoystickButton(roller, 3).whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
   }
 
   /**
