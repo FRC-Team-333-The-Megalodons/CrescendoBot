@@ -42,8 +42,8 @@ public class RobotContainer {
   private final Joystick joy = new Joystick(0);
 
 
-  private final JoystickButton INTAKE_MANUAL_BUTTON = new JoystickButton(joy, PS5Controller.Button.kR1.value);
-  private final JoystickButton INTAKE_SENSORS_BUTTON  = new JoystickButton(joy, PS5Controller.Button.kL1.value); 
+  private final JoystickButton INTAKE_MANUAL_BUTTON = new JoystickButton(joy, PS5Controller.Button.kR2.value);
+  private final JoystickButton INTAKE_SENSORS_BUTTON  = new JoystickButton(joy, PS5Controller.Button.kR1.value); 
   private final JoystickButton FIRE_BUTTON = new JoystickButton(joy, PS5Controller.Button.kCircle.value);
   private final JoystickButton IDLE_FIRE_BUTTON = new JoystickButton(joy, PS5Controller.Button.kTouchpad.value);
   private final JoystickButton TRACK_UP = new JoystickButton(joy, PS5Controller.Button.kR3.value);

@@ -18,9 +18,27 @@ public class Pivot extends SubsystemBase {
     CANSparkFlex pivotMotorRight;
     CANSparkFlex pivotMotorLeft;
     DutyCycleEncoder pivotEncoder;
-    PIDController rightPivotPidController;
+    PIDController PivotPidController;
 
     public Pivot(){
-       
+       pivotMotorRight = new CANSparkFlex(6, MotorType.kBrushless);
+       pivotMotorRight.setIdleMode(IdleMode.kBrake);
+       pivotMotorLeft = new CANSparkFlex(7, MotorType.kBrushless);
+       pivotMotorLeft.setIdleMode(IdleMode.kBrake);
+
+       PivotPidController = new PIDController(1.5, 0, 0);
+       PivotPidController.enableContinuousInput(0, 1);
+
+       pivotEncoder = new DutyCycleEncoder(5);
+       pivotEncoder.setConnectedFrequencyThreshold(900);
+       pivotEncoder.reset();
+    }
+    public void pivotUp(){pivotMotorRight.set(0.2); pivotMotorLeft.set(-0.2);}
+    public void pivotDown(){pivotMotorRight.set(-0.2); pivotMotorLeft.set(0.2);}
+    public void pivotStop(){pivotMotorLeft.set(0); pivotMotorRight.set(0);}
+
+    @Override
+    public void periodic(){
+        SmartDashboard.getNumber("encoderPivot", pivotEncoder.get());
     }
 }
