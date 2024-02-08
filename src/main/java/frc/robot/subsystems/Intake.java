@@ -20,28 +20,28 @@ public class Intake extends SubsystemBase {
   private DigitalInput peLeft;
   private DigitalInput peRight;
 
-  private DutyCycleEncoder intakeEncoder;
-  private PIDController intakePIDController;
+ // private DutyCycleEncoder intakeEncoder;
+ // private PIDController intakePIDController;
 
   /** Creates a new Intake. */
   public Intake() {
     intakeMotor = new CANSparkFlex(3, MotorType.kBrushless);
     intakeMotor.setIdleMode(IdleMode.kCoast);
 
-    intakeEncoder = new DutyCycleEncoder(0);
+   /*  intakeEncoder = new DutyCycleEncoder(0);
     intakeEncoder.setConnectedFrequencyThreshold(900);
     intakeEncoder.reset();
 
     intakePIDController = new PIDController(1.5, 0, 0);
     intakePIDController.enableContinuousInput(0, 1);
-
-    peLeft = new DigitalInput(3);
-    peRight = new DigitalInput(2);
+*/
+    peLeft = new DigitalInput(1);
+    peRight = new DigitalInput(0);
   }
     public void intake(double value){intakeMotor.set(value);}
     public void intakeStop(){intakeMotor.set(0);}
 
-  public boolean intakeAutoDone() {
+  /*public boolean intakeAutoDone() {
     if (intakeMotor.getEncoder().getPosition() <= 0) { // intake encoder position 
       return true;
     }
@@ -57,7 +57,7 @@ public class Intake extends SubsystemBase {
 
   public void resetIntakeEncoder() { 
     intakeMotor.getEncoder().setPosition(0); 
-  }
+  }*/
   
   public boolean detectNote(){
     if (peLeft.get() || peRight.get()){
@@ -71,7 +71,7 @@ public void periodic(){
     SmartDashboard.putBoolean("Right", peRight.get());
     SmartDashboard.putBoolean("GetNote", detectNote());
 
-    SmartDashboard.putNumber("encoder", intakeEncoder.get());
-    SmartDashboard.putBoolean("Encoder at positoin?", intakePIDController.atSetpoint());
+   // SmartDashboard.putNumber("encoder", intakeEncoder.get());
+   // SmartDashboard.putBoolean("Encoder at positoin?", intakePIDController.atSetpoint());*/
   }
 }

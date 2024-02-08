@@ -17,8 +17,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Pivot extends SubsystemBase {
     CANSparkFlex pivotMotorRight;
     CANSparkFlex pivotMotorLeft;
-    DutyCycleEncoder pivotEncoder;
-    PIDController PivotPidController;
+  //  DutyCycleEncoder pivotEncoder;
+   // PIDController PivotPidController;
 
     public Pivot(){
        pivotMotorRight = new CANSparkFlex(6, MotorType.kBrushless);
@@ -26,17 +26,17 @@ public class Pivot extends SubsystemBase {
        pivotMotorLeft = new CANSparkFlex(7, MotorType.kBrushless);
        pivotMotorLeft.setIdleMode(IdleMode.kBrake);
 
-       PivotPidController = new PIDController(1.5, 0, 0);
-       PivotPidController.enableContinuousInput(0, 1);
+     //  PivotPidController = new PIDController(1.5, 0, 0);
+     //  PivotPidController.enableContinuousInput(0, 1);
 
-       pivotEncoder = new DutyCycleEncoder(9);
-       pivotEncoder.setConnectedFrequencyThreshold(900);
-       pivotEncoder.reset();
+     //  pivotEncoder = new DutyCycleEncoder(9);
+   //    pivotEncoder.setConnectedFrequencyThreshold(900);
+    //   pivotEncoder.reset();
     }
     public void pivot(double value){pivotMotorRight.set(value); pivotMotorLeft.set(value);}
     public void pivotStop(){pivotMotorLeft.set(0); pivotMotorRight.set(0);}
 
-    public boolean atIntakePositionPivot() {
+    /*public boolean atIntakePositionPivot() {
         if (pivotEncoder.getAbsolutePosition() <= 0 && pivotEncoder.getAbsolutePosition() >= 0 ) { // intake encoder position 
           return true;
         } else {
@@ -79,5 +79,6 @@ public class Pivot extends SubsystemBase {
         SmartDashboard.getBoolean("PivotAtSpeakerPosition?", atSpeakerPositionPivot());
         SmartDashboard.getBoolean("PivotAtHomePosition", atHomePositionPivot());
         SmartDashboard.getBoolean("PivotAtAMPPosition", atAMPPositionPivot());
-    }
+    }*/
 }
+

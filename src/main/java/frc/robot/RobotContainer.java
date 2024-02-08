@@ -81,7 +81,7 @@ public class RobotContainer {
     INTAKE_MANUAL_BUTTON.whileTrue(new RunIntakeManual(m_Intake, 0.3));    // R2  push
 
     IDLE_FIRE_BUTTON.whileTrue(new RunRevUP(m_Shooter, 0.3)); // TOUCH PAD ram up
-    FIRE_BUTTON.whileTrue(new RunFire(m_Shooter, 0.4));                 //  CIRCLE shoot
+    FIRE_BUTTON.whileTrue(new RunFire(m_Shooter, 0.9));                 //  CIRCLE shoot
    
     TRACK_UP.whileTrue(new RunTrack(m_Track, 0.3));    // R3       track up
     TRACK_DOWN.whileTrue(new RunTrack(m_Track, -0.3)); // L3       track down
