@@ -6,6 +6,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkFlex;
+import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
@@ -16,13 +17,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /** Add your docs here. */
 public class Wrist extends SubsystemBase {
-    private CANSparkFlex wristMotor;
+    private CANSparkMax wristMotor;
     private DutyCycleEncoder wristEncoder;
     private PIDController wristPIDController;
 
 
     public Wrist() {
-        wristMotor = new CANSparkFlex(4, MotorType.kBrushless);
+        wristMotor = new CANSparkMax(4, MotorType.kBrushless);
         wristMotor.setIdleMode(IdleMode.kBrake);
 
         wristPIDController = new PIDController(1.5, 0, 0);

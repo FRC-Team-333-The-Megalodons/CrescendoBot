@@ -79,9 +79,9 @@ public class RobotContainer {
     INTAKE_SENSORS_BUTTON.whileTrue(new IntakeSensors(m_Intake));  // R1
     INTAKE_MANUAL_BUTTON.whileTrue(new IntakeManual(m_Intake));    // R2
 
-    FIRE_BUTTON.whileTrue(new Ogon(m_Shooter));                 //  CIRCLE
     IDLE_FIRE_BUTTON.whileTrue(new RunCommand(() -> m_Shooter.idleFire())); // TOUCH PAD
-
+    FIRE_BUTTON.whileTrue(new Ogon(m_Shooter));                 //  CIRCLE
+   
     TRACK_UP.whileTrue(new RunCommand(() -> m_Track.trackUp()));    // R3
     TRACK_DOWN.whileTrue(new RunCommand(() -> m_Track.trackDown())); // L3
 
@@ -91,7 +91,7 @@ public class RobotContainer {
     PIVOT_UP.whileTrue(new RunCommand(() -> m_Pivot.pivotUp()));    // L1
     PIVOT_DOWN.whileTrue(new RunCommand(() -> m_Pivot.pivotDown()));  // L2
   }
-  /** mxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  /** 
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
    * @return the command to run in autonomous
