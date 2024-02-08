@@ -25,6 +25,26 @@ public final class Constants
   public static final Matter CHASSIS    = new Matter(new Translation3d(0, 0, Units.inchesToMeters(8)), ROBOT_MASS);
   public static final double LOOP_TIME  = 0.13; //s, 20ms + 110ms sprk max velocity lag
 
+  public static final class PivotConstants
+  {
+    public static final int PIVOT1_ID = 6; 
+    public static final int PIVOT2_ID = 7; 
+    public static final double HOME_SETPOINT = 0.0;
+    public static final double INTAKE_SETPOINT = 0.0;
+    public static final double SUBWOFFER_SETPOINT = 0.0;
+    public static final double PODIUM_SETPOINT = 0.0;
+    public static final double WING_SETPOINT = 0.0;
+  }
+
+  public static final class WristConstants
+  {
+    public static final double HOME_SETPOINT = 0.0;
+    public static final double INTAKE_SETPOINT = 0.0;
+    public static final double SUBWOFFER_SETPOINT = 0.0;
+    public static final double PODIUM_SETPOINT = 0.0;
+    public static final double WING_SETPOINT = 0.0;
+  }
+
   public static final class AutonConstants
   {
 
