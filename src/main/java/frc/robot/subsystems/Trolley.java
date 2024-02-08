@@ -21,6 +21,8 @@ public class Trolley extends SubsystemBase {
   /** Creates a new Trolley. */
   public Trolley() {
     trolleyMotor = new CANSparkMax(5, MotorType.kBrushless);
+
+    trolleyMotor.restoreFactoryDefaults();
     trolleyMotor.setIdleMode(IdleMode.kBrake);
     trolleyMotor.burnFlash();
 

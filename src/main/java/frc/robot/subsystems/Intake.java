@@ -21,11 +21,13 @@ public class Intake extends SubsystemBase {
   /** Creates a new Intake. */
   public Intake() {
     intakeMotor = new CANSparkFlex(3, MotorType.kBrushless);
+
+    intakeMotor.restoreFactoryDefaults();
     intakeMotor.setIdleMode(IdleMode.kCoast);
     intakeMotor.burnFlash();
 
-    leftSensor = new DigitalInput(2);
-    rightSensor = new DigitalInput(3);
+    leftSensor = new DigitalInput(0);
+    rightSensor = new DigitalInput(1);
   }
 
   public void runIntake(double value) {
@@ -36,7 +38,7 @@ public class Intake extends SubsystemBase {
     intakeMotor.set(0.0);
   }
 
-  public boolean getNote() {
+  public boolean hasNote() {
     if (leftSensor.get() || rightSensor.get()) {
       return true;
     } else {
@@ -46,6 +48,6 @@ public class Intake extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putBoolean("Note?", getNote());
+    SmartDashboard.putBoolean("Note?", hasNote());
   }
 }

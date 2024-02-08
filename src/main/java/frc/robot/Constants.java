@@ -25,24 +25,60 @@ public final class Constants
   public static final Matter CHASSIS    = new Matter(new Translation3d(0, 0, Units.inchesToMeters(8)), ROBOT_MASS);
   public static final double LOOP_TIME  = 0.13; //s, 20ms + 110ms sprk max velocity lag
 
-  public static final class PivotConstants
+  public static final class IntakeConstatnts
   {
-    public static final int PIVOT1_ID = 6; 
-    public static final int PIVOT2_ID = 7; 
-    public static final double HOME_SETPOINT = 0.0;
-    public static final double INTAKE_SETPOINT = 0.0;
-    public static final double SUBWOFFER_SETPOINT = 0.0;
-    public static final double PODIUM_SETPOINT = 0.0;
-    public static final double WING_SETPOINT = 0.0;
+    public static final int MOTOR_ID = 3;
+    public static final int LEFT_SENSOR_ID = 0;
+    public static final int RIGHT_SENSOR_ID = 1;
   }
 
   public static final class WristConstants
   {
+    public static final int MOTOR1_ID = 4;
+    public static final double HOME_SETPOINT = 0.0;
+    public static final double INTAKE_SETPOINT = 0.0;
+    public static final double SHOOTING_SETPOINT = 0.0;
+    public static final double AMP_SETPOINT = 0.0;
+    public static final double kP = 0.5;
+    public static final double kI = 0.0;
+    public static final double kD = 0.0;
+    public static final double kFF = 0.0;
+    public static final double MIN_INPUT = -0.5;
+    public static final double MAX_INPUT = 0.5;
+  }
+
+  public static final class TrolleyConstants
+  {
+    public static final int MOTOR_ID = 5;
+    public static final double HOME_SETPOINT = 0.0;
+    public static final double INTAKE_SETPOINT = 0.0;
+    public static final double AMP_SETPOINT = 0.0;
+    public static final double kP = 0.5;
+    public static final double kI = 0.0;
+    public static final double kD = 0.0;
+    public static final double kFF = 0.0;
+    public static final double MIN_INPUT = -0.5;
+    public static final double MAX_INPUT = 0.5;
+  }
+
+  public static final class PivotConstants
+  {
+    public static final int MOTOR1_ID = 6; 
+    public static final int MOTOR2_ID = 7; 
     public static final double HOME_SETPOINT = 0.0;
     public static final double INTAKE_SETPOINT = 0.0;
     public static final double SUBWOFFER_SETPOINT = 0.0;
     public static final double PODIUM_SETPOINT = 0.0;
     public static final double WING_SETPOINT = 0.0;
+    public static final double PIVOT_CONVERSION_FACTOR = (2 * Math.PI); // radians
+  }
+
+  public static final class ShooterConstants
+  {
+    public static final int TOP_MOTOR_ID = 8;
+    public static final int BOTTOM_MOTOR_ID = 9;
+    public static final double SHOT_RPM = 6000;
+    public static final double IDLE_RPM = 1000;
   }
 
   public static final class AutonConstants

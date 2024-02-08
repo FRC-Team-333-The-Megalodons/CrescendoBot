@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -24,6 +25,7 @@ import frc.robot.commands.RunShooter;
 import frc.robot.commands.RunTrolley;
 import frc.robot.commands.RunWrist;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.LEDStrip;
 import frc.robot.subsystems.Pivot;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Trolley;
@@ -44,6 +46,7 @@ public class RobotContainer
   private final Trolley trolley = new Trolley();
   private final Pivot pivot = new Pivot();
   private final Shooter shooter = new Shooter();
+  private final LEDStrip leds = new LEDStrip();
 
   // The robot's subsystems and commands are defined here...
   // private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
@@ -52,6 +55,7 @@ public class RobotContainer
   PS5Controller roller = new PS5Controller(0);
 
   private final JoystickButton INTAKE = new JoystickButton(roller, PS5Controller.Button.kCross.value);
+  private final JoystickButton AUTO_INTAKE = new JoystickButton(roller, PS5Controller.Button.kCircle.value);
   private final JoystickButton WRIST_IN = new JoystickButton(roller, PS5Controller.Button.kR1.value);
   private final JoystickButton WRIST_OUT = new JoystickButton(roller, PS5Controller.Button.kL1.value);
   private final JoystickButton TROLLEY_IN = new JoystickButton(roller, PS5Controller.Button.kR3.value);
@@ -108,14 +112,16 @@ public class RobotContainer
   private void configureBindings()
   {
 
+    GET_LITTT.whileTrue(new RunCommand(() -> leds.royalBlueLED()));
     INTAKE.whileTrue(new RunIntake(intake, 0.3));
-    WRIST_IN.whileTrue(new RunWrist(wrist, 0.3));
-    WRIST_OUT.whileTrue(new RunWrist(wrist, -0.3));
-    TROLLEY_IN.whileTrue(new RunTrolley(trolley, 0.3));
-    TROLLEY_OUT.whileTrue(new RunTrolley(trolley, -0.3));
-    PIVOT_IN.whileTrue(new RunPivot(pivot, 0.3));
-    PIVOT_OUT.whileTrue(new RunPivot(pivot, -0.3));
-    REV_SHOOTER.whileTrue(new RunShooter(shooter, 1.0));
+    AUTO_INTAKE.whileTrue(new RunIntake(intake, 0.3).until(intake::hasNote));
+    WRIST_IN.whileTrue(new RunWrist(wrist, 0.2));
+    WRIST_OUT.whileTrue(new RunWrist(wrist, -0.2));
+    TROLLEY_IN.whileTrue(new RunTrolley(trolley, 0.4));
+    TROLLEY_OUT.whileTrue(new RunTrolley(trolley, -0.4));
+    PIVOT_IN.whileTrue(new RunPivot(pivot, 0.2));
+    PIVOT_OUT.whileTrue(new RunPivot(pivot, -0.2));
+    REV_SHOOTER.whileTrue(new RunShooter(shooter, 0.9));
 
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
 
