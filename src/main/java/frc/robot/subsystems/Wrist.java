@@ -5,7 +5,6 @@
 // one motor
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
@@ -29,16 +28,33 @@ public class Wrist extends SubsystemBase {
         wristPIDController = new PIDController(1.5, 0, 0);
         wristPIDController.enableContinuousInput(0, 1);
 
-        wristEncoder = new DutyCycleEncoder(7);
+        wristEncoder = new DutyCycleEncoder(8);
         wristEncoder.setConnectedFrequencyThreshold(900);
         wristEncoder.reset();
     }
-    public void wristUP() {wristMotor.set(0.2);}
-    public void wristDOWN() {wristMotor.set(-0.2);}
+    public void wrist(double value) {wristMotor.set(value);}
     public void wristSTOP(){wristMotor.set(0);}
+
+    public boolean atIntakePositionWrist() {
+        if (wristEncoder.getAbsolutePosition() <= 0 && wristEncoder.getAbsolutePosition() >= 0 ) { // intake encoder position 
+          return true;
+        } else {
+            return false;
+        }
+      }
+
+    public boolean atHomePositionWrist() {
+        if (wristEncoder.getAbsolutePosition() <= 0 && wristEncoder.getAbsolutePosition() >= 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     @Override
     public void periodic(){
         SmartDashboard.getNumber("encoderWrist" , wristEncoder.get());
+        SmartDashboard.getBoolean("WristAtIntakePosition", atIntakePositionWrist());
+        SmartDashboard.getBoolean("WristAtHomePosition", atHomePositionWrist());
     }
 }

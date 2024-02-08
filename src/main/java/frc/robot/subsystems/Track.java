@@ -5,7 +5,6 @@
 // one motor
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
@@ -19,16 +18,33 @@ public class Track extends SubsystemBase {
     private DutyCycleEncoder trackEncoder;
     public Track() {
         trackMotor = new CANSparkMax(5, MotorType.kBrushless);
-        trackEncoder = new DutyCycleEncoder(7);
+        trackEncoder = new DutyCycleEncoder(0);
         trackEncoder.setConnectedFrequencyThreshold(900);
         trackEncoder.reset();
     }
-    public void trackDown(){trackMotor.set(0.2);}
-    public void trackUp(){trackMotor.set(-0.2);}
+    public void track(double value){trackMotor.set(value);}
     public void trackStop(){trackMotor.set(0);}
+
+    public boolean atHomePositionTrack() {
+        if (trackEncoder.getAbsolutePosition() <= 0 && trackEncoder.getAbsolutePosition() >= 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean atIntakePositionTrack() {
+        if (trackEncoder.getAbsolutePosition() <= 0 && trackEncoder.getAbsolutePosition() >= 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     @Override
     public void periodic(){
         SmartDashboard.getNumber("TrackEncoder", trackEncoder.get());
+        SmartDashboard.getBoolean("TrackHomePosition", atHomePositionTrack());
+        SmartDashboard.getBoolean("TrackIntakePosition", atIntakePositionTrack());
     }
 }

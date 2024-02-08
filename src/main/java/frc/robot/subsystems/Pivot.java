@@ -29,16 +29,55 @@ public class Pivot extends SubsystemBase {
        PivotPidController = new PIDController(1.5, 0, 0);
        PivotPidController.enableContinuousInput(0, 1);
 
-       pivotEncoder = new DutyCycleEncoder(5);
+       pivotEncoder = new DutyCycleEncoder(9);
        pivotEncoder.setConnectedFrequencyThreshold(900);
        pivotEncoder.reset();
     }
-    public void pivotUp(){pivotMotorRight.set(0.2); pivotMotorLeft.set(-0.2);}
-    public void pivotDown(){pivotMotorRight.set(-0.2); pivotMotorLeft.set(0.2);}
+    public void pivot(double value){pivotMotorRight.set(value); pivotMotorLeft.set(value);}
     public void pivotStop(){pivotMotorLeft.set(0); pivotMotorRight.set(0);}
+
+    public boolean atIntakePositionPivot() {
+        if (pivotEncoder.getAbsolutePosition() <= 0 && pivotEncoder.getAbsolutePosition() >= 0 ) { // intake encoder position 
+          return true;
+        } else {
+            return false;
+        }
+      }
+
+    public boolean atSpeakerPositionPivot() {
+        if (pivotEncoder.getAbsolutePosition() <= 0 && pivotEncoder.getAbsolutePosition() >= 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean atHomePositionPivot() {
+        if (pivotEncoder.getAbsolutePosition() <= 0 && pivotEncoder.getAbsolutePosition() >= 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean atAMPPositionPivot() {
+        if (pivotEncoder.getAbsolutePosition() <= 0 && pivotEncoder.getAbsolutePosition() >= 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+      public void resetPivotEncoderPivot() { 
+        pivotMotorRight.getEncoder().setPosition(0); 
+      }
 
     @Override
     public void periodic(){
         SmartDashboard.getNumber("encoderPivot", pivotEncoder.get());
+        SmartDashboard.getBoolean("PivotAtIntakePosition?", atIntakePositionPivot());
+        SmartDashboard.getBoolean("PivotAtSpeakerPosition?", atSpeakerPositionPivot());
+        SmartDashboard.getBoolean("PivotAtHomePosition", atHomePositionPivot());
+        SmartDashboard.getBoolean("PivotAtAMPPosition", atAMPPositionPivot());
     }
 }

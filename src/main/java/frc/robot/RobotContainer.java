@@ -4,19 +4,20 @@
 
 package frc.robot;
 
-import javax.imageio.plugins.jpeg.JPEGHuffmanTable;
-
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PS5Controller;
-import edu.wpi.first.wpilibj.simulation.PS5ControllerSim;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.IntakeManual;
-import frc.robot.commands.IntakeSensors;
-import frc.robot.commands.Ogon;
+import frc.robot.commands.RunFire;
+import frc.robot.commands.RunIntakeManual;
+import frc.robot.commands.RunIntakeSensors;
+import frc.robot.commands.RunRevUP;
+import frc.robot.commands.RunTrack;
+import frc.robot.commands.RunWrist;
+import frc.robot.commands.runPivot;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.LEDs;
 import frc.robot.subsystems.Pivot;
@@ -76,20 +77,20 @@ public class RobotContainer {
    */
 
    private void configureButtonBindings() {
-    INTAKE_SENSORS_BUTTON.whileTrue(new IntakeSensors(m_Intake));  // R1
-    INTAKE_MANUAL_BUTTON.whileTrue(new IntakeManual(m_Intake));    // R2
+    INTAKE_SENSORS_BUTTON.whileTrue(new RunIntakeSensors(m_Intake, 0.3));  // R1 intake
+    INTAKE_MANUAL_BUTTON.whileTrue(new RunIntakeManual(m_Intake, 0.3));    // R2  push
 
-    IDLE_FIRE_BUTTON.whileTrue(new RunCommand(() -> m_Shooter.idleFire())); // TOUCH PAD
-    FIRE_BUTTON.whileTrue(new Ogon(m_Shooter));                 //  CIRCLE
+    IDLE_FIRE_BUTTON.whileTrue(new RunRevUP(m_Shooter, 0.3)); // TOUCH PAD ram up
+    FIRE_BUTTON.whileTrue(new RunFire(m_Shooter, 0.4));                 //  CIRCLE shoot
    
-    TRACK_UP.whileTrue(new RunCommand(() -> m_Track.trackUp()));    // R3
-    TRACK_DOWN.whileTrue(new RunCommand(() -> m_Track.trackDown())); // L3
+    TRACK_UP.whileTrue(new RunTrack(m_Track, 0.3));    // R3       track up
+    TRACK_DOWN.whileTrue(new RunTrack(m_Track, -0.3)); // L3       track down
 
-    WRIST_UP.whileTrue(new RunCommand(() -> m_Wrist.wristUP()));    // CROSS
-    WRIST_DOWN.whileTrue(new RunCommand(() -> m_Wrist.wristDOWN()));  // SQUARE
+    WRIST_UP.whileTrue(new RunWrist(m_Wrist, 0.3));    // CROSS    wrist  up
+    WRIST_DOWN.whileTrue(new RunWrist(m_Wrist, -0.3));  // SQUARE wrist down
 
-    PIVOT_UP.whileTrue(new RunCommand(() -> m_Pivot.pivotUp()));    // L1
-    PIVOT_DOWN.whileTrue(new RunCommand(() -> m_Pivot.pivotDown()));  // L2
+    PIVOT_UP.whileTrue(new runPivot(m_Pivot, 0.3));    // L1   pivot up
+    PIVOT_DOWN.whileTrue(new runPivot(m_Pivot, -0.3));  // L2   pivot down
   }
   /** 
    * Use this to pass the autonomous command to the main {@link Robot} class.

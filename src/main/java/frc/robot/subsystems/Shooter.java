@@ -21,7 +21,7 @@ public Shooter() {
     shooterLeft = new CANSparkFlex(9, MotorType.kBrushless);
     shooterLeft.setIdleMode(IdleMode.kCoast);
 }
-    public void idleFire(){shooterRight.set(0.4); shooterLeft.set(0.4);}
-    public void fire(){shooterRight.set(1); shooterLeft.set(1);}
+    public void idleFire(double value){shooterRight.set(value); shooterLeft.set(value);}
+    public void fire(double value){shooterRight.set(value); shooterLeft.set(value);}
     public void fireStop(){shooterRight.set(0);shooterLeft.set(0);}
 }

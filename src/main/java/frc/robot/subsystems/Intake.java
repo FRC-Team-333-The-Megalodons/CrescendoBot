@@ -27,20 +27,22 @@ public class Intake extends SubsystemBase {
   public Intake() {
     intakeMotor = new CANSparkFlex(3, MotorType.kBrushless);
     intakeMotor.setIdleMode(IdleMode.kCoast);
+
     intakeEncoder = new DutyCycleEncoder(0);
     intakeEncoder.setConnectedFrequencyThreshold(900);
     intakeEncoder.reset();
+
     intakePIDController = new PIDController(1.5, 0, 0);
     intakePIDController.enableContinuousInput(0, 1);
+
     peLeft = new DigitalInput(3);
     peRight = new DigitalInput(2);
   }
-    public void intake(){intakeMotor.set(0.3);}
-    public void outake(){intakeMotor.set(-0.3);}
+    public void intake(double value){intakeMotor.set(value);}
     public void intakeStop(){intakeMotor.set(0);}
 
   public boolean intakeAutoDone() {
-    if (intakeMotor.getEncoder().getPosition() <= -0) { // intake encoder position 
+    if (intakeMotor.getEncoder().getPosition() <= 0) { // intake encoder position 
       return true;
     }
     return false;

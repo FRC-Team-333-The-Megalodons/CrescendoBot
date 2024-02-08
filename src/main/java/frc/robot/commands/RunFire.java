@@ -7,11 +7,15 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Shooter;
 
-public class Ogon extends Command {
-  /** Creates a new Shoot. 
-   * @param m_Shooter */
-  public Ogon(Shooter m_Shooter) {
+public class RunFire extends Command {
+  /** Creates a new RunFire. */
+  public final Shooter m_Shooter;
+  private final double value;
+  public RunFire(Shooter fire, double value) {
     // Use addRequirements() here to declare subsystem dependencies.
+    this.m_Shooter = fire;
+    this.value = value; 
+    addRequirements(m_Shooter);
   }
 
   // Called when the command is initially scheduled.
@@ -20,7 +24,9 @@ public class Ogon extends Command {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    m_Shooter.fire(value);
+  }
 
   // Called once the command ends or is interrupted.
   @Override

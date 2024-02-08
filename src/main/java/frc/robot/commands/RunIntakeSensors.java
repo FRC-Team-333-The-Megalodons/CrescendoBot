@@ -8,11 +8,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Intake;
 
 /** Add your docs here. */
-public class IntakeSensors extends Command{
+public class RunIntakeSensors extends Command{
     private final Intake m_IntakeSensors;
+    private final double value;
 
-    public IntakeSensors (Intake intake) {
+    public RunIntakeSensors (Intake intake, double value) {
         this.m_IntakeSensors = intake;
+        this.value = value;
         addRequirements(m_IntakeSensors);
     }
 
@@ -21,7 +23,7 @@ public class IntakeSensors extends Command{
 
     @Override
     public void execute() {
-        m_IntakeSensors.intake();
+        m_IntakeSensors.intake(value);
     }
 
     @Override
