@@ -29,7 +29,7 @@ public class Wrist extends SubsystemBase {
 
     wristEncoder = wristMotor.getAbsoluteEncoder(Type.kDutyCycle);
 
-    wristController.setPID(0.5, 0, 0);
+    wristController = new PIDController(0.5, 0.0, 0.0);
   }
 
   public double getPosition() {

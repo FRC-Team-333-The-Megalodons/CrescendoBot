@@ -27,7 +27,7 @@ public class Shooter extends SubsystemBase {
     topMotor.burnFlash();
     bottomMotor.burnFlash();
 
-    bottomMotor.follow(topMotor, true);
+    bottomMotor.follow(topMotor, false);
 
     shooterController = new PIDController(0.5, 0, 0);
   }
