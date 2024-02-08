@@ -49,7 +49,9 @@ public class RobotContainer {
   private final JoystickButton TRACK_UP = new JoystickButton(joy, PS5Controller.Button.kR3.value);
   private final JoystickButton TRACK_DOWN = new JoystickButton(joy, PS5Controller.Button.kL3.value);
   private final JoystickButton WRIST_UP = new JoystickButton(joy, PS5Controller.Button.kCross.value);
-  private final JoystickButton WRIST_DOWN = new JoystickButton(joy, PS5Controller.Button.kCircle.value);
+  private final JoystickButton WRIST_DOWN = new JoystickButton(joy, PS5Controller.Button.kSquare.value);
+  private final JoystickButton PIVOT_UP = new JoystickButton(joy, PS5Controller.Button.kL1.value);
+  private final JoystickButton PIVOT_DOWN = new JoystickButton(joy, PS5Controller.Button.kL2.value);
   
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -59,6 +61,7 @@ public class RobotContainer {
     m_Wrist.setDefaultCommand(new RunCommand(() -> m_Wrist.wristSTOP(), m_Wrist));
     m_Track.setDefaultCommand(new RunCommand(() -> m_Track.trackStop(), m_Track));
     m_Leds.setDefaultCommand(new RunCommand(() -> m_Leds.royalBlueLED(), m_Leds));
+    m_Pivot.setDefaultCommand(new RunCommand(() -> m_Pivot.pivotStop(), m_Pivot));
     configureButtonBindings();
   }
 
@@ -73,14 +76,20 @@ public class RobotContainer {
    */
 
    private void configureButtonBindings() {
-    INTAKE_SENSORS_BUTTON.whileTrue(new IntakeSensors(m_Intake));  
-    INTAKE_MANUAL_BUTTON.whileTrue(new IntakeManual(m_Intake));
-    FIRE_BUTTON.whileTrue(new Ogon(m_Shooter));
-    IDLE_FIRE_BUTTON.whileTrue(new RunCommand(() -> m_Shooter.idleFire()));
-    TRACK_UP.whileTrue(new RunCommand(() -> m_Track.trackUp()));
-    TRACK_DOWN.whileTrue(new RunCommand(() -> m_Track.trackDown()));
-    WRIST_UP.whileTrue(new RunCommand(() -> m_Wrist.wristUP()));
-    WRIST_DOWN.whileTrue(new RunCommand(() -> m_Wrist.wristDOWN()));
+    INTAKE_SENSORS_BUTTON.whileTrue(new IntakeSensors(m_Intake));  // R1
+    INTAKE_MANUAL_BUTTON.whileTrue(new IntakeManual(m_Intake));    // R2
+
+    FIRE_BUTTON.whileTrue(new Ogon(m_Shooter));                 //  CIRCLE
+    IDLE_FIRE_BUTTON.whileTrue(new RunCommand(() -> m_Shooter.idleFire())); // TOUCH PAD
+
+    TRACK_UP.whileTrue(new RunCommand(() -> m_Track.trackUp()));    // R3
+    TRACK_DOWN.whileTrue(new RunCommand(() -> m_Track.trackDown())); // L3
+
+    WRIST_UP.whileTrue(new RunCommand(() -> m_Wrist.wristUP()));    // CROSS
+    WRIST_DOWN.whileTrue(new RunCommand(() -> m_Wrist.wristDOWN()));  // SQUARE
+
+    PIVOT_UP.whileTrue(new RunCommand(() -> m_Pivot.pivotUp()));    // L1
+    PIVOT_DOWN.whileTrue(new RunCommand(() -> m_Pivot.pivotDown()));  // L2
   }
   /** mxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
    * Use this to pass the autonomous command to the main {@link Robot} class.
