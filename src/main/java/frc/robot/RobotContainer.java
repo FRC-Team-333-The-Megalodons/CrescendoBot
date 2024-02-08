@@ -14,10 +14,10 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.RunFire;
 import frc.robot.commands.RunIntakeManual;
 import frc.robot.commands.RunIntakeSensors;
+import frc.robot.commands.RunPivot;
 import frc.robot.commands.RunRevUP;
 import frc.robot.commands.RunTrack;
 import frc.robot.commands.RunWrist;
-import frc.robot.commands.runPivot;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.LEDs;
 import frc.robot.subsystems.Pivot;
@@ -89,8 +89,8 @@ public class RobotContainer {
     WRIST_UP.whileTrue(new RunWrist(m_Wrist, 0.3));    // CROSS    wrist  up
     WRIST_DOWN.whileTrue(new RunWrist(m_Wrist, -0.3));  // SQUARE wrist down
 
-    PIVOT_UP.whileTrue(new runPivot(m_Pivot, 0.3));    // L1   pivot up
-    PIVOT_DOWN.whileTrue(new runPivot(m_Pivot, -0.3));  // L2   pivot down
+    PIVOT_UP.whileTrue(new RunPivot(m_Pivot, 0.3));    // L1   pivot up
+    PIVOT_DOWN.whileTrue(new RunPivot(m_Pivot, -0.3));  // L2   pivot down
   }
   /** 
    * Use this to pass the autonomous command to the main {@link Robot} class.
