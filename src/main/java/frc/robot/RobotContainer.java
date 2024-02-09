@@ -25,6 +25,7 @@ import frc.robot.commands.RunPivot;
 import frc.robot.commands.RunShooter;
 import frc.robot.commands.RunTrolley;
 import frc.robot.commands.RunWrist;
+import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.LEDStrip;
 import frc.robot.subsystems.Pivot;
@@ -72,9 +73,10 @@ public class RobotContainer
    */
   public RobotContainer()
   {
-    // leds.setDefaultCommand(new RunCommand(() -> leds.noLED(), leds));
+    leds.setDefaultCommand(new RunCommand(() -> leds.noLED(), leds));
     // Configure the trigger bindings
     configureBindings();
+    AbsoluteDriveAdv driveAdv = new AbsoluteDriveAdv(drivebase, null, null, null, PIVOT_IN, INTAKE, GET_LITTT, AUTO_INTAKE);
     // Applies deadbands and inverts controls because joysticks
     // are back-right positive while robot
     // controls are front-left positive
@@ -118,8 +120,8 @@ public class RobotContainer
     GET_LITTT.whileTrue(new RunCommand(() -> leds.royalBlueLED()));
     INTAKE.whileTrue(new RunIntake(intake, 1.0).alongWith(new RunCommand(() -> leds.redLED())));
     AUTO_INTAKE.whileTrue(new RunIntake(intake, 0.3).until(intake::hasNote));
-    WRIST_IN.whileTrue(new RunWrist(wrist, 0.3));
-    WRIST_OUT.whileTrue(new RunWrist(wrist, -0.3));
+    WRIST_IN.whileTrue(new RunWrist(wrist, 1.0));
+    WRIST_OUT.whileTrue(new RunWrist(wrist, -1.0));
     TROLLEY_IN.whileTrue(new RunTrolley(trolley, 0.6));
     TROLLEY_OUT.whileTrue(new RunTrolley(trolley, -0.6));
     PIVOT_IN.whileTrue(new RunPivot(pivot, 0.2));
