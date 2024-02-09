@@ -114,12 +114,12 @@ public class RobotContainer
   {
 
     GET_LITTT.whileTrue(new RunCommand(() -> leds.royalBlueLED()));
-    INTAKE.whileTrue(new RunIntake(intake, 0.3).alongWith(new RunCommand(() -> leds.redLED())));
+    INTAKE.whileTrue(new RunIntake(intake, 1.0).alongWith(new RunCommand(() -> leds.redLED())));
     AUTO_INTAKE.whileTrue(new RunIntake(intake, 0.3).until(intake::hasNote));
     WRIST_IN.whileTrue(new RunWrist(wrist, 0.3));
     WRIST_OUT.whileTrue(new RunWrist(wrist, -0.3));
-    TROLLEY_IN.whileTrue(new RunTrolley(trolley, 0.4));
-    TROLLEY_OUT.whileTrue(new RunTrolley(trolley, -0.4));
+    TROLLEY_IN.whileTrue(new RunTrolley(trolley, 0.6));
+    TROLLEY_OUT.whileTrue(new RunTrolley(trolley, -0.6));
     PIVOT_IN.whileTrue(new RunPivot(pivot, 0.2));
     PIVOT_OUT.whileTrue(new RunPivot(pivot, -0.2));
     REV_SHOOTER.whileTrue(new RunShooter(shooter, 0.9));
