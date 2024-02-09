@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -49,21 +50,22 @@ public class RobotContainer
   private final LEDStrip leds = new LEDStrip();
 
   // The robot's subsystems and commands are defined here...
-  // private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
-  //                                                                        "swerve/neo"));
+  private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
+                                                                         "swerve/neo"));
 
-  PS5Controller roller = new PS5Controller(0);
+  PS5Controller driverRoller = new PS5Controller(0);
+  PS5Controller opRoller = new PS5Controller(1);
 
-  private final JoystickButton INTAKE = new JoystickButton(roller, PS5Controller.Button.kCross.value);
-  private final JoystickButton AUTO_INTAKE = new JoystickButton(roller, PS5Controller.Button.kCircle.value);
-  private final JoystickButton WRIST_IN = new JoystickButton(roller, PS5Controller.Button.kR1.value);
-  private final JoystickButton WRIST_OUT = new JoystickButton(roller, PS5Controller.Button.kL1.value);
-  private final JoystickButton TROLLEY_IN = new JoystickButton(roller, PS5Controller.Button.kR3.value);
-  private final JoystickButton TROLLEY_OUT = new JoystickButton(roller, PS5Controller.Button.kL3.value);
-  private final JoystickButton PIVOT_IN = new JoystickButton(roller, PS5Controller.Button.kR2.value);
-  private final JoystickButton PIVOT_OUT = new JoystickButton(roller, PS5Controller.Button.kL2.value);
-  private final JoystickButton REV_SHOOTER = new JoystickButton(roller, PS5Controller.Button.kSquare.value);
-  private final JoystickButton GET_LITTT = new JoystickButton(roller, PS5Controller.Button.kTouchpad.value);
+  private final JoystickButton INTAKE = new JoystickButton(opRoller, PS5Controller.Button.kCross.value);
+  private final JoystickButton AUTO_INTAKE = new JoystickButton(opRoller, PS5Controller.Button.kCircle.value);
+  private final JoystickButton WRIST_IN = new JoystickButton(opRoller, PS5Controller.Button.kR1.value);
+  private final JoystickButton WRIST_OUT = new JoystickButton(opRoller, PS5Controller.Button.kL1.value);
+  private final JoystickButton TROLLEY_IN = new JoystickButton(opRoller, PS5Controller.Button.kR3.value);
+  private final JoystickButton TROLLEY_OUT = new JoystickButton(opRoller, PS5Controller.Button.kL3.value);
+  private final JoystickButton PIVOT_IN = new JoystickButton(opRoller, PS5Controller.Button.kR2.value);
+  private final JoystickButton PIVOT_OUT = new JoystickButton(opRoller, PS5Controller.Button.kL2.value);
+  private final JoystickButton REV_SHOOTER = new JoystickButton(opRoller, PS5Controller.Button.kSquare.value);
+  private final JoystickButton GET_LITTT = new JoystickButton(opRoller, PS5Controller.Button.kTouchpad.value);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -78,29 +80,29 @@ public class RobotContainer
     // controls are front-left positive
     // left stick controls translation
     // right stick controls the desired angle NOT angular rotation
-    // Command driveFieldOrientedDirectAngle = drivebase.driveCommand(
-    //     () -> MathUtil.applyDeadband(roller.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
-    //     () -> MathUtil.applyDeadband(roller.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-    //     () -> roller.getRightX(),
-    //     () -> roller.getRightY());
+    Command driveFieldOrientedDirectAngle = drivebase.driveCommand(
+        () -> MathUtil.applyDeadband(driverRoller.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
+        () -> MathUtil.applyDeadband(driverRoller.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
+        () -> driverRoller.getRightX(),
+        () -> driverRoller.getRightY());
 
-    // // Applies deadbands and inverts controls because joysticks
-    // // are back-right positive while robot
-    // // controls are front-left positive
-    // // left stick controls translation
-    // // right stick controls the angular velocity of the robot
-    // Command driveFieldOrientedAnglularVelocity = drivebase.driveCommand(
-    //     () -> MathUtil.applyDeadband(roller.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
-    //     () -> MathUtil.applyDeadband(roller.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-    //     () -> roller.getRawAxis(2));
+    // Applies deadbands and inverts controls because joysticks
+    // are back-right positive while robot
+    // controls are front-left positive
+    // left stick controls translation
+    // right stick controls the angular velocity of the robot
+    Command driveFieldOrientedAnglularVelocity = drivebase.driveCommand(
+        () -> MathUtil.applyDeadband(driverRoller.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
+        () -> MathUtil.applyDeadband(driverRoller.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
+        () -> driverRoller.getRawAxis(2));
 
-    // Command driveFieldOrientedDirectAngleSim = drivebase.simDriveCommand(
-    //     () -> -MathUtil.applyDeadband(roller.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
-    //     () -> -MathUtil.applyDeadband(roller.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-    //     () -> -roller.getRawAxis(2));
+    Command driveFieldOrientedDirectAngleSim = drivebase.simDriveCommand(
+        () -> -MathUtil.applyDeadband(driverRoller.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
+        () -> -MathUtil.applyDeadband(driverRoller.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
+        () -> -driverRoller.getRawAxis(2));
 
-    // drivebase.setDefaultCommand(
-    //     !RobotBase.isSimulation() ? driveFieldOrientedDirectAngle : driveFieldOrientedDirectAngleSim);
+    drivebase.setDefaultCommand(
+        !RobotBase.isSimulation() ? driveFieldOrientedDirectAngle : driveFieldOrientedDirectAngleSim);
   }
 
   /**
@@ -126,14 +128,14 @@ public class RobotContainer
 
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
 
-    // new JoystickButton(roller, 1).onTrue((new InstantCommand(drivebase::zeroGyro)));
-    // // new JoystickButton(roller, 3).onTrue(new InstantCommand(drivebase::addFakeVisionReading));
-    // new JoystickButton(roller,
-    //                    2).whileTrue(
-    //     Commands.deferredProxy(() -> drivebase.driveToPose(
-    //                                new Pose2d(new Translation2d(4, 4), Rotation2d.fromDegrees(0)))
-    //                           ));
-    // new JoystickButton(roller, 3).whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
+    new JoystickButton(driverRoller, 1).onTrue((new InstantCommand(drivebase::zeroGyro)));
+    new JoystickButton(driverRoller, 3).onTrue(new InstantCommand(drivebase::addFakeVisionReading));
+    new JoystickButton(driverRoller,
+                       2).whileTrue(
+        Commands.deferredProxy(() -> drivebase.driveToPose(
+                                   new Pose2d(new Translation2d(4, 4), Rotation2d.fromDegrees(0)))
+                              ));
+    new JoystickButton(driverRoller, 3).whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
   }
 
   /**
@@ -144,8 +146,7 @@ public class RobotContainer
   public Command getAutonomousCommand()
   {
     // An example command will be run in autonomous
-    // return drivebase.getAutonomousCommand("New Path", true);
-    return null;
+    return drivebase.getAutonomousCommand("New Path", true);
   }
 
   public void setDriveMode()
@@ -155,6 +156,6 @@ public class RobotContainer
 
   public void setMotorBrake(boolean brake)
   {
-    // drivebase.setMotorBrake(brake);
+    drivebase.setMotorBrake(brake);
   }
 }
