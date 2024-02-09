@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.31804312991342,
-        "y": 5.53
+        "x": 2.3390624559026896,
+        "y": 7.037758273047411
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.31804312991342,
-        "y": 5.53
+        "x": 3.3390624559026896,
+        "y": 7.037758273047411
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "LeftWingNotePose"
     },
     {
       "anchor": {
-        "x": 3.9819753713581503,
-        "y": 5.534075265681396
+        "x": 7.564825006193224,
+        "y": 7.39047404020734
       },
       "prevControl": {
-        "x": 2.9819753713581503,
-        "y": 5.534075265681396
+        "x": 6.564825006193224,
+        "y": 7.39047404020734
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "LeftCenterNotePose"
     }
   ],
   "rotationTargets": [],
@@ -43,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Test",
+  "folder": "3GamePiece",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

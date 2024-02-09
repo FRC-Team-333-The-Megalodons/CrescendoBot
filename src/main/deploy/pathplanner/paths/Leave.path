@@ -3,32 +3,38 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.31804312991342,
-        "y": 5.53
+        "x": 0.85,
+        "y": 6.647914530396961
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.31804312991342,
-        "y": 5.53
+        "x": 2.019531227951345,
+        "y": 6.954220328193742
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.9819753713581503,
-        "y": 5.534075265681396
+        "x": 2.3390624559026896,
+        "y": 7.037758273047411
       },
       "prevControl": {
-        "x": 2.9819753713581503,
-        "y": 5.534075265681396
+        "x": 1.0767112892250477,
+        "y": 6.7592984568685175
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "LeftWingNotePose"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0,
+      "rotationDegrees": 58.57043438516148,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -43,9 +49,9 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Test",
+  "folder": "3GamePiece",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": 57.20046872738087,
     "velocity": 0
   },
   "useDefaultConstraints": true

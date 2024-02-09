@@ -69,9 +69,9 @@ public class SwerveSubsystem extends SubsystemBase
     SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
     try
     {
-      swerveDrive = new SwerveParser(directory).createSwerveDrive(maximumSpeed);
+      //swerveDrive = new SwerveParser(directory).createSwerveDrive(maximumSpeed);
       // Alternative method if you don't want to supply the conversion factor via JSON files.
-      // swerveDrive = new SwerveParser(directory).createSwerveDrive(maximumSpeed, angleConversionFactor, driveConversionFactor);
+       swerveDrive = new SwerveParser(directory).createSwerveDrive(maximumSpeed, angleConversionFactor, driveConversionFactor);
     } catch (Exception e)
     {
       throw new RuntimeException(e);
@@ -182,7 +182,7 @@ public class SwerveSubsystem extends SubsystemBase
   public Command driveCommand(DoubleSupplier translationX, DoubleSupplier translationY, DoubleSupplier headingX,
                               DoubleSupplier headingY)
   {
-    // swerveDrive.setHeadingCorrection(true); // Normally you would want heading correction for this kind of control.
+     //swerveDrive.setHeadingCorrection(true); // Normally you would want heading correction for this kind of control.
     return run(() -> {
       double xInput = Math.pow(translationX.getAsDouble(), 3); // Smooth controll out
       double yInput = Math.pow(translationY.getAsDouble(), 3); // Smooth controll out
@@ -205,12 +205,12 @@ public class SwerveSubsystem extends SubsystemBase
    */
   public Command simDriveCommand(DoubleSupplier translationX, DoubleSupplier translationY, DoubleSupplier rotation)
   {
-    // swerveDrive.setHeadingCorrection(true); // Normally you would want heading correction for this kind of control.
+     swerveDrive.setHeadingCorrection(true); // Normally you would want heading correction for this kind of control.
     return run(() -> {
       // Make the robot move
       driveFieldOriented(swerveDrive.swerveController.getTargetSpeeds(translationX.getAsDouble(),
                                                                       translationY.getAsDouble(),
-                                                                      rotation.getAsDouble() * Math.PI,
+                                                                      rotation.getAsDouble()* Math.PI,
                                                                       swerveDrive.getYaw().getRadians(),
                                                                       swerveDrive.getMaximumVelocity()));
     });

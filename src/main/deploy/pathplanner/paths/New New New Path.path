@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.31804312991342,
-        "y": 5.53
+        "x": 5.01227669122005,
+        "y": 1.886251673737915
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.31804312991342,
-        "y": 5.53
+        "x": 6.237499882407173,
+        "y": 2.1925574715346956
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Shoot1"
     },
     {
       "anchor": {
-        "x": 3.9819753713581503,
-        "y": 5.534075265681396
+        "x": 7.648362951046891,
+        "y": 2.4246073183504397
       },
       "prevControl": {
-        "x": 2.9819753713581503,
-        "y": 5.534075265681396
+        "x": 6.265345864025061,
+        "y": 2.1832754776620655
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "RightN2"
     }
   ],
   "rotationTargets": [],
@@ -43,9 +43,9 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Test",
+  "folder": "4GamePiece",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": 132.99044618697891,
     "velocity": 0
   },
   "useDefaultConstraints": true
