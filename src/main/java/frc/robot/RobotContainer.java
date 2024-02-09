@@ -53,6 +53,7 @@ public class RobotContainer
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
                                                                          "swerve/neo"));
+  AbsoluteDriveAdv closedAbsoluteDriveAdv;
 
   PS5Controller driverRoller = new PS5Controller(0);
   PS5Controller opRoller = new PS5Controller(1);
@@ -76,7 +77,17 @@ public class RobotContainer
     leds.setDefaultCommand(new RunCommand(() -> leds.noLED(), leds));
     // Configure the trigger bindings
     configureBindings();
-    AbsoluteDriveAdv driveAdv = new AbsoluteDriveAdv(drivebase, null, null, null, PIVOT_IN, INTAKE, GET_LITTT, AUTO_INTAKE);
+    AbsoluteDriveAdv closedAbsoluteDriveAdv = new AbsoluteDriveAdv(drivebase,
+                                                                   () -> -MathUtil.applyDeadband(driverRoller.getLeftY(),
+                                                                                                OperatorConstants.LEFT_Y_DEADBAND),
+                                                                   () -> -MathUtil.applyDeadband(driverRoller.getLeftX(),
+                                                                                                OperatorConstants.LEFT_X_DEADBAND),
+                                                                   () -> MathUtil.applyDeadband(driverRoller.getRightX(),
+                                                                                                OperatorConstants.RIGHT_X_DEADBAND),
+                                                                                                driverRoller::getTriangleButton,
+                                                                                                driverRoller::getCrossButton,
+                                                                                                driverRoller::getSquareButton,
+                                                                                                driverRoller::getCircleButton);
     // Applies deadbands and inverts controls because joysticks
     // are back-right positive while robot
     // controls are front-left positive
@@ -104,7 +115,7 @@ public class RobotContainer
         () -> -driverRoller.getRawAxis(2));
 
     drivebase.setDefaultCommand(
-        !RobotBase.isSimulation() ? driveFieldOrientedDirectAngle : driveFieldOrientedDirectAngleSim);
+        !RobotBase.isSimulation() ? closedAbsoluteDriveAdv : closedAbsoluteDriveAdv);
   }
 
   /**
@@ -116,7 +127,7 @@ public class RobotContainer
    */
   private void configureBindings()
   {
-
+    //TROLLEY_OUT.whileTrue(new RunCommand(() -> trolley.trolleyToSetpoint(20)));
     GET_LITTT.whileTrue(new RunCommand(() -> leds.royalBlueLED()));
     INTAKE.whileTrue(new RunIntake(intake, 1.0).alongWith(new RunCommand(() -> leds.redLED())));
     AUTO_INTAKE.whileTrue(new RunIntake(intake, 0.3).until(intake::hasNote));
@@ -124,6 +135,7 @@ public class RobotContainer
     WRIST_OUT.whileTrue(new RunWrist(wrist, -1.0));
     TROLLEY_IN.whileTrue(new RunTrolley(trolley, 0.6));
     TROLLEY_OUT.whileTrue(new RunTrolley(trolley, -0.6));
+
     PIVOT_IN.whileTrue(new RunPivot(pivot, 0.2));
     PIVOT_OUT.whileTrue(new RunPivot(pivot, -0.2));
     REV_SHOOTER.whileTrue(new RunShooter(shooter, 0.9));

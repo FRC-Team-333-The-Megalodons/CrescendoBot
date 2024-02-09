@@ -51,7 +51,7 @@ public final class Constants
   {
     public static final int MOTOR_ID = 5;
     public static final double HOME_SETPOINT = 0.0;
-    public static final double INTAKE_SETPOINT = 0.0;
+    public static final double INTAKE_SETPOINT = 20;//83
     public static final double AMP_SETPOINT = 0.0;
     public static final double kP = 0.5;
     public static final double kI = 0.0;
