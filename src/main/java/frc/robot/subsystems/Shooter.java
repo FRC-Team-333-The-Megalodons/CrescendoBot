@@ -28,13 +28,13 @@ public class Shooter extends SubsystemBase {
 
     topMotor.setIdleMode(IdleMode.kCoast);
     bottomMotor.setIdleMode(IdleMode.kCoast);
-    
+
     topMotor.burnFlash();
     bottomMotor.burnFlash();
 
-    bottomMotor.follow(topMotor, false);
+    // bottomMotor.follow(topMotor, false);
 
-    shooterController = new PIDController(0.5, 0, 0);
+    shooterController = new PIDController(0.05, 0, 0);
   }
 
   public double getVelocity() {
@@ -43,14 +43,17 @@ public class Shooter extends SubsystemBase {
 
   public void runShooter(double value) {
     topMotor.set(value);
+    bottomMotor.set(value);
   }
 
   public void stopShooter() {
     topMotor.set(0.0);
+    bottomMotor.set(0.0);
   }
 
   public void setSpeed(double speed) {
     topMotor.set(shooterController.calculate(getVelocity(), speed));
+    bottomMotor.set(shooterController.calculate(getVelocity(), speed));
   }
 
   @Override

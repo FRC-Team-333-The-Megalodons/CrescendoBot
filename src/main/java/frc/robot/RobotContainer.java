@@ -70,6 +70,7 @@ public class RobotContainer
    */
   public RobotContainer()
   {
+    // leds.setDefaultCommand(new RunCommand(() -> leds.noLED(), leds));
     // Configure the trigger bindings
     configureBindings();
     // Applies deadbands and inverts controls because joysticks
@@ -113,10 +114,10 @@ public class RobotContainer
   {
 
     GET_LITTT.whileTrue(new RunCommand(() -> leds.royalBlueLED()));
-    INTAKE.whileTrue(new RunIntake(intake, 0.3));
+    INTAKE.whileTrue(new RunIntake(intake, 0.3).alongWith(new RunCommand(() -> leds.redLED())));
     AUTO_INTAKE.whileTrue(new RunIntake(intake, 0.3).until(intake::hasNote));
-    WRIST_IN.whileTrue(new RunWrist(wrist, 0.2));
-    WRIST_OUT.whileTrue(new RunWrist(wrist, -0.2));
+    WRIST_IN.whileTrue(new RunWrist(wrist, 0.3));
+    WRIST_OUT.whileTrue(new RunWrist(wrist, -0.3));
     TROLLEY_IN.whileTrue(new RunTrolley(trolley, 0.4));
     TROLLEY_OUT.whileTrue(new RunTrolley(trolley, -0.4));
     PIVOT_IN.whileTrue(new RunPivot(pivot, 0.2));

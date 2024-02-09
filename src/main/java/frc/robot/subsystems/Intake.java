@@ -26,8 +26,8 @@ public class Intake extends SubsystemBase {
     intakeMotor.setIdleMode(IdleMode.kCoast);
     intakeMotor.burnFlash();
 
-    leftSensor = new DigitalInput(0);
-    rightSensor = new DigitalInput(1);
+    leftSensor = new DigitalInput(1);
+    rightSensor = new DigitalInput(0);
   }
 
   public void runIntake(double value) {

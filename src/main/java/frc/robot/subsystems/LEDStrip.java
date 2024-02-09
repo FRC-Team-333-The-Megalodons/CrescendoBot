@@ -13,7 +13,7 @@ public class LEDStrip extends SubsystemBase {
   private AddressableLEDBuffer m_ledBuffer;
   /** Creates a new LEDS. */
   public LEDStrip() {
-    m_led = new AddressableLED(4);
+    m_led = new AddressableLED(9);
     m_ledBuffer = new AddressableLEDBuffer(120);
     m_led.setLength(m_ledBuffer.getLength());
     m_led.setData(m_ledBuffer);
@@ -30,6 +30,11 @@ public class LEDStrip extends SubsystemBase {
     for (var i = 0; i < m_ledBuffer.getLength(); i++) {
         m_ledBuffer.setLED(i, Color.kBlueViolet);
     }
+  }
+  public void noLED() {
+    for (var i = 0; i< m_ledBuffer.getLength(); i++) {
+        m_ledBuffer.setRGB(i, 0, 0, 0);
+    } m_led.setData(m_ledBuffer);
   }
   public void royalBlueLED() {
     for (var i = 0; i< m_ledBuffer.getLength(); i++) {
