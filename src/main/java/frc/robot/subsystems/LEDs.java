@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class LEDs extends SubsystemBase {
   private AddressableLED m_led;
   private AddressableLEDBuffer m_ledBuffer;
+  
   /** Creates a new LEDS. */
   public LEDs() {
     m_led = new AddressableLED(9);
@@ -21,11 +22,6 @@ public class LEDs extends SubsystemBase {
 
   }
 
-  public void setColorLED() {
-    for (var i = 0; i < m_ledBuffer.getLength(); i++) {
-      m_ledBuffer.setRGB(i, 32, 62, 543);
-    }
-  }
   public void whatLightLED() {
     for (var i = 0; i < m_ledBuffer.getLength(); i++) {
         m_ledBuffer.setLED(i, Color.kBlueViolet);
@@ -52,8 +48,25 @@ public class LEDs extends SubsystemBase {
     } m_led.setData(m_ledBuffer);
   }
   public void redLED() {
-    for (var i = 0; i< m_ledBuffer.getLength(); i++) {
+    for (var i=0; i< m_ledBuffer.getLength(); i++) {
         m_ledBuffer.setRGB(i, 250, 0, 0);
     } m_led.setData(m_ledBuffer);
   }
+
+  public void rainbowLED() {
+    int length = m_ledBuffer.getLength();
+    int color = 0;
+    while (true) {
+        color = (color + 1) % 256;
+        for (var i = 0; i < length; i++) {
+            m_ledBuffer.setRGB(i, color, 0, 0); // Измените значения R, G и B, чтобы создать разноцветный эффект
+        }
+        m_led.setData(m_ledBuffer);
+        try {
+            Thread.sleep(100); // Подождите некоторое время перед обновлением цвета
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+}
+}
+}
 }

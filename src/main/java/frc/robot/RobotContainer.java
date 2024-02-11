@@ -61,7 +61,7 @@ public class RobotContainer {
     m_Shooter.setDefaultCommand(new RunCommand(() -> m_Shooter.fireStop(), m_Shooter));
     m_Wrist.setDefaultCommand(new RunCommand(() -> m_Wrist.wristSTOP(), m_Wrist));
     m_Track.setDefaultCommand(new RunCommand(() -> m_Track.trackStop(), m_Track));
-    m_Leds.setDefaultCommand(new RunCommand(() -> m_Leds.royalBlueLED(), m_Leds));
+    m_Leds.setDefaultCommand(new RunCommand(() -> m_Leds.rainbowLED(), m_Leds));
     m_Pivot.setDefaultCommand(new RunCommand(() -> m_Pivot.pivotStop(), m_Pivot));
     configureButtonBindings();
   }
