@@ -21,7 +21,9 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.swervedrive.drivebase.AbsoluteDrive;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
+import frc.robot.commands.swervedrive.drivebase.AbsoluteFieldDrive;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 
@@ -49,10 +51,16 @@ public class RobotContainer
    */
   public RobotContainer()
   {
-    autChooser = AutoBuilder.buildAutoChooser("3Piece");
+    autChooser = AutoBuilder.buildAutoChooser("Center");
     SmartDashboard.putData("Auto", autChooser);
     // Configure the trigger bindings
     configureBindings();
+    AbsoluteFieldDrive closedAbsoluteFieldDrive = new AbsoluteFieldDrive(
+      drivebase, 
+    () -> MathUtil.applyDeadband(-roller.getLeftY(),OperatorConstants.LEFT_Y_DEADBAND),
+     () -> MathUtil.applyDeadband(-roller.getLeftX(),OperatorConstants.LEFT_X_DEADBAND),
+     () -> MathUtil.applyDeadband(roller.getRightX(),OperatorConstants.RIGHT_X_DEADBAND));
+     
     AbsoluteDriveAdv closedAbsoluteDriveAdv = new AbsoluteDriveAdv(drivebase,
                                                                    () -> MathUtil.applyDeadband(-roller.getLeftY(),
                                                                                                 OperatorConstants.LEFT_Y_DEADBAND),
@@ -70,9 +78,9 @@ public class RobotContainer
     // left stick controls translation
     // right stick controls the desired angle NOT angular rotation
     Command driveFieldOrientedDirectAngle = drivebase.driveCommand(
-        () -> MathUtil.applyDeadband(roller.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
-        () -> MathUtil.applyDeadband(roller.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> MathUtil.applyDeadband(roller.getRightX(),OperatorConstants.RIGHT_X_DEADBAND));
+        () -> -MathUtil.applyDeadband(roller.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
+        () -> -MathUtil.applyDeadband(roller.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
+        () -> -MathUtil.applyDeadband(roller.getRightX(),OperatorConstants.RIGHT_X_DEADBAND));
         //() -> roller.getRightY());
 
     // Applies deadbands and inverts controls because joysticks
@@ -81,22 +89,20 @@ public class RobotContainer
     // left stick controls translation
     // right stick controls the angular velocity of the robot
     Command driveFieldOrientedAnglularVelocity = drivebase.driveCommand(
-        () -> MathUtil.applyDeadband(roller.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
-        () -> MathUtil.applyDeadband(roller.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> roller.getRawAxis(2));
+        () -> -MathUtil.applyDeadband(roller.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
+        () -> -MathUtil.applyDeadband(roller.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
+        () -> -roller.getRawAxis(4));
 
     Command driveFieldOrientedDirectAngleSim = drivebase.simDriveCommand(
         () -> -MathUtil.applyDeadband(roller.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
         () -> -MathUtil.applyDeadband(roller.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> -roller.getRawAxis(4));
-    /*simDriveCommand(
+        () -> -MathUtil.applyDeadband(roller.getRightX(),OperatorConstants.RIGHT_X_DEADBAND));    /*simDriveCommand(
         () -> -MathUtil.applyDeadband(roller.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
         () -> -MathUtil.applyDeadband(roller.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
         () -> -roller.getRawAxis(4));*/
         //() -> -MathUtil.applyDeadband(roller.getRightX(),OperatorConstants.RIGHT_X_DEADBAND));
-
-    drivebase.setDefaultCommand(
-        !RobotBase.isSimulation() ? driveFieldOrientedDirectAngle : closedAbsoluteDriveAdv);
+      drivebase.setDefaultCommand(
+        !RobotBase.isSimulation() ? closedAbsoluteDriveAdv : driveFieldOrientedDirectAngleSim);
   }
 
   /**

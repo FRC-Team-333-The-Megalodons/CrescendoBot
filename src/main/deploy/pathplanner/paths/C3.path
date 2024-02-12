@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.648362951046891,
-        "y": 2.4246073183504397
+        "x": 2.2033625087416255,
+        "y": 5.560508013068222
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.441703747605026,
-        "y": 1.821277716629507
+        "x": 2.427340940091133,
+        "y": 6.242181499784115
       },
       "isLocked": false,
-      "linkedName": "RightN2"
+      "linkedName": "C2"
     },
     {
       "anchor": {
-        "x": 5.2164805564179035,
-        "y": 1.7748677472663574
+        "x": 2.427340940091133,
+        "y": 6.612232821144172
       },
       "prevControl": {
-        "x": 6.65518960667551,
-        "y": 1.4871259372148355
+        "x": 2.3104640800262133,
+        "y": 6.076636271623967
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "C3"
     }
   ],
   "rotationTargets": [],
@@ -39,11 +39,11 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 124.69515353123393,
+    "rotation": 38.29016319224303,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "3GamePiece2",
+  "folder": "4GamePiece",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0
