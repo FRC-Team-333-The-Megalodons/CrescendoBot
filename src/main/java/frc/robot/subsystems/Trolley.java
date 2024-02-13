@@ -17,7 +17,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Trolley extends SubsystemBase {
 
   private CANSparkMax trolleyMotor;
-  //private  DigitalInput limitSwitch;
   private DigitalInput limitSwitch;
 
   private PIDController trolleyController;
@@ -52,15 +51,17 @@ public class Trolley extends SubsystemBase {
   public void trolleyToSetpoint(double setpoint) {
     trolleyMotor.set(trolleyController.calculate(getPostion(), setpoint));
   }
-  public boolean getLS(){
-    if (limitSwitch.get()==true) {
+
+  public boolean getLimitSwitch(){
+    if (limitSwitch.get() == true) {
       return false;
     }else{
       return true;
     }
   }
+
   public void resetPose(){
-    if (getLS()==true) {
+    if (getLimitSwitch() == true) {
       resetEncoder();
     }
   }
@@ -70,6 +71,6 @@ public class Trolley extends SubsystemBase {
     resetPose();
     SmartDashboard.putNumber("Trolley Pos", getPostion());
     SmartDashboard.putBoolean("Tolley Setpoint?", trolleyController.atSetpoint());
-    SmartDashboard.putBoolean("LimitSwitch", getLS());
+    SmartDashboard.putBoolean("LimitSwitch", getLimitSwitch());
   }
 }
