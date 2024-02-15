@@ -10,7 +10,6 @@ import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShooterConstants;
@@ -19,7 +18,7 @@ public class Shooter extends SubsystemBase {
 
   private CANSparkFlex topMotor, bottomMotor, indexMotor;
 
-  private SparkPIDController topController, bottomController;
+  private SparkPIDController topController;
 
   /** Creates a new Shooter. */
   public Shooter() {
@@ -44,13 +43,13 @@ public class Shooter extends SubsystemBase {
 
     topMotor.setIdleMode(IdleMode.kCoast);
     bottomMotor.setIdleMode(IdleMode.kCoast);
-    indexMotor.setIdleMode(IdleMode.kBrake);
+    indexMotor.setIdleMode(IdleMode.kCoast);
 
     topMotor.burnFlash();
     bottomMotor.burnFlash();
     indexMotor.burnFlash();
 
-    // bottomMotor.follow(topMotor, false);
+    bottomMotor.follow(topMotor, false);
   }
 
   public double getVelocity() {
@@ -59,7 +58,7 @@ public class Shooter extends SubsystemBase {
 
   public void runShooter(double value) {
     topMotor.set(value);
-    bottomMotor.set(value);
+    // bottomMotor.set(value);
   }
 
   public void runIndexer(double value) {
@@ -68,7 +67,7 @@ public class Shooter extends SubsystemBase {
 
   public void stopShooter() {
     topMotor.set(0.0);
-    bottomMotor.set(0.0);
+    // bottomMotor.set(0.0);
   }
 
   public void stopIndexer() {

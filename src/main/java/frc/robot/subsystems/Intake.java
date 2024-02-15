@@ -24,7 +24,9 @@ public class Intake extends SubsystemBase {
     intakeMotor = new CANSparkFlex(IntakeConstatnts.MOTOR_ID, MotorType.kBrushless);
 
     intakeMotor.restoreFactoryDefaults();
+
     intakeMotor.setIdleMode(IdleMode.kCoast);
+    
     intakeMotor.burnFlash();
 
     leftSensor = new DigitalInput(IntakeConstatnts.LEFT_SENSOR_ID);

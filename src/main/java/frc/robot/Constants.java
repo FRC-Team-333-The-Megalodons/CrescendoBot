@@ -39,7 +39,7 @@ public final class Constants
     public static final double INTAKE_SETPOINT = 0.0;
     public static final double SHOOTING_SETPOINT = 0.0;
     public static final double AMP_SETPOINT = 0.0;
-    public static final double kP = 0.5;
+    public static final double kP = 0.1;
     public static final double kI = 0.0;
     public static final double kD = 0.0;
     public static final double kFF = 0.0;
@@ -54,7 +54,7 @@ public final class Constants
     public static final double HOME_SETPOINT = 0.0;
     public static final double INTAKE_SETPOINT = 20; // 83
     public static final double AMP_SETPOINT = 0.0;
-    public static final double kP = 0.5;
+    public static final double kP = 0.1;
     public static final double kI = 0.0;
     public static final double kD = 0.0;
     public static final double kFF = 0.0;
@@ -73,7 +73,7 @@ public final class Constants
     public static final double PODIUM_SETPOINT = 0.0;
     public static final double WING_SETPOINT = 0.0;
     public static final double PIVOT_CONVERSION_FACTOR = (2 * Math.PI); // radians
-    public static final double kP = 0.5;
+    public static final double kP = 0.1;
     public static final double kI = 0.0;
     public static final double kD = 0.0;
     public static final double kFF = 0.0;
