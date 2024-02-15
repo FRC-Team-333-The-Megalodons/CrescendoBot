@@ -17,22 +17,22 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 /** Add your docs here. */
 public class Wrist extends SubsystemBase {
     private CANSparkMax wristMotor;
-   // private DutyCycleEncoder wristEncoder;
-   // private PIDController wristPIDController;
+    private DutyCycleEncoder wristEncoder;
+    private PIDController wristPIDController;
 
 
     public Wrist() {
         wristMotor = new CANSparkMax(4, MotorType.kBrushless);
         wristMotor.setIdleMode(IdleMode.kBrake);
 
-       // wristPIDController = new PIDController(1.5, 0, 0);
-       // wristPIDController.enableContinuousInput(0, 1);
+        wristPIDController = new PIDController(1.5, 0, 0);
+        wristPIDController.enableContinuousInput(0, 1);
 
     }
     public void wrist(double value) {wristMotor.set(value);}
     public void wristSTOP(){wristMotor.set(0);}
 
-   /*  public boolean atIntakePositionWrist() {
+     public boolean atIntakePositionWrist() {
         if (wristEncoder.getAbsolutePosition() <= 0 && wristEncoder.getAbsolutePosition() >= 0 ) { // intake encoder position 
           return true;
         } else {
@@ -46,12 +46,12 @@ public class Wrist extends SubsystemBase {
         } else {
             return false;
         }
-    }*/
+    }
 
     @Override
     public void periodic(){
-       // SmartDashboard.getNumber("encoderWrist" , wristEncoder.get());
-       // SmartDashboard.getBoolean("WristAtIntakePosition", atIntakePositionWrist());
-       // SmartDashboard.getBoolean("WristAtHomePosition", atHomePositionWrist());
+        SmartDashboard.getNumber("encoderWrist" , wristEncoder.get());
+        SmartDashboard.getBoolean("WristAtIntakePosition", atIntakePositionWrist());
+        SmartDashboard.getBoolean("WristAtHomePosition", atHomePositionWrist());
     }
 }

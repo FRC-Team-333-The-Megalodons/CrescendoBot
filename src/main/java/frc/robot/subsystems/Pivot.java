@@ -9,6 +9,7 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -17,26 +18,27 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Pivot extends SubsystemBase {
     CANSparkFlex pivotMotorRight;
     CANSparkFlex pivotMotorLeft;
-  //  DutyCycleEncoder pivotEncoder;
-   // PIDController PivotPidController;
+    DutyCycleEncoder pivotEncoder;
+    PIDController PivotPidController;
+    AnalogPotentiometer test;
 
     public Pivot(){
        pivotMotorRight = new CANSparkFlex(6, MotorType.kBrushless);
        pivotMotorRight.setIdleMode(IdleMode.kBrake);
        pivotMotorLeft = new CANSparkFlex(7, MotorType.kBrushless);
        pivotMotorLeft.setIdleMode(IdleMode.kBrake);
+       PivotPidController = new PIDController(1.5, 0, 0);
+       PivotPidController.enableContinuousInput(0, 1);
 
-     //  PivotPidController = new PIDController(1.5, 0, 0);
-     //  PivotPidController.enableContinuousInput(0, 1);
-
-     //  pivotEncoder = new DutyCycleEncoder(9);
-   //    pivotEncoder.setConnectedFrequencyThreshold(900);
-    //   pivotEncoder.reset();
+       pivotEncoder = new DutyCycleEncoder(0);
+       test = new AnalogPotentiometer(9, 360, 30); // new needs test
+       pivotEncoder.setConnectedFrequencyThreshold(900);
+       pivotEncoder.reset();
     }
     public void pivot(double value){pivotMotorRight.set(value); pivotMotorLeft.set(value);}
     public void pivotStop(){pivotMotorLeft.set(0); pivotMotorRight.set(0);}
 
-    /*public boolean atIntakePositionPivot() {
+    public boolean atIntakePositionPivot() {
         if (pivotEncoder.getAbsolutePosition() <= 0 && pivotEncoder.getAbsolutePosition() >= 0 ) { // intake encoder position 
           return true;
         } else {
@@ -75,10 +77,11 @@ public class Pivot extends SubsystemBase {
     @Override
     public void periodic(){
         SmartDashboard.getNumber("encoderPivot", pivotEncoder.get());
+        SmartDashboard.getNumber("testDegrees", test.get());
         SmartDashboard.getBoolean("PivotAtIntakePosition?", atIntakePositionPivot());
         SmartDashboard.getBoolean("PivotAtSpeakerPosition?", atSpeakerPositionPivot());
         SmartDashboard.getBoolean("PivotAtHomePosition", atHomePositionPivot());
         SmartDashboard.getBoolean("PivotAtAMPPosition", atAMPPositionPivot());
-    }*/
+    }
 }
 

@@ -24,6 +24,7 @@ public class RunIntakeSensors extends Command{
     @Override
     public void execute() {
         m_IntakeSensors.intake(value);
+        
     }
 
     @Override

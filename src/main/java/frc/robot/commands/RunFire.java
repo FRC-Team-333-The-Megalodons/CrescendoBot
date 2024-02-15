@@ -5,17 +5,23 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.Indexer;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 
 public class RunFire extends Command {
   /** Creates a new RunFire. */
   public final Shooter m_Shooter;
-  private final double value;
-  public RunFire(Shooter fire, double value) {
+  private final double valueShoot;
+  private final Indexer m_Indexer;
+  private final double valueIndex;
+  public RunFire(Shooter fire, double valueShoot, Indexer index, double valueIndex) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.m_Shooter = fire;
-    this.value = value; 
-    addRequirements(m_Shooter);
+    this.valueShoot = valueShoot; 
+    this.m_Indexer = index;
+    this.valueIndex = valueIndex;
+    addRequirements(m_Shooter, m_Indexer);
   }
 
   // Called when the command is initially scheduled.
@@ -25,7 +31,9 @@ public class RunFire extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_Shooter.fire(value);
+    m_Shooter.idleFire(0.4);
+    m_Indexer.index(valueIndex);
+    m_Shooter.fire(valueShoot);
   }
 
   // Called once the command ends or is interrupted.

@@ -15,17 +15,18 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 /** Add your docs here. */
 public class Track extends SubsystemBase {
     private CANSparkMax trackMotor;
-    //private DutyCycleEncoder trackEncoder;
+    private DutyCycleEncoder trackEncoder;
+
     public Track() {
         trackMotor = new CANSparkMax(5, MotorType.kBrushless);
-       /*  trackEncoder = new DutyCycleEncoder(5);
+        trackEncoder = new DutyCycleEncoder(5);
         trackEncoder.setConnectedFrequencyThreshold(900);
-        trackEncoder.reset();*/
+        trackEncoder.reset();
     }
     public void track(double value){trackMotor.set(value);}
     public void trackStop(){trackMotor.set(0);}
 
-   /*  public boolean atHomePositionTrack() {
+     public boolean atHomePositionTrack() {
         if (trackEncoder.getAbsolutePosition() <= 0 && trackEncoder.getAbsolutePosition() >= 0) {
             return true;
         } else {
@@ -39,12 +40,12 @@ public class Track extends SubsystemBase {
         } else {
             return false;
         }
-    }**
+    }
 
     @Override
     public void periodic(){
         SmartDashboard.getNumber("TrackEncoder", trackEncoder.get());
         SmartDashboard.getBoolean("TrackHomePosition", atHomePositionTrack());
         SmartDashboard.getBoolean("TrackIntakePosition", atIntakePositionTrack());
-    }*/
+    }
 }
