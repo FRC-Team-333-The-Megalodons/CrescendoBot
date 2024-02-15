@@ -7,18 +7,17 @@ package frc.robot.subsystems;
 import org.photonvision.PhotonCamera;
 import org.photonvision.simulation.PhotonCameraSim;
 
-import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.PivotConstants;
+import frc.robot.Constants.TrolleyConstants;
 
 public class Pivot extends SubsystemBase {
 
@@ -37,8 +36,8 @@ public class Pivot extends SubsystemBase {
 
   /** Creates a new Pivot. */
   public Pivot() {
-    pivotMotor1 = new CANSparkFlex(6, MotorType.kBrushless);
-    pivotMotor2 = new CANSparkFlex(7, MotorType.kBrushless);
+    pivotMotor1 = new CANSparkFlex(PivotConstants.MOTOR1_ID, MotorType.kBrushless);
+    pivotMotor2 = new CANSparkFlex(PivotConstants.MOTOR2_ID, MotorType.kBrushless);
 
     pivotMotor1.restoreFactoryDefaults();
     pivotMotor2.restoreFactoryDefaults();
@@ -51,10 +50,10 @@ public class Pivot extends SubsystemBase {
 
     //pivotMotor2.follow(pivotMotor1, true);
 
-    pivotEncoder = new DutyCycleEncoder(9);
+    pivotEncoder = new DutyCycleEncoder(PivotConstants.ENCODER_ID);
     pivotEncoder.setDistancePerRotation(PivotConstants.PIVOT_CONVERSION_FACTOR);
 
-    pivotController = new PIDController(0.5, 0, 0);
+    pivotController = new PIDController(PivotConstants.kP, PivotConstants.kI, PivotConstants.kD);
 
     // camera = new PhotonCamera("camera");
   }

@@ -25,7 +25,7 @@ public class Wrist extends SubsystemBase {
 
   /** Creates a new Wrist. */
   public Wrist() {
-    wristMotor = new CANSparkMax(4, MotorType.kBrushless);
+    wristMotor = new CANSparkMax(WristConstants.MOTOR_ID, MotorType.kBrushless);
 
     wristMotor.restoreFactoryDefaults();
 

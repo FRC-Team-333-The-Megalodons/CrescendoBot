@@ -94,10 +94,10 @@ public class RobotContainer
     // left stick controls translation
     // right stick controls the desired angle NOT angular rotation
     Command driveFieldOrientedDirectAngle = drivebase.driveCommand(
-        () -> MathUtil.applyDeadband(driverRoller.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
-        () -> MathUtil.applyDeadband(driverRoller.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> driverRoller.getRightX(),
-        () -> driverRoller.getRightY());
+        () -> -MathUtil.applyDeadband(driverRoller.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
+        () -> -MathUtil.applyDeadband(driverRoller.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
+        () -> -driverRoller.getRightX());
+        //() -> driverRoller.getRightY());
 
     // Applies deadbands and inverts controls because joysticks
     // are back-right positive while robot
@@ -107,7 +107,7 @@ public class RobotContainer
     Command driveFieldOrientedAnglularVelocity = drivebase.driveCommand(
         () -> MathUtil.applyDeadband(driverRoller.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
         () -> MathUtil.applyDeadband(driverRoller.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> driverRoller.getRawAxis(2));
+        () -> driverRoller.getRawAxis(4));
 
     Command driveFieldOrientedDirectAngleSim = drivebase.simDriveCommand(
         () -> -MathUtil.applyDeadband(driverRoller.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
@@ -115,7 +115,7 @@ public class RobotContainer
         () -> -driverRoller.getRawAxis(2));
 
     drivebase.setDefaultCommand(
-        !RobotBase.isSimulation() ? closedAbsoluteDriveAdv : closedAbsoluteDriveAdv);
+        !RobotBase.isSimulation() ? driveFieldOrientedDirectAngle : driveFieldOrientedDirectAngle);
   }
 
   /**
@@ -136,7 +136,7 @@ public class RobotContainer
     TROLLEY_OUT.whileTrue(new RunTrolley(trolley, -0.6));
     PIVOT_IN.whileTrue(new RunPivot(pivot, 0.2));
     PIVOT_OUT.whileTrue(new RunPivot(pivot, -0.2));
-    REV_SHOOTER.whileTrue(new RunShooter(shooter, 0.9));
+    REV_SHOOTER.whileTrue(new RunShooter(shooter, 0.5));
 
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
 

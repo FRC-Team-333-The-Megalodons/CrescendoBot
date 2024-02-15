@@ -11,6 +11,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.IntakeConstatnts;
 
 public class Intake extends SubsystemBase {
   
@@ -20,14 +21,14 @@ public class Intake extends SubsystemBase {
 
   /** Creates a new Intake. */
   public Intake() {
-    intakeMotor = new CANSparkFlex(3, MotorType.kBrushless);
+    intakeMotor = new CANSparkFlex(IntakeConstatnts.MOTOR_ID, MotorType.kBrushless);
 
     intakeMotor.restoreFactoryDefaults();
     intakeMotor.setIdleMode(IdleMode.kCoast);
     intakeMotor.burnFlash();
 
-    leftSensor = new DigitalInput(1);
-    rightSensor = new DigitalInput(0);
+    leftSensor = new DigitalInput(IntakeConstatnts.LEFT_SENSOR_ID);
+    rightSensor = new DigitalInput(IntakeConstatnts.RIGHT_SENSOR_ID);
   }
 
   public void runIntake(double value) {

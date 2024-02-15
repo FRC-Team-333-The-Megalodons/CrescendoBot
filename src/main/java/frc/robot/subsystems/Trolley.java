@@ -10,9 +10,9 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.TrolleyConstants;
 
 public class Trolley extends SubsystemBase {
 
@@ -23,13 +23,14 @@ public class Trolley extends SubsystemBase {
 
   /** Creates a new Trolley. */
   public Trolley() {
-    trolleyMotor = new CANSparkMax(5, MotorType.kBrushless);
-    limitSwitch = new DigitalInput(7);
+    trolleyMotor = new CANSparkMax(TrolleyConstants.MOTOR_ID, MotorType.kBrushless);
+    limitSwitch = new DigitalInput(TrolleyConstants.LIMIT_SWITCH_ID);
+
     trolleyMotor.restoreFactoryDefaults();
     trolleyMotor.setIdleMode(IdleMode.kBrake);
     trolleyMotor.burnFlash();
 
-    trolleyController = new PIDController(0.5, 0, 0);
+    trolleyController = new PIDController(TrolleyConstants.kP, TrolleyConstants.kI, TrolleyConstants.kD);
   }
 
   public void resetEncoder() {
@@ -60,7 +61,7 @@ public class Trolley extends SubsystemBase {
     }
   }
 
-  public void resetPose(){
+  public void resetPosition(){
     if (getLimitSwitch() == true) {
       resetEncoder();
     }
@@ -68,7 +69,6 @@ public class Trolley extends SubsystemBase {
 
   @Override
   public void periodic() {
-    resetPose();
     SmartDashboard.putNumber("Trolley Pos", getPostion());
     SmartDashboard.putBoolean("Tolley Setpoint?", trolleyController.atSetpoint());
     SmartDashboard.putBoolean("LimitSwitch", getLimitSwitch());

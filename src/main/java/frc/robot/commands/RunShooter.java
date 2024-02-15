@@ -26,6 +26,7 @@ public class RunShooter extends Command {
   @Override
   public void execute() {
     shooter.runShooter(value);
+    shooter.runIndexer(value);
     // shooter.setSpeed(value);
   }
 
@@ -33,6 +34,7 @@ public class RunShooter extends Command {
   @Override
   public void end(boolean interrupted) {
     shooter.stopShooter();
+    shooter.stopIndexer();
   }
 
   // Returns true when the command should end.
