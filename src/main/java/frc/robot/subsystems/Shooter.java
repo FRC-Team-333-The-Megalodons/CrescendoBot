@@ -12,6 +12,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants.ShooterConstants;
 
 public class Shooter extends SubsystemBase {
@@ -39,7 +40,6 @@ public class Shooter extends SubsystemBase {
     topController.setOutputRange(ShooterConstants.MIN_INPUT, ShooterConstants.MAX_INPUT);
 
     topMotor.setInverted(true);
-    bottomMotor.setInverted(true);
 
     topMotor.setIdleMode(IdleMode.kCoast);
     bottomMotor.setIdleMode(IdleMode.kCoast);
@@ -48,8 +48,6 @@ public class Shooter extends SubsystemBase {
     topMotor.burnFlash();
     bottomMotor.burnFlash();
     indexMotor.burnFlash();
-
-    bottomMotor.follow(topMotor, false);
   }
 
   public double getVelocity() {
@@ -58,7 +56,7 @@ public class Shooter extends SubsystemBase {
 
   public void runShooter(double value) {
     topMotor.set(value);
-    // bottomMotor.set(value);
+    bottomMotor.follow(topMotor);
   }
 
   public void runIndexer(double value) {
@@ -67,7 +65,7 @@ public class Shooter extends SubsystemBase {
 
   public void stopShooter() {
     topMotor.set(0.0);
-    // bottomMotor.set(0.0);
+    bottomMotor.set(0.0);
   }
 
   public void stopIndexer() {
@@ -76,6 +74,7 @@ public class Shooter extends SubsystemBase {
 
   public void setSpeed(double speed) {
     topController.setReference(speed, ControlType.kVelocity);
+    bottomMotor.follow(topMotor);
   }
 
   @Override

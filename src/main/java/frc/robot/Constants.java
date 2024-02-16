@@ -36,10 +36,10 @@ public final class Constants
   {
     public static final int MOTOR_ID = 4;
     public static final double HOME_SETPOINT = 0.0;
-    public static final double INTAKE_SETPOINT = 0.0;
-    public static final double SHOOTING_SETPOINT = 0.0;
-    public static final double AMP_SETPOINT = 0.0;
-    public static final double kP = 0.1;
+    public static final double INTAKE_SETPOINT = 0.374;
+    public static final double SHOOTING_SETPOINT = 0.164;
+    public static final double AMP_SETPOINT = 0.488;
+    public static final double kP = 5.0;
     public static final double kI = 0.0;
     public static final double kD = 0.0;
     public static final double kFF = 0.0;
@@ -52,14 +52,14 @@ public final class Constants
     public static final int MOTOR_ID = 5;
     public static final int LIMIT_SWITCH_ID = 7;
     public static final double HOME_SETPOINT = 0.0;
-    public static final double INTAKE_SETPOINT = 20; // 83
-    public static final double AMP_SETPOINT = 0.0;
-    public static final double kP = 0.1;
+    public static final double INTAKE_SETPOINT = 85;
+    public static final double AMP_SETPOINT = 69;
+    public static final double kP = 1.0;
     public static final double kI = 0.0;
     public static final double kD = 0.0;
     public static final double kFF = 0.0;
-    public static final double MIN_INPUT = -0.5;
-    public static final double MAX_INPUT = 0.5;
+    public static final double MIN_INPUT = -1.0;
+    public static final double MAX_INPUT = 1.0;
   }
 
   public static final class PivotConstants

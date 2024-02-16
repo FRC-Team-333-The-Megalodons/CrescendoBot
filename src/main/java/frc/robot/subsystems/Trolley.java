@@ -5,6 +5,8 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
@@ -19,7 +21,7 @@ public class Trolley extends SubsystemBase {
   private CANSparkMax trolleyMotor;
   private DigitalInput limitSwitch;
 
-  private PIDController trolleyController;
+  private SparkPIDController trolleyController;
 
   /** Creates a new Trolley. */
   public Trolley() {
@@ -27,10 +29,18 @@ public class Trolley extends SubsystemBase {
     limitSwitch = new DigitalInput(TrolleyConstants.LIMIT_SWITCH_ID);
 
     trolleyMotor.restoreFactoryDefaults();
-    trolleyMotor.setIdleMode(IdleMode.kBrake);
-    trolleyMotor.burnFlash();
 
-    trolleyController = new PIDController(TrolleyConstants.kP, TrolleyConstants.kI, TrolleyConstants.kD);
+    trolleyController = trolleyMotor.getPIDController();
+    trolleyController.setFeedbackDevice(trolleyMotor.getEncoder());
+    trolleyController.setP(TrolleyConstants.kP);
+    trolleyController.setI(TrolleyConstants.kI);
+    trolleyController.setD(TrolleyConstants.kD);
+    trolleyController.setFF(TrolleyConstants.kFF);
+    trolleyController.setOutputRange(TrolleyConstants.MIN_INPUT, TrolleyConstants.MAX_INPUT);
+
+    trolleyMotor.setIdleMode(IdleMode.kBrake);
+
+    trolleyMotor.burnFlash();
   }
 
   public void resetEncoder() {
@@ -50,7 +60,7 @@ public class Trolley extends SubsystemBase {
   }
 
   public void trolleyToSetpoint(double setpoint) {
-    trolleyMotor.set(trolleyController.calculate(getPostion(), setpoint));
+    trolleyController.setReference(setpoint, ControlType.kPosition);
   }
 
   public boolean getLimitSwitch(){
@@ -61,7 +71,7 @@ public class Trolley extends SubsystemBase {
     }
   }
 
-  public void resetPosition(){
+  public void resetPositionToZero(){
     if (getLimitSwitch() == true) {
       resetEncoder();
     }
@@ -69,8 +79,8 @@ public class Trolley extends SubsystemBase {
 
   @Override
   public void periodic() {
+    resetPositionToZero();
     SmartDashboard.putNumber("Trolley Pos", getPostion());
-    SmartDashboard.putBoolean("Tolley Setpoint?", trolleyController.atSetpoint());
     SmartDashboard.putBoolean("LimitSwitch", getLimitSwitch());
   }
 }

@@ -20,12 +20,13 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants.TrolleyConstants;
+import frc.robot.Constants.WristConstants;
 import frc.robot.commands.RunIntake;
 import frc.robot.commands.RunPivot;
 import frc.robot.commands.RunShooter;
 import frc.robot.commands.RunTrolley;
 import frc.robot.commands.RunWrist;
-import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.LEDStrip;
 import frc.robot.subsystems.Pivot;
@@ -53,21 +54,21 @@ public class RobotContainer
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
                                                                          "swerve/neo"));
-  AbsoluteDriveAdv closedAbsoluteDriveAdv;
 
   PS5Controller driverRoller = new PS5Controller(0);
   PS5Controller opRoller = new PS5Controller(1);
 
   private final JoystickButton INTAKE = new JoystickButton(opRoller, PS5Controller.Button.kCross.value);
   private final JoystickButton AUTO_INTAKE = new JoystickButton(opRoller, PS5Controller.Button.kCircle.value);
-  private final JoystickButton WRIST_IN = new JoystickButton(opRoller, PS5Controller.Button.kR1.value);
-  private final JoystickButton WRIST_OUT = new JoystickButton(opRoller, PS5Controller.Button.kL1.value);
-  private final JoystickButton TROLLEY_IN = new JoystickButton(opRoller, PS5Controller.Button.kR3.value);
-  private final JoystickButton TROLLEY_OUT = new JoystickButton(opRoller, PS5Controller.Button.kL3.value);
-  private final JoystickButton PIVOT_IN = new JoystickButton(opRoller, PS5Controller.Button.kR2.value);
-  private final JoystickButton PIVOT_OUT = new JoystickButton(opRoller, PS5Controller.Button.kL2.value);
+  private final JoystickButton WRIST_UP = new JoystickButton(opRoller, PS5Controller.Button.kL1.value);
+  private final JoystickButton WRIST_DOWN = new JoystickButton(opRoller, PS5Controller.Button.kR1.value);
+  private final JoystickButton TROLLEY_IN = new JoystickButton(opRoller, PS5Controller.Button.kL3.value);
+  private final JoystickButton TROLLEY_OUT = new JoystickButton(opRoller, PS5Controller.Button.kR3.value);
+  private final JoystickButton PIVOT_UP = new JoystickButton(opRoller, PS5Controller.Button.kR2.value);
+  private final JoystickButton PIVOT_DOWN = new JoystickButton(opRoller, PS5Controller.Button.kL2.value);
   private final JoystickButton REV_SHOOTER = new JoystickButton(opRoller, PS5Controller.Button.kSquare.value);
   private final JoystickButton GET_LITTT = new JoystickButton(opRoller, PS5Controller.Button.kTouchpad.value);
+  private final JoystickButton AMP = new JoystickButton(opRoller, PS5Controller.Button.kTriangle.value);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -77,17 +78,7 @@ public class RobotContainer
     leds.setDefaultCommand(new RunCommand(() -> leds.noLED(), leds));
     // Configure the trigger bindings
     configureBindings();
-    AbsoluteDriveAdv closedAbsoluteDriveAdv = new AbsoluteDriveAdv(drivebase,
-                                                                   () -> -MathUtil.applyDeadband(driverRoller.getLeftY(),
-                                                                                                OperatorConstants.LEFT_Y_DEADBAND),
-                                                                   () -> -MathUtil.applyDeadband(driverRoller.getLeftX(),
-                                                                                                OperatorConstants.LEFT_X_DEADBAND),
-                                                                   () -> MathUtil.applyDeadband(driverRoller.getRightX(),
-                                                                                                OperatorConstants.RIGHT_X_DEADBAND),
-                                                                                                driverRoller::getTriangleButton,
-                                                                                                driverRoller::getCrossButton,
-                                                                                                driverRoller::getSquareButton,
-                                                                                                driverRoller::getCircleButton);
+
     // Applies deadbands and inverts controls because joysticks
     // are back-right positive while robot
     // controls are front-left positive
@@ -128,15 +119,25 @@ public class RobotContainer
   private void configureBindings()
   {
     GET_LITTT.whileTrue(new RunCommand(() -> leds.royalBlueLED()));
+
     INTAKE.whileTrue(new RunIntake(intake, 1.0).alongWith(new RunCommand(() -> leds.redLED())));
-    AUTO_INTAKE.whileTrue(new RunIntake(intake, 0.3).until(intake::hasNote));
-    WRIST_IN.whileTrue(new RunWrist(wrist, 1.0));
-    WRIST_OUT.whileTrue(new RunWrist(wrist, -1.0));
-    TROLLEY_IN.whileTrue(new RunTrolley(trolley, 0.6));
-    TROLLEY_OUT.whileTrue(new RunTrolley(trolley, -0.6));
-    PIVOT_IN.whileTrue(new RunPivot(pivot, 0.2));
-    PIVOT_OUT.whileTrue(new RunPivot(pivot, -0.2));
-    REV_SHOOTER.whileTrue(new RunShooter(shooter, 0.5));
+    AUTO_INTAKE.whileTrue(new RunCommand(() -> wrist.wristToSetpoint(WristConstants.INTAKE_SETPOINT), wrist).raceWith(new RunIntake(intake, 0.3).until(intake::hasNote)).andThen(new RunCommand(() -> wrist.wristToSetpoint(WristConstants.SHOOTING_SETPOINT), wrist)));
+
+    WRIST_UP.whileTrue(new RunWrist(wrist, -0.1));
+    //WRIST_UP.whileTrue(new RunCommand(() -> wrist.wristToSetpoint(WristConstants.SHOOTING_SETPOINT), wrist));
+    WRIST_DOWN.whileTrue(new RunWrist(wrist, 0.1));
+    // WRIST_DOWN.whileTrue(new RunCommand(() -> wrist.wristToSetpoint(WristConstants.INTAKE_SETPOINT), wrist));
+
+    TROLLEY_IN.whileTrue(new RunTrolley(trolley, -0.5));
+    TROLLEY_OUT.whileTrue(new RunTrolley(trolley, 0.5));
+    TROLLEY_OUT.whileTrue(new RunCommand(() -> trolley.trolleyToSetpoint(TrolleyConstants.INTAKE_SETPOINT), trolley));
+
+    PIVOT_UP.whileTrue(new RunPivot(pivot, 0.1));
+    PIVOT_DOWN.whileTrue(new RunPivot(pivot, -0.1));
+
+    REV_SHOOTER.whileTrue(new RunShooter(shooter, 5000));
+
+    AMP.whileTrue(new RunIntake(intake, -0.3));
 
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
 
@@ -163,7 +164,7 @@ public class RobotContainer
 
   public void setDriveMode()
   {
-    //drivebase.setDefaultCommand();
+    // drivebase.setDefaultCommand();
   }
 
   public void setMotorBrake(boolean brake)

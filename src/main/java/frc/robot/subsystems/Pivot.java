@@ -46,8 +46,6 @@ public class Pivot extends SubsystemBase {
     pivotMotor1.burnFlash();
     pivotMotor2.burnFlash();
 
-    //pivotMotor2.follow(pivotMotor1, true);
-
     pivotEncoder = new DutyCycleEncoder(PivotConstants.ENCODER_ID);
     pivotEncoder.setDistancePerRotation(PivotConstants.PIVOT_CONVERSION_FACTOR);
 
@@ -62,7 +60,7 @@ public class Pivot extends SubsystemBase {
 
   public void runPivot(double value) {
     pivotMotor1.set(value);
-    pivotMotor2.set(value);
+    pivotMotor2.follow(pivotMotor1);
   }
 
   public void stopPivot() {
