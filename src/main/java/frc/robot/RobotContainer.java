@@ -23,7 +23,7 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.LEDs;
 import frc.robot.subsystems.Pivot;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Track;
+import frc.robot.subsystems.Trolley;
 import frc.robot.subsystems.Wrist;
 
 
@@ -38,7 +38,7 @@ public class RobotContainer {
   private final Intake m_Intake = new Intake();
   private final Shooter m_Shooter = new Shooter();
   private final Pivot m_Pivot = new Pivot();
-  private final Track m_Track = new Track();
+  private final Trolley m_Track = new Trolley();
   private final Wrist m_Wrist = new Wrist();
   private final LEDs m_Leds = new LEDs();
   private final Indexer m_Indexer = new Indexer();
@@ -62,9 +62,10 @@ public class RobotContainer {
     m_Intake.setDefaultCommand(new RunCommand(() -> m_Intake.intakeStop(), m_Intake));
     m_Shooter.setDefaultCommand(new RunCommand(() -> m_Shooter.fireStop(), m_Shooter));
     m_Wrist.setDefaultCommand(new RunCommand(() -> m_Wrist.wristSTOP(), m_Wrist));
-    m_Track.setDefaultCommand(new RunCommand(() -> m_Track.trackStop(), m_Track));
+    m_Track.setDefaultCommand(new RunCommand(() -> m_Track.trolleyStop(), m_Track));
     m_Leds.setDefaultCommand(new RunCommand(() -> m_Leds.rainbowLED(), m_Leds));
     m_Pivot.setDefaultCommand(new RunCommand(() -> m_Pivot.pivotStop(), m_Pivot));
+    m_Indexer.setDefaultCommand(new RunCommand(() -> m_Indexer.indexStop(),  m_Indexer));
     configureButtonBindings();
   }
 

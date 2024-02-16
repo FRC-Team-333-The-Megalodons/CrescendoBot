@@ -6,22 +6,56 @@
 package frc.robot.subsystems;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkFlex;
+import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+import frc.robot.Constants.TrolleyConstants;
 
 /** Add your docs here. */
 public class Shooter extends SubsystemBase{
-    private CANSparkFlex shooterRight;
-    private CANSparkFlex shooterLeft;
+    private CANSparkFlex shooterTop;
+    private CANSparkFlex shooterBottom;
+    private SparkPIDController FirePIDController;
     
 public Shooter() {
-    shooterRight = new CANSparkFlex(8, MotorType.kBrushless);
-    shooterRight.setIdleMode(IdleMode.kCoast);
-    shooterLeft = new CANSparkFlex(9, MotorType.kBrushless);
-    shooterLeft.setIdleMode(IdleMode.kCoast);
+    shooterTop = new CANSparkFlex(Constants.ShooterConstants.FIRE_TOP_MOTOR_ID, MotorType.kBrushless);
+    shooterTop.setIdleMode(IdleMode.kCoast);
+    shooterBottom = new CANSparkFlex(Constants.ShooterConstants.FIRE_BOTTOM_MOTOR_ID, MotorType.kBrushless);
+    shooterBottom.setIdleMode(IdleMode.kCoast);
+
+    shooterTop.restoreFactoryDefaults();
+    FirePIDController = shooterTop.getPIDController();
+    FirePIDController.setFeedbackDevice(shooterTop.getEncoder());
+    FirePIDController.setP(TrolleyConstants.kP);
+    FirePIDController.setI(TrolleyConstants.kI);
+    FirePIDController.setD(TrolleyConstants.kD);
+    FirePIDController.setOutputRange(TrolleyConstants.MIN_INPUT, TrolleyConstants.MAX_INPUT);
+    shooterTop.burnFlash();
+    shooterTop.burnFlash();
 }
-    public void idleFire(double value){shooterRight.set(value); shooterLeft.set(value);}
-    public void fire(double value){shooterRight.set(value); shooterLeft.set(value);}
-    public void fireStop(){shooterRight.set(0);shooterLeft.set(0);}
+    public void idleFire(double value) {
+        shooterTop.set(value);
+        shooterBottom.set(value);
+    }
+    public void fire(double value) {
+        shooterTop.set(value);
+        shooterBottom.set(value);
+    }
+    public void fireStop() {
+        shooterTop.set(0);
+        shooterBottom.set(0);
+    }
+
+    public double getVelocity() {
+        return shooterTop.getEncoder().getVelocity();
+    }
+
+    @Override
+    public void periodic(){
+        SmartDashboard.putNumber("VelocityShoot", getVelocity());
+        
+    }
 }

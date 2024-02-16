@@ -32,7 +32,7 @@ public class RunFire extends Command {
   @Override
   public void execute() {
     m_Shooter.idleFire(0.4);
-    m_Indexer.index(valueIndex);
+    m_Indexer.index(-valueIndex);
     m_Shooter.fire(valueShoot);
   }
 

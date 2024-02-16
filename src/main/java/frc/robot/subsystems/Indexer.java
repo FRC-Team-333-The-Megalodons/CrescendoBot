@@ -9,13 +9,15 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 /** Add your docs here. */
 public class Indexer extends SubsystemBase {
     private CANSparkMax indexerMotor;
     public Indexer(){
-        indexerMotor = new CANSparkMax(34, MotorType.kBrushless);
+        indexerMotor = new CANSparkMax(Constants.IndexerConstants.INDEXER_MOTOR_ID, MotorType.kBrushless);
         indexerMotor.setIdleMode(IdleMode.kBrake);
     }
     public void index(double value){indexerMotor.set(value);}
+    public void indexStop(){indexerMotor.set(0);}
 }

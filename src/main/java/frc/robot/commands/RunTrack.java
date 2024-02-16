@@ -5,13 +5,13 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Track;
+import frc.robot.subsystems.Trolley;
 
 public class RunTrack extends Command {
   /** Creates a new RunTrack. */
-  private final Track m_Track;
+  private final Trolley m_Track;
   private final double value;
-  public RunTrack(Track track, double value) {
+  public RunTrack(Trolley track, double value) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.m_Track = track;
     this.value = value;
@@ -25,7 +25,7 @@ public class RunTrack extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_Track.track(value);
+    m_Track.trolley(value);
   }
 
   // Called once the command ends or is interrupted.

@@ -13,6 +13,8 @@ import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+import frc.robot.Constants.PivotConstants;
 
 /** Add your docs here. */
 public class Pivot extends SubsystemBase {
@@ -20,26 +22,29 @@ public class Pivot extends SubsystemBase {
     CANSparkFlex pivotMotorLeft;
     DutyCycleEncoder pivotEncoder;
     PIDController PivotPidController;
-    AnalogPotentiometer test;
 
     public Pivot(){
-       pivotMotorRight = new CANSparkFlex(6, MotorType.kBrushless);
+       pivotMotorRight = new CANSparkFlex(Constants.PivotConstants.PIVOT_MOTOR1_ID, MotorType.kBrushless);
        pivotMotorRight.setIdleMode(IdleMode.kBrake);
-       pivotMotorLeft = new CANSparkFlex(7, MotorType.kBrushless);
+       pivotMotorLeft = new CANSparkFlex(Constants.PivotConstants.PIVOT_MOTOR2_ID, MotorType.kBrushless);
        pivotMotorLeft.setIdleMode(IdleMode.kBrake);
-       PivotPidController = new PIDController(1.5, 0, 0);
-       PivotPidController.enableContinuousInput(0, 1);
-
-       pivotEncoder = new DutyCycleEncoder(0);
-       test = new AnalogPotentiometer(9, 360, 30); // new needs test
-       pivotEncoder.setConnectedFrequencyThreshold(900);
-       pivotEncoder.reset();
+       PivotPidController = new PIDController(Constants.PivotConstants.kP, Constants.PivotConstants.kI, Constants.PivotConstants.kD);
+       PivotPidController.enableContinuousInput(Constants.PivotConstants.MIN_INPUT, Constants.PivotConstants.MAX_INPUT);
+    
+    pivotEncoder = new DutyCycleEncoder(PivotConstants.PIVOT_ENCODER_ID);
+    pivotEncoder.setDistancePerRotation(900);
     }
-    public void pivot(double value){pivotMotorRight.set(value); pivotMotorLeft.set(value);}
-    public void pivotStop(){pivotMotorLeft.set(0); pivotMotorRight.set(0);}
+    public void pivot(double value) {
+        pivotMotorRight.set(value);
+        pivotMotorLeft.set(value);
+    }
+    public void pivotStop() {
+        pivotMotorLeft.set(0);
+        pivotMotorRight.set(0);
+    }
 
-    public boolean atIntakePositionPivot() {
-        if (pivotEncoder.getAbsolutePosition() <= 0 && pivotEncoder.getAbsolutePosition() >= 0 ) { // intake encoder position 
+     public boolean atIntakePositionPivot() {
+        if (pivotEncoder.getAbsolutePosition() == Constants.PivotConstants.INTAKE_SETPOINT) { // intake encoder position 
           return true;
         } else {
             return false;
@@ -47,7 +52,7 @@ public class Pivot extends SubsystemBase {
       }
 
     public boolean atSpeakerPositionPivot() {
-        if (pivotEncoder.getAbsolutePosition() <= 0 && pivotEncoder.getAbsolutePosition() >= 0) {
+        if (pivotEncoder.getAbsolutePosition() == Constants.PivotConstants.SPEAKER_SERPOINT) {
             return true;
         } else {
             return false;
@@ -55,7 +60,7 @@ public class Pivot extends SubsystemBase {
     }
 
     public boolean atHomePositionPivot() {
-        if (pivotEncoder.getAbsolutePosition() <= 0 && pivotEncoder.getAbsolutePosition() >= 0) {
+        if (pivotEncoder.getAbsolutePosition() == Constants.PivotConstants.HOME_SETPOINT) {
             return true;
         } else {
             return false;
@@ -63,7 +68,7 @@ public class Pivot extends SubsystemBase {
     }
 
     public boolean atAMPPositionPivot() {
-        if (pivotEncoder.getAbsolutePosition() <= 0 && pivotEncoder.getAbsolutePosition() >= 0) {
+        if (pivotEncoder.getAbsolutePosition() == Constants.PivotConstants.AMP_SETPOINT) {
             return true;
         } else {
             return false;
@@ -72,16 +77,14 @@ public class Pivot extends SubsystemBase {
     
       public void resetPivotEncoderPivot() { 
         pivotMotorRight.getEncoder().setPosition(0); 
-      }
+      } 
 
     @Override
     public void periodic(){
-        SmartDashboard.getNumber("encoderPivot", pivotEncoder.get());
-        SmartDashboard.getNumber("testDegrees", test.get());
-        SmartDashboard.getBoolean("PivotAtIntakePosition?", atIntakePositionPivot());
-        SmartDashboard.getBoolean("PivotAtSpeakerPosition?", atSpeakerPositionPivot());
-        SmartDashboard.getBoolean("PivotAtHomePosition", atHomePositionPivot());
-        SmartDashboard.getBoolean("PivotAtAMPPosition", atAMPPositionPivot());
+        SmartDashboard.putNumber("encoderPivot", pivotEncoder.getAbsolutePosition());
+        SmartDashboard.putBoolean("PivotAtIntakePosition?", atIntakePositionPivot());
+        SmartDashboard.putBoolean("PivotAtSpeakerPosition?", atSpeakerPositionPivot());
+        SmartDashboard.putBoolean("PivotAtHomePosition", atHomePositionPivot());
     }
 }
 

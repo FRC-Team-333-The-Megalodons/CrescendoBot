@@ -3,10 +3,14 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.subsystems;
+import com.fasterxml.jackson.annotation.JsonFormat.Shape;
+
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class LEDs extends SubsystemBase {
   private AddressableLED m_led;
@@ -14,18 +18,11 @@ public class LEDs extends SubsystemBase {
   
   /** Creates a new LEDS. */
   public LEDs() {
-    m_led = new AddressableLED(9);
-    m_ledBuffer = new AddressableLEDBuffer(120);
+    m_led = new AddressableLED(Constants.LEDConstants.LED_PORT_ID);
+    m_ledBuffer = new AddressableLEDBuffer(Constants.LEDConstants.NUMBER_OF_LED);
     m_led.setLength(m_ledBuffer.getLength());
     m_led.setData(m_ledBuffer);
     m_led.start();
-
-  }
-
-  public void whatLightLED() {
-    for (var i = 0; i < m_ledBuffer.getLength(); i++) {
-        m_ledBuffer.setLED(i, Color.kBlueViolet);
-    }
   }
   public void royalBlueLED() {
     for (var i = 0; i< m_ledBuffer.getLength(); i++) {
@@ -52,6 +49,11 @@ public class LEDs extends SubsystemBase {
         m_ledBuffer.setRGB(i, 250, 0, 0);
     } m_led.setData(m_ledBuffer);
   }
+  public void RGBColor(int r, int g, int b){
+    for (var i=0; i< m_ledBuffer.getLength(); i++) {
+      m_ledBuffer.setRGB(i, r, g, b);
+  } m_led.setData(m_ledBuffer);
+  }
 
   public void rainbowLED() {
     int length = m_ledBuffer.getLength();
@@ -66,7 +68,7 @@ public class LEDs extends SubsystemBase {
             Thread.sleep(100); // Подождите некоторое время перед обновлением цвета
         } catch (InterruptedException e) {
             e.printStackTrace();
-}
-}
-}
+        }
+      }
+  }
 }
