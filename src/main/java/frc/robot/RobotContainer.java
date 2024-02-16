@@ -60,15 +60,22 @@ public class RobotContainer
 
   private final JoystickButton INTAKE = new JoystickButton(opRoller, PS5Controller.Button.kCross.value);
   private final JoystickButton AUTO_INTAKE = new JoystickButton(opRoller, PS5Controller.Button.kCircle.value);
+  private final JoystickButton AMP = new JoystickButton(opRoller, PS5Controller.Button.kOptions.value);
+
   private final JoystickButton WRIST_UP = new JoystickButton(opRoller, PS5Controller.Button.kL1.value);
   private final JoystickButton WRIST_DOWN = new JoystickButton(opRoller, PS5Controller.Button.kR1.value);
+
   private final JoystickButton TROLLEY_IN = new JoystickButton(opRoller, PS5Controller.Button.kL3.value);
   private final JoystickButton TROLLEY_OUT = new JoystickButton(opRoller, PS5Controller.Button.kR3.value);
+  private final JoystickButton AUTO_TROLLEY = new JoystickButton(opRoller, PS5Controller.Button.kTriangle.value);
+
   private final JoystickButton PIVOT_UP = new JoystickButton(opRoller, PS5Controller.Button.kR2.value);
   private final JoystickButton PIVOT_DOWN = new JoystickButton(opRoller, PS5Controller.Button.kL2.value);
+
   private final JoystickButton REV_SHOOTER = new JoystickButton(opRoller, PS5Controller.Button.kSquare.value);
   private final JoystickButton GET_LITTT = new JoystickButton(opRoller, PS5Controller.Button.kTouchpad.value);
-  private final JoystickButton AMP = new JoystickButton(opRoller, PS5Controller.Button.kTriangle.value);
+
+  
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -130,7 +137,7 @@ public class RobotContainer
 
     TROLLEY_IN.whileTrue(new RunTrolley(trolley, -0.5));
     TROLLEY_OUT.whileTrue(new RunTrolley(trolley, 0.5));
-    TROLLEY_OUT.whileTrue(new RunCommand(() -> trolley.trolleyToSetpoint(TrolleyConstants.INTAKE_SETPOINT), trolley));
+    AUTO_TROLLEY.whileTrue(new RunCommand(() -> trolley.trolleyToSetpoint(TrolleyConstants.INTAKE_SETPOINT), trolley));
 
     PIVOT_UP.whileTrue(new RunPivot(pivot, 0.1));
     PIVOT_DOWN.whileTrue(new RunPivot(pivot, -0.1));
