@@ -59,6 +59,15 @@ public class Trolley extends SubsystemBase {
             return false;
         }
     }
+    public boolean atAMPPosition() {
+        if (trolleyMotor.getEncoder().getPosition() == Constants.TrolleyConstants.AMP_SETPOINT) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    
     public boolean getLimitSwitch() {
         if (limitSwitch.get() == true) {
             return false;

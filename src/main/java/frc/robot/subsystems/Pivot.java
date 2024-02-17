@@ -9,7 +9,6 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -36,11 +35,11 @@ public class Pivot extends SubsystemBase {
     }
     public void pivot(double value) {
         pivotMotorRight.set(value);
-        pivotMotorLeft.set(value);
+        pivotMotorLeft.follow(pivotMotorRight);
     }
     public void pivotStop() {
-        pivotMotorLeft.set(0);
         pivotMotorRight.set(0);
+        pivotMotorLeft.follow(pivotMotorRight);
     }
 
      public boolean atIntakePositionPivot() {

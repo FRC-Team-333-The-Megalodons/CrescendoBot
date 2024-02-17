@@ -28,8 +28,12 @@ public class Intake extends SubsystemBase {
     peRight = new DigitalInput(Constants.IntakeConstants.RIGHT_SENSOR_ID);
      
   }
-    public void intake(double value){intakeMotor.set(value);}
-    public void intakeStop(){intakeMotor.set(0);}
+    public void intake(double value) {
+      intakeMotor.set(value);
+    }
+    public void intakeStop() {
+      intakeMotor.set(0);
+    }
   
   public boolean detectNote(){
     if (peLeft.get() || peRight.get()){
@@ -39,8 +43,6 @@ public class Intake extends SubsystemBase {
 
 @Override
 public void periodic(){
-    SmartDashboard.putBoolean("Left", peLeft.get());
-    SmartDashboard.putBoolean("Right", peRight.get());
     SmartDashboard.putBoolean("GetNote", detectNote());
   }
 }

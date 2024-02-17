@@ -34,19 +34,18 @@ public Shooter() {
     FirePIDController.setD(TrolleyConstants.kD);
     FirePIDController.setOutputRange(TrolleyConstants.MIN_INPUT, TrolleyConstants.MAX_INPUT);
     shooterTop.burnFlash();
-    shooterTop.burnFlash();
 }
     public void idleFire(double value) {
         shooterTop.set(value);
-        shooterBottom.set(value);
+        shooterBottom.follow(shooterTop);
     }
     public void fire(double value) {
         shooterTop.set(value);
-        shooterBottom.set(value);
+        shooterBottom.follow(shooterTop);
     }
     public void fireStop() {
         shooterTop.set(0);
-        shooterBottom.set(0);
+        shooterBottom.follow(shooterTop);
     }
 
     public double getVelocity() {
@@ -56,6 +55,5 @@ public Shooter() {
     @Override
     public void periodic(){
         SmartDashboard.putNumber("VelocityShoot", getVelocity());
-        
     }
 }

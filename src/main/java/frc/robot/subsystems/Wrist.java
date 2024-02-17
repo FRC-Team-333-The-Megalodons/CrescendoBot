@@ -42,8 +42,25 @@ public class Wrist extends SubsystemBase {
         }
       }
 
+
     public boolean atHomePositionWrist() {
         if (wristEncoder.getPosition() == Constants.WristConstants.HOME_SETPOINT) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean atFirePosition() {
+        if (wristEncoder.getPosition() == Constants.WristConstants.SHOOTING_SETPOINT) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean atAMPPosition() {
+        if (wristEncoder.getPosition() == Constants.WristConstants.AMP_SETPOINT) {
             return true;
         } else {
             return false;
