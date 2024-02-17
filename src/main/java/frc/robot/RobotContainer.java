@@ -118,7 +118,7 @@ public class RobotContainer
 
     // drivebase.setDefaultCommand(
     //     !RobotBase.isSimulation() ? driveFieldOrientedAnglularVelocity : driveFieldOrientedAnglularVelocity);
-    drivebase.setDefaultCommand(driveFieldOrientedAnglularVelocity);
+    // drivebase.setDefaultCommand(driveFieldOrientedAnglularVelocity);
   }
 
   /**
@@ -145,8 +145,8 @@ public class RobotContainer
     TROLLEY_OUT.whileTrue(new RunTrolley(trolley, 0.5));
     // AUTO_TROLLEY.whileTrue(new RunCommand(() -> trolley.trolleyToSetpoint(TrolleyConstants.INTAKE_SETPOINT), trolley));
 
-    PIVOT_UP.whileTrue(new RunPivot(pivot, PS5Controller.Axis.kR2.value));
-    PIVOT_DOWN.whileTrue(new RunPivot(pivot, -PS5Controller.Axis.kL2.value));
+    PIVOT_UP.whileTrue(new RunPivot(pivot, 0.1));
+    PIVOT_DOWN.whileTrue(new RunPivot(pivot, -0.1));
 
     REV_SHOOTER.whileTrue(new RunShooter(shooter, ShooterConstants.IDLE_RPM));
 
