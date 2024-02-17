@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.ControlType;
@@ -18,14 +19,14 @@ import frc.robot.Constants.TrolleyConstants;
 
 public class Trolley extends SubsystemBase {
 
-  private CANSparkMax trolleyMotor;
+  private CANSparkFlex trolleyMotor;
   private DigitalInput limitSwitch;
 
   private SparkPIDController trolleyController;
 
   /** Creates a new Trolley. */
   public Trolley() {
-    trolleyMotor = new CANSparkMax(TrolleyConstants.MOTOR_ID, MotorType.kBrushless);
+    trolleyMotor = new CANSparkFlex(TrolleyConstants.MOTOR_ID, MotorType.kBrushless);
     limitSwitch = new DigitalInput(TrolleyConstants.LIMIT_SWITCH_ID);
 
     trolleyMotor.restoreFactoryDefaults();
