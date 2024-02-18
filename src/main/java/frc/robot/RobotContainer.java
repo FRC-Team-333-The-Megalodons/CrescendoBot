@@ -17,13 +17,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.RunIntake;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDrive;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteFieldDrive;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 
@@ -42,9 +45,13 @@ public class RobotContainer
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
                                                                          "swerve/neo"));
+  private final Intake mIntake = new Intake(3, 0, 1);
 
   // CommandJoystick driverController   = new CommandJoystick(3);//(OperatorConstants.DRIVER_CONTROLLER_PORT);
-  XboxController roller = new XboxController(0);
+  PS5Controller driveroller = new PS5Controller(0);
+  PS5Controller codriverroller = new PS5Controller(1);
+
+  private final JoystickButton AUTO_INTAKE = new JoystickButton(codriverroller, PS5Controller.Button.kCircle.value);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -57,30 +64,30 @@ public class RobotContainer
     configureBindings();
     AbsoluteFieldDrive closedAbsoluteFieldDrive = new AbsoluteFieldDrive(
       drivebase, 
-    () -> MathUtil.applyDeadband(-roller.getLeftY(),OperatorConstants.LEFT_Y_DEADBAND),
-     () -> MathUtil.applyDeadband(-roller.getLeftX(),OperatorConstants.LEFT_X_DEADBAND),
-     () -> MathUtil.applyDeadband(roller.getRightX(),OperatorConstants.RIGHT_X_DEADBAND));
+    () -> MathUtil.applyDeadband(-driveroller.getLeftY(),OperatorConstants.LEFT_Y_DEADBAND),
+     () -> MathUtil.applyDeadband(-driveroller.getLeftX(),OperatorConstants.LEFT_X_DEADBAND),
+     () -> MathUtil.applyDeadband(driveroller.getRightX(),OperatorConstants.RIGHT_X_DEADBAND));
      
     AbsoluteDriveAdv closedAbsoluteDriveAdv = new AbsoluteDriveAdv(drivebase,
-                                                                   () -> MathUtil.applyDeadband(-roller.getLeftY(),
+                                                                   () -> MathUtil.applyDeadband(-driveroller.getLeftY(),
                                                                                                 OperatorConstants.LEFT_Y_DEADBAND),
-                                                                   () -> MathUtil.applyDeadband(-roller.getLeftX(),
+                                                                   () -> MathUtil.applyDeadband(-driveroller.getLeftX(),
                                                                                                 OperatorConstants.LEFT_X_DEADBAND),
-                                                                   () -> MathUtil.applyDeadband(roller.getRightX(),
+                                                                   () -> MathUtil.applyDeadband(driveroller.getRightX(),
                                                                                                 OperatorConstants.RIGHT_X_DEADBAND),
-                                                                   roller::getYButtonPressed,
-                                                                   roller::getAButtonPressed,
-                                                                   roller::getXButtonPressed,
-                                                                   roller::getBButtonPressed);
+                                                                   driveroller::getTriangleButtonPressed,
+                                                                   driveroller::getCrossButtonPressed,
+                                                                   driveroller::getSquareButtonPressed,
+                                                                   driveroller::getCircleButtonPressed);
     // Applies deadbands and inverts controls because joysticks
     // are back-right positive while robot
     // controls are front-left positive
     // left stick controls translation
     // right stick controls the desired angle NOT angular rotation
     Command driveFieldOrientedDirectAngle = drivebase.driveCommand(
-        () -> -MathUtil.applyDeadband(roller.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
-        () -> -MathUtil.applyDeadband(roller.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> -MathUtil.applyDeadband(roller.getRightX(),OperatorConstants.RIGHT_X_DEADBAND));
+        () -> -MathUtil.applyDeadband(driveroller.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
+        () -> -MathUtil.applyDeadband(driveroller.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
+        () -> -MathUtil.applyDeadband(driveroller.getRightX(),OperatorConstants.RIGHT_X_DEADBAND));
         //() -> roller.getRightY());
 
     // Applies deadbands and inverts controls because joysticks
@@ -89,20 +96,20 @@ public class RobotContainer
     // left stick controls translation
     // right stick controls the angular velocity of the robot
     Command driveFieldOrientedAnglularVelocity = drivebase.driveCommand(
-        () -> -MathUtil.applyDeadband(roller.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
-        () -> -MathUtil.applyDeadband(roller.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> -roller.getRawAxis(4));
+        () -> -MathUtil.applyDeadband(driveroller.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
+        () -> -MathUtil.applyDeadband(driveroller.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
+        () -> -driveroller.getRawAxis(4));
 
     Command driveFieldOrientedDirectAngleSim = drivebase.simDriveCommand(
-        () -> -MathUtil.applyDeadband(roller.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
-        () -> -MathUtil.applyDeadband(roller.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> -MathUtil.applyDeadband(roller.getRightX(),OperatorConstants.RIGHT_X_DEADBAND));    /*simDriveCommand(
+        () -> -MathUtil.applyDeadband(driveroller.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
+        () -> -MathUtil.applyDeadband(driveroller.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
+        () -> -MathUtil.applyDeadband(driveroller.getRightX(),OperatorConstants.RIGHT_X_DEADBAND));    /*simDriveCommand(
         () -> -MathUtil.applyDeadband(roller.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
         () -> -MathUtil.applyDeadband(roller.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
         () -> -roller.getRawAxis(4));*/
         //() -> -MathUtil.applyDeadband(roller.getRightX(),OperatorConstants.RIGHT_X_DEADBAND));
       drivebase.setDefaultCommand(
-        !RobotBase.isSimulation() ? closedAbsoluteDriveAdv : driveFieldOrientedDirectAngleSim);
+        !RobotBase.isSimulation() ? driveFieldOrientedDirectAngle : driveFieldOrientedDirectAngle);
   }
 
   /**
@@ -115,10 +122,11 @@ public class RobotContainer
   private void configureBindings()
   {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
+    AUTO_INTAKE.whileTrue(new RunIntake(mIntake, 0.333).until(mIntake::noteIsIN));
 
-    new JoystickButton(roller, 1).onTrue((new InstantCommand(drivebase::zeroGyro)));
-    new JoystickButton(roller, 3).onTrue(new InstantCommand(drivebase::addFakeVisionReading));
-    new JoystickButton(roller,
+    new JoystickButton(driveroller, 1).onTrue((new InstantCommand(drivebase::zeroGyro)));
+    new JoystickButton(driveroller, 3).onTrue(new InstantCommand(drivebase::addFakeVisionReading));
+    new JoystickButton(driveroller,
                        2).whileTrue(
         Commands.deferredProxy(() -> drivebase.driveToPose(
                                    new Pose2d(new Translation2d(0, 0), Rotation2d.fromDegrees(0)))

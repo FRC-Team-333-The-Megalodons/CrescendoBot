@@ -32,6 +32,12 @@ public final class Constants
 
     public static final double MAX_ACCELERATION = 2;
   }
+  public static final class  TrolleyConstants {
+    public static final double minPIDoutput = -0.6;
+    public static final double maxPIDoutput = 0.6;
+
+    
+  }
 
   public static final class Drivebase
   {
