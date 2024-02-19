@@ -13,6 +13,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.WristConstants;
 /** Add your docs here. */
 public class Wrist extends SubsystemBase {
     private CANSparkMax wristMotor;
@@ -21,10 +22,10 @@ public class Wrist extends SubsystemBase {
 
 
     public Wrist() {
-        wristMotor = new CANSparkMax(Constants.WristConstants.WRIST_MOTOR_ID, MotorType.kBrushless);
+        wristMotor = new CANSparkMax(WristConstants.WRIST_MOTOR_ID, MotorType.kBrushless);
         wristMotor.setIdleMode(IdleMode.kBrake);
-        wristPIDController = new PIDController(Constants.WristConstants.kP, Constants.WristConstants.kI, Constants.WristConstants.kD);
-        wristPIDController.enableContinuousInput(Constants.WristConstants.MIN_INPUT, Constants.WristConstants.MAX_INPUT);
+        wristPIDController = new PIDController(WristConstants.kP, WristConstants.kI, WristConstants.kD);
+        wristPIDController.enableContinuousInput(WristConstants.MIN_INPUT, WristConstants.MAX_INPUT);
         wristEncoder = wristMotor.getAbsoluteEncoder(com.revrobotics.SparkAbsoluteEncoder.Type.kDutyCycle);
     }
     public void wrist(double value) {
@@ -35,7 +36,7 @@ public class Wrist extends SubsystemBase {
     }
 
        public boolean atIntakePositionWrist() {
-        if (wristEncoder.getPosition() == Constants.WristConstants.INTAKE_SETPOINT) { 
+        if (wristEncoder.getPosition() == WristConstants.INTAKE_SETPOINT) { 
           return true;
         } else {
             return false;
@@ -44,7 +45,7 @@ public class Wrist extends SubsystemBase {
 
 
     public boolean atHomePositionWrist() {
-        if (wristEncoder.getPosition() == Constants.WristConstants.HOME_SETPOINT) {
+        if (wristEncoder.getPosition() == WristConstants.HOME_SETPOINT) {
             return true;
         } else {
             return false;
@@ -52,7 +53,7 @@ public class Wrist extends SubsystemBase {
     }
 
     public boolean atFirePosition() {
-        if (wristEncoder.getPosition() == Constants.WristConstants.SHOOTING_SETPOINT) {
+        if (wristEncoder.getPosition() == WristConstants.SHOOTING_SETPOINT) {
             return true;
         } else {
             return false;
@@ -60,7 +61,7 @@ public class Wrist extends SubsystemBase {
     }
 
     public boolean atAMPPosition() {
-        if (wristEncoder.getPosition() == Constants.WristConstants.AMP_SETPOINT) {
+        if (wristEncoder.getPosition() == WristConstants.AMP_SETPOINT) {
             return true;
         } else {
             return false;

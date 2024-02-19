@@ -23,12 +23,12 @@ public class Pivot extends SubsystemBase {
     PIDController PivotPidController;
 
     public Pivot(){
-       pivotMotorRight = new CANSparkFlex(Constants.PivotConstants.PIVOT_MOTOR1_ID, MotorType.kBrushless);
+       pivotMotorRight = new CANSparkFlex(PivotConstants.PIVOT_MOTOR1_ID, MotorType.kBrushless);
        pivotMotorRight.setIdleMode(IdleMode.kBrake);
-       pivotMotorLeft = new CANSparkFlex(Constants.PivotConstants.PIVOT_MOTOR2_ID, MotorType.kBrushless);
+       pivotMotorLeft = new CANSparkFlex(PivotConstants.PIVOT_MOTOR2_ID, MotorType.kBrushless);
        pivotMotorLeft.setIdleMode(IdleMode.kBrake);
-       PivotPidController = new PIDController(Constants.PivotConstants.kP, Constants.PivotConstants.kI, Constants.PivotConstants.kD);
-       PivotPidController.enableContinuousInput(Constants.PivotConstants.MIN_INPUT, Constants.PivotConstants.MAX_INPUT);
+       PivotPidController = new PIDController(PivotConstants.kP, PivotConstants.kI, PivotConstants.kD);
+       PivotPidController.enableContinuousInput(PivotConstants.MIN_INPUT, PivotConstants.MAX_INPUT);
     
     pivotEncoder = new DutyCycleEncoder(PivotConstants.PIVOT_ENCODER_ID);
     pivotEncoder.setDistancePerRotation(900);
@@ -43,7 +43,7 @@ public class Pivot extends SubsystemBase {
     }
 
      public boolean atIntakePositionPivot() {
-        if (pivotEncoder.getAbsolutePosition() == Constants.PivotConstants.INTAKE_SETPOINT) { // intake encoder position 
+        if (pivotEncoder.getAbsolutePosition() == PivotConstants.INTAKE_SETPOINT) { // intake encoder position 
           return true;
         } else {
             return false;
@@ -51,7 +51,7 @@ public class Pivot extends SubsystemBase {
       }
 
     public boolean atSpeakerPositionPivot() {
-        if (pivotEncoder.getAbsolutePosition() == Constants.PivotConstants.SPEAKER_SERPOINT) {
+        if (pivotEncoder.getAbsolutePosition() == PivotConstants.SPEAKER_SERPOINT) {
             return true;
         } else {
             return false;
@@ -59,7 +59,7 @@ public class Pivot extends SubsystemBase {
     }
 
     public boolean atHomePositionPivot() {
-        if (pivotEncoder.getAbsolutePosition() == Constants.PivotConstants.HOME_SETPOINT) {
+        if (pivotEncoder.getAbsolutePosition() == PivotConstants.HOME_SETPOINT) {
             return true;
         } else {
             return false;
@@ -67,7 +67,7 @@ public class Pivot extends SubsystemBase {
     }
 
     public boolean atAMPPositionPivot() {
-        if (pivotEncoder.getAbsolutePosition() == Constants.PivotConstants.AMP_SETPOINT) {
+        if (pivotEncoder.getAbsolutePosition() == PivotConstants.AMP_SETPOINT) {
             return true;
         } else {
             return false;

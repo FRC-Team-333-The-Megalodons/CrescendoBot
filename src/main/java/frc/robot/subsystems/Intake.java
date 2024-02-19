@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.IntakeConstants;
 
 public class Intake extends SubsystemBase {
   private CANSparkFlex intakeMotor;
@@ -22,10 +23,10 @@ public class Intake extends SubsystemBase {
 
   /** Creates a new Intake. */
   public Intake() {
-    intakeMotor = new CANSparkFlex(Constants.IntakeConstants.INTAKE_MOTOR_ID, MotorType.kBrushless);
+    intakeMotor = new CANSparkFlex(IntakeConstants.INTAKE_MOTOR_ID, MotorType.kBrushless);
     intakeMotor.setIdleMode(IdleMode.kCoast);
-    peLeft = new DigitalInput(Constants.IntakeConstants.LEFT_SENSOR_ID);
-    peRight = new DigitalInput(Constants.IntakeConstants.RIGHT_SENSOR_ID);
+    peLeft = new DigitalInput(IntakeConstants.LEFT_SENSOR_ID);
+    peRight = new DigitalInput(IntakeConstants.RIGHT_SENSOR_ID);
      
   }
     public void intake(double value) {

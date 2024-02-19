@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.LEDConstants;;
 
 public class LEDs extends SubsystemBase {
   private AddressableLED m_led;
@@ -18,8 +19,8 @@ public class LEDs extends SubsystemBase {
   
   /** Creates a new LEDS. */
   public LEDs() {
-    m_led = new AddressableLED(Constants.LEDConstants.LED_PORT_ID);
-    m_ledBuffer = new AddressableLEDBuffer(Constants.LEDConstants.NUMBER_OF_LED);
+    m_led = new AddressableLED(LEDConstants.LED_PORT_ID);
+    m_ledBuffer = new AddressableLEDBuffer(LEDConstants.NUMBER_OF_LED);
     m_led.setLength(m_ledBuffer.getLength());
     m_led.setData(m_ledBuffer);
     m_led.start();

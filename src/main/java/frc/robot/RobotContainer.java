@@ -83,7 +83,7 @@ public class RobotContainer {
     INTAKE_SENSORS_BUTTON.whileTrue(new RunIntakeSensors(m_Intake, 0.3));  // R1 intake
     INTAKE_MANUAL_BUTTON.whileTrue(new RunIntakeManual(m_Intake, 0.3));    // R2  push
 
-    IDLE_FIRE_BUTTON.whileTrue(new RunRevUP(m_Shooter, 0.3)); // TOUCH PAD ram up
+    IDLE_FIRE_BUTTON.whileTrue(new RunRevUP(m_Shooter, 0.3)); // TOUCH PAD rev up
     FIRE_BUTTON.whileTrue(new RunFire(m_Shooter, 0.3, m_Indexer, 0.3));       //  CIRCLE shoot
    
     TRACK_UP.whileTrue(new RunTrack(m_Track, 0.3));    // R3       track up
@@ -94,6 +94,7 @@ public class RobotContainer {
 
     PIVOT_UP.whileTrue(new RunPivot(m_Pivot, 0.3));    // L1   pivot up
     PIVOT_DOWN.whileTrue(new RunPivot(m_Pivot, -0.3));  // L2   pivot down
+
   }
   /** 
    * Use this to pass the autonomous command to the main {@link Robot} class.

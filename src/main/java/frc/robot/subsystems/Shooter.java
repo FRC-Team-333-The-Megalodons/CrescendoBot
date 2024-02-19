@@ -12,7 +12,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.Constants.TrolleyConstants;
+import frc.robot.Constants.ShooterConstants;;
 
 /** Add your docs here. */
 public class Shooter extends SubsystemBase{
@@ -21,18 +21,18 @@ public class Shooter extends SubsystemBase{
     private SparkPIDController FirePIDController;
     
 public Shooter() {
-    shooterTop = new CANSparkFlex(Constants.ShooterConstants.FIRE_TOP_MOTOR_ID, MotorType.kBrushless);
+    shooterTop = new CANSparkFlex(ShooterConstants.FIRE_TOP_MOTOR_ID, MotorType.kBrushless);
     shooterTop.setIdleMode(IdleMode.kCoast);
-    shooterBottom = new CANSparkFlex(Constants.ShooterConstants.FIRE_BOTTOM_MOTOR_ID, MotorType.kBrushless);
+    shooterBottom = new CANSparkFlex(ShooterConstants.FIRE_BOTTOM_MOTOR_ID, MotorType.kBrushless);
     shooterBottom.setIdleMode(IdleMode.kCoast);
 
     shooterTop.restoreFactoryDefaults();
     FirePIDController = shooterTop.getPIDController();
     FirePIDController.setFeedbackDevice(shooterTop.getEncoder());
-    FirePIDController.setP(TrolleyConstants.kP);
-    FirePIDController.setI(TrolleyConstants.kI);
-    FirePIDController.setD(TrolleyConstants.kD);
-    FirePIDController.setOutputRange(TrolleyConstants.MIN_INPUT, TrolleyConstants.MAX_INPUT);
+    FirePIDController.setP(ShooterConstants.kP);
+    FirePIDController.setI(ShooterConstants.kI);
+    FirePIDController.setD(ShooterConstants.kD);
+    FirePIDController.setOutputRange(ShooterConstants.MIN_INPUT, ShooterConstants.MAX_INPUT);
     shooterTop.burnFlash();
 }
     public void idleFire(double value) {

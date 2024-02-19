@@ -19,12 +19,12 @@ import com.revrobotics.SparkPIDController;
 
 /** Add your docs here. */
 public class Trolley extends SubsystemBase {
-    private CANSparkMax trolleyMotor;
+    private CANSparkFlex trolleyMotor;
     private DigitalInput limitSwitch;
     private SparkPIDController trolleyController;
 
     public Trolley() {
-        trolleyMotor = new CANSparkMax(Constants.TrolleyConstants.TROLLEY_MOTOR_ID, MotorType.kBrushless);
+        trolleyMotor = new CANSparkFlex(TrolleyConstants.TROLLEY_MOTOR_ID, MotorType.kBrushless);
         limitSwitch = new DigitalInput(TrolleyConstants.TROLLEY_LIMIT_SWITCH_ID);
 
         trolleyMotor.restoreFactoryDefaults();
@@ -46,7 +46,7 @@ public class Trolley extends SubsystemBase {
 
     
      public boolean atHomePositionTrack() {
-        if (trolleyMotor.getEncoder().getPosition() == Constants.TrolleyConstants.HOME_SETPOINT) {
+        if (trolleyMotor.getEncoder().getPosition() == TrolleyConstants.HOME_SETPOINT) {
             return true;
         } else {
             return false;
@@ -54,14 +54,14 @@ public class Trolley extends SubsystemBase {
     }
 
     public boolean atIntakePositionTrack() {
-        if (trolleyMotor.getEncoder().getPosition() == Constants.TrolleyConstants.INTAKE_SETPOINT) {
+        if (trolleyMotor.getEncoder().getPosition() == TrolleyConstants.INTAKE_SETPOINT) {
             return true;
         } else {
             return false;
         }
     }
     public boolean atAMPPosition() {
-        if (trolleyMotor.getEncoder().getPosition() == Constants.TrolleyConstants.AMP_SETPOINT) {
+        if (trolleyMotor.getEncoder().getPosition() == TrolleyConstants.AMP_SETPOINT) {
             return true;
         } else {
             return false;
