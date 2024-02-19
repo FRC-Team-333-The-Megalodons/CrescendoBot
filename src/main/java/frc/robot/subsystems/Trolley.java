@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkFlex;
+import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -18,12 +19,12 @@ import com.revrobotics.SparkPIDController;
 
 /** Add your docs here. */
 public class Trolley extends SubsystemBase {
-    private CANSparkFlex trolleyMotor;
+    private CANSparkMax trolleyMotor;
     private DigitalInput limitSwitch;
     private SparkPIDController trolleyController;
 
     public Trolley() {
-        trolleyMotor = new CANSparkFlex(Constants.TrolleyConstants.TROLLEY_MOTOR_ID, MotorType.kBrushless);
+        trolleyMotor = new CANSparkMax(Constants.TrolleyConstants.TROLLEY_MOTOR_ID, MotorType.kBrushless);
         limitSwitch = new DigitalInput(TrolleyConstants.TROLLEY_LIMIT_SWITCH_ID);
 
         trolleyMotor.restoreFactoryDefaults();
