@@ -51,20 +51,24 @@ public class LEDs extends SubsystemBase {
   } m_led.setData(m_ledBuffer);
   }
 
-  public void rainbowLED() {
+  public void shadesOFBlue() {
     int length = m_ledBuffer.getLength();
-    int color = 0;
+    int blue = 0;
+    int red = 0;
+    int green = 0;
     while (true) {
-        color = (color + 1) % 256;
+        blue = (blue + 1) % 210;
+        red = (red + 1) % 120;
+        green = (green + 1) % 100;
         for (var i = 0; i < length; i++) {
-            m_ledBuffer.setRGB(i, color, 0, 0); // Измените значения R, G и B, чтобы создать разноцветный эффект
+            m_ledBuffer.setRGB(i, red, green, blue); // Измените значения R, G и B, чтобы создать разноцветный эффект
         }
         m_led.setData(m_ledBuffer);
         try {
-            Thread.sleep(100); // Подождите некоторое время перед обновлением цвета
+            Thread.sleep(40); // Подождите некоторое время перед обновлением цвета
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
       }
-  }
+  } 
 }

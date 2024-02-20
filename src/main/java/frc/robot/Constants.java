@@ -67,6 +67,8 @@ public class Constants {
     }
     public static final class LEDConstants {
         public static final int LED_PORT_ID = 9;
-        public static final int NUMBER_OF_LED =120;
+        public static final int NUMBER_OF_LED =500;
+        // public static final int LED_PORT_ID2 = 8;
+        // public static final int NUMBER_OF_LED2 =120;
     }
 }
