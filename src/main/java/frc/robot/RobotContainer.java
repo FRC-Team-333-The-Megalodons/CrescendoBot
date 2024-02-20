@@ -118,7 +118,7 @@ public class RobotContainer
 
     // drivebase.setDefaultCommand(
     //     !RobotBase.isSimulation() ? driveFieldOrientedAnglularVelocity : driveFieldOrientedAnglularVelocity);
-    // drivebase.setDefaultCommand(driveFieldOrientedAnglularVelocity);
+    drivebase.setDefaultCommand(driveFieldOrientedAnglularVelocity);//0.0020645
   }
 
   /**
@@ -133,22 +133,22 @@ public class RobotContainer
     GET_LITTT.whileTrue(new RunCommand(() -> leds.royalBlueLED()));
 
     INTAKE.whileTrue(new RunIntake(intake, 1.0).alongWith(new RunCommand(() -> leds.redLED())));
-    AUTO_INTAKE.whileTrue(new RunCommand(() -> wrist.wristToSetpoint(WristConstants.INTAKE_SETPOINT), wrist).raceWith(new RunIntake(intake, 0.3).until(intake::hasNote)).andThen(new RunCommand(() -> wrist.wristToSetpoint(WristConstants.SHOOTING_SETPOINT), wrist)));
+    // AUTO_INTAKE.whileTrue(new RunCommand(() -> wrist.setPosition(WristConstants.INTAKE_SETPOINT), wrist).raceWith(new RunIntake(intake, 0.3).until(intake::hasNote)).andThen(new RunCommand(() -> wrist.setPosition(WristConstants.SHOOTING_SETPOINT), wrist)));
     // AUTO_INTAKE.whileTrue(new AutoIntake(intake, wrist, trolley));
 
-    WRIST_UP.whileTrue(new RunWrist(wrist, -0.1));
-    //WRIST_UP.whileTrue(new RunCommand(() -> wrist.wristToSetpoint(WristConstants.SHOOTING_SETPOINT), wrist));
-    WRIST_DOWN.whileTrue(new RunWrist(wrist, 0.1));
-    // WRIST_DOWN.whileTrue(new RunCommand(() -> wrist.wristToSetpoint(WristConstants.INTAKE_SETPOINT), wrist));
+    WRIST_UP.whileTrue(new RunWrist(wrist, -0.2));
+    //WRIST_UP.whileTrue(new RunCommand(() -> wrist.setPosition(WristConstants.SHOOTING_SETPOINT), wrist));
+    WRIST_DOWN.whileTrue(new RunWrist(wrist, 0.2));
+    // WRIST_DOWN.whileTrue(new RunCommand(() -> wrist.setPosition(WristConstants.INTAKE_SETPOINT), wrist));
 
     TROLLEY_IN.whileTrue(new RunTrolley(trolley, -0.5));
     TROLLEY_OUT.whileTrue(new RunTrolley(trolley, 0.5));
-    // AUTO_TROLLEY.whileTrue(new RunCommand(() -> trolley.trolleyToSetpoint(TrolleyConstants.INTAKE_SETPOINT), trolley));
+    // AUTO_TROLLEY.whileTrue(new RunCommand(() -> trolley.setPosition(TrolleyConstants.INTAKE_SETPOINT), trolley));
 
     PIVOT_UP.whileTrue(new RunPivot(pivot, 0.1));
     PIVOT_DOWN.whileTrue(new RunPivot(pivot, -0.1));
 
-    REV_SHOOTER.whileTrue(new RunShooter(shooter, ShooterConstants.IDLE_RPM));
+    REV_SHOOTER.whileTrue(new RunShooter(shooter, ShooterConstants.SHOT_RPM));
 
     AMP.whileTrue(new RunIntake(intake, -0.3));
 

@@ -56,7 +56,7 @@ public class Wrist extends SubsystemBase {
     wristMotor.set(0.0);
   }
 
-  public void wristToSetpoint(double setpoint) {
+  public void setPosition(double setpoint) {
     wristController.setReference(setpoint, ControlType.kPosition);
   }
 

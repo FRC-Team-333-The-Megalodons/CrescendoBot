@@ -5,13 +5,11 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkFlex;
-import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -60,8 +58,21 @@ public class Trolley extends SubsystemBase {
     trolleyMotor.set(0.0);
   }
 
-  public void trolleyToSetpoint(double setpoint) {
+  public void setPosition(double setpoint) {
     trolleyController.setReference(setpoint, ControlType.kPosition);
+
+    // TODO: Add some Trolley logic
+    // When this function is ran, the trolley will ignore limit switch input and go to its setpoint
+    // How will it ignore it? We'll burn that bridge when we get there...
+  }
+
+  public boolean atSetpoint(double setpoint) {
+    // If our encoder is at a premeditated setpoint, return true, otherwise return false
+    if (getPostion() == setpoint) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   public boolean getLimitSwitch(){
@@ -74,6 +85,7 @@ public class Trolley extends SubsystemBase {
 
   public void resetPositionToZero(){
     if (getLimitSwitch() == true) {
+      //stopTrolley();
       resetEncoder();
     }
   }
@@ -83,5 +95,6 @@ public class Trolley extends SubsystemBase {
     resetPositionToZero();
     SmartDashboard.putNumber("Trolley Pos", getPostion());
     SmartDashboard.putBoolean("LimitSwitch", getLimitSwitch());
+    SmartDashboard.putBoolean("At Setpoint?", atSetpoint(getPostion()));
   }
 }

@@ -35,7 +35,6 @@ public final class Constants
   public static final class WristConstants
   {
     public static final int MOTOR_ID = 4;
-    public static final double HOME_SETPOINT = 0.0;
     public static final double INTAKE_SETPOINT = 0.374;
     public static final double SHOOTING_SETPOINT = 0.164;
     public static final double AMP_SETPOINT = 0.488;

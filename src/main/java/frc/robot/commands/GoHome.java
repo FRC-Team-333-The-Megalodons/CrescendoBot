@@ -6,19 +6,20 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Constants.PivotConstants;
 import frc.robot.Constants.TrolleyConstants;
 import frc.robot.Constants.WristConstants;
-import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Pivot;
 import frc.robot.subsystems.Trolley;
 import frc.robot.subsystems.Wrist;
 
-public class AutoAmp extends SequentialCommandGroup {
-  /** Creates a new AutoAmp. */
-  public AutoAmp(Intake intake, Wrist wrist, Trolley trolley) {
+public class GoHome extends SequentialCommandGroup {
+  /** Creates a new GoHome. */
+  public GoHome(Pivot pivot, Trolley trolley, Wrist wrist) {
     addCommands(
-      new RunCommand(() -> trolley.setPosition(TrolleyConstants.AMP_SETPOINT), trolley),
-      new RunCommand(() -> wrist.setPosition(WristConstants.AMP_SETPOINT), wrist),
-      new RunIntake(intake, -0.3)
+      new RunCommand(() -> pivot.setAngle(PivotConstants.HOME_SETPOINT), pivot),
+      new RunCommand(() -> trolley.setPosition(TrolleyConstants.HOME_SETPOINT), trolley)
+        .alongWith(new RunCommand(() -> wrist.setPosition(WristConstants.SHOOTING_SETPOINT), wrist))
     );
   }
 }

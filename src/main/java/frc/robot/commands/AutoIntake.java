@@ -15,9 +15,9 @@ public class AutoIntake extends SequentialCommandGroup {
   /** Creates a new AutoIntake. */
   public AutoIntake(Intake intake, Wrist wrist, Trolley trolley) {
     addCommands(
-      new RunCommand(() -> wrist.wristToSetpoint(WristConstants.INTAKE_SETPOINT), wrist)
+      new RunCommand(() -> wrist.setPosition(WristConstants.INTAKE_SETPOINT), wrist)
         .raceWith(new RunIntake(intake, 0.3)).until(intake::hasNote),
-      new RunCommand(() -> wrist.wristToSetpoint(WristConstants.SHOOTING_SETPOINT), wrist)
+      new RunCommand(() -> wrist.setPosition(WristConstants.SHOOTING_SETPOINT), wrist)
     );
   }
 }

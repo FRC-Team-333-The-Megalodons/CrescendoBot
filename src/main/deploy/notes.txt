@@ -1,0 +1,53 @@
+Robot notes for later
+
+Robot (minus chassis) should operate in a certain order to prevent robot suicide.
+1. Pivot moves
+2. Trolley moves
+3. Wrist moves
+4. Intake moves (when applicable)
+
+In the future, this may change as we see that some functions can run alongside others (e.g: wrist and intake).
+We would like all the funtions to run in parallel with each other, as long as they DO NOT interfere with each other
+
+Robot States:
+    Home:
+        - pivot is parallel to the chassis
+        - trolley is tucked in (home position)
+        - wrist is tucked in (shooting position)
+    Shooting:
+        - pivot is at an angle such that the shooter is pointing up
+        - trolley is tucked in (home position)
+        - wrist is tucked in (shooting position)
+        - intake wheels feeds note to shooter when ready to score
+    Intake:
+        - pivot is at an angle such that the shooter is pointing up
+        - trolley extends out
+        - wrist comes down
+        - intake wheels intake until the note hits encoders
+    Amp:
+        - pivot is at an angle such that the shooter is pointing down
+        - trolley extends out
+        - wrist comes down
+        - intake wheels eject note when robot is ready to score
+    Climb:
+        - pivot is at an angle such that the shooter is pointing down
+        - trolley extends out
+        - robot drives up to the chain such that the hooks under the intake are above the chain
+        - when drivers are ready, trolley retracts, hooks catch the chain and robot is in the air
+
+Driving:
+    - (For now) operator (or robot) should go home after completing actions to avoid robot suicide
+    - Should the robot automatically go home or have the operator go home?
+        - It might cause less hiccups if the operator tells the robot to go home rather than the robot's default state being go home
+    - We're gonna need a manual overide button. Is that on the controller (PS button perhaps) or on the Driver's Station? (perhaps both?)
+    - Should climbing be automatic or semi-automatic?
+        - Automatic: operator holds climb button, robot preforms the entire climb operation itself
+        - Semi-automatic: operator uses 2 inputs to climb (e.g: 2 buttons or the sticks/triggers)
+
+LED States:
+    - Default: Some fancy shmancy color pattern or no color
+    - Intaking: Solid red until a note has been aquired, then starts rapidly blinking green
+    - Shooting (rev up): Solid red until limelight detects that robot is in range then changes to solid green
+    - Shooting (actually): Solid green
+    - Amplify Speaker: Rapidly blink purple (operator will hold down the touchpad)
+    - Trap: Solid red until limelight detects that robot is in range then changes to solid green
