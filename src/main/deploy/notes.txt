@@ -1,13 +1,15 @@
 Robot notes for later
 
-Robot (minus chassis) should operate in a certain order to prevent robot suicide.
+Robot (minus chassis) should operate in a certain order to prevent robot suicide (this robot is really accident prone)
 1. Pivot moves
 2. Trolley moves
 3. Wrist moves
 4. Intake moves (when applicable)
+NOTE: THIS IS NOT THE CASE FOR ALL SCENARIOS
 
 In the future, this may change as we see that some functions can run alongside others (e.g: wrist and intake).
-We would like all the funtions to run in parallel with each other, as long as they DO NOT interfere with each other
+We would like it if all the funtions to run in parallel with each other, as long as they DO NOT interfere with each other
+We do not live in a perfect world. We are on Team 333
 
 Robot States:
     Home:
@@ -43,6 +45,8 @@ Driving:
     - Should climbing be automatic or semi-automatic?
         - Automatic: operator holds climb button, robot preforms the entire climb operation itself
         - Semi-automatic: operator uses 2 inputs to climb (e.g: 2 buttons or the sticks/triggers)
+    - Go to position button?
+        - We can use paths generated from pathplanner to achieve this, making lineups a bit easier (needs to be tested)
 
 LED States:
     - Default: Some fancy shmancy color pattern or no color
@@ -51,3 +55,16 @@ LED States:
     - Shooting (actually): Solid green
     - Amplify Speaker: Rapidly blink purple (operator will hold down the touchpad)
     - Trap: Solid red until limelight detects that robot is in range then changes to solid green
+
+Automation:
+NOTE: This is not in any particular order, we'll do the easiest one out of the bunch first and work from there
+We will use the limelight to track the april tags on the field and we would like to use that information for a few things:
+    1. Pose Estimation - Robot can be accurately tracked when driving up and down the field. Could be useful for:
+        - Doing certain task when the robot is in certain parts of the field (e.g: reving up the shooter in the wing)
+    2. Auto-align to target - Robot will turn/drive towards its intended target to make lineups much easier
+    3. Auto-ajust to target - Robot will ajust pivot to and put it into scoring position
+        - There are two ways to handle this:
+            a. Constantly adjust when in range of target and keep adjusting as we move further and away from target
+            b. Adjust to target when in rannge, but to setpoints (e.g: when in range of speaker, adjust to subwoffer shot)
+        - We will use whatever way we can get working within a resonable time
+    4. Driver Assist - Track our targets, but instead of doing robot actions, flash LEDs a certain color to let the driver know we are ready to do something

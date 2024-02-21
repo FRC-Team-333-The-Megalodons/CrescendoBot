@@ -109,7 +109,7 @@ public class RobotContainer
     Command driveFieldOrientedAnglularVelocity = drivebase.driveCommand(
         () -> MathUtil.applyDeadband(driverRoller.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
         () -> MathUtil.applyDeadband(driverRoller.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> driverRoller.getRightX());
+        () -> -driverRoller.getRightX());
 
     Command driveFieldOrientedDirectAngleSim = drivebase.simDriveCommand(
         () -> -MathUtil.applyDeadband(driverRoller.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
@@ -154,14 +154,14 @@ public class RobotContainer
 
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
 
-    // new JoystickButton(driverRoller, 1).onTrue((new InstantCommand(drivebase::zeroGyro)));
+    new JoystickButton(driverRoller, 1).onTrue((new InstantCommand(drivebase::zeroGyro)));
     // new JoystickButton(driverRoller, 3).onTrue(new InstantCommand(drivebase::addFakeVisionReading));
     // new JoystickButton(driverRoller,
     //                    2).whileTrue(
     //     Commands.deferredProxy(() -> drivebase.driveToPose(
     //                                new Pose2d(new Translation2d(4, 4), Rotation2d.fromDegrees(0)))
     //                           ));
-    // new JoystickButton(driverRoller, 3).whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
+    new JoystickButton(driverRoller, 3).whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
 
     // new JoystickButton(driverRoller, PS5Controller.Button.kTriangle.value).whileTrue(drivebase.sysIdAngleMotorCommand());
     // new JoystickButton(driverRoller, PS5Controller.Button.kCross.value).whileTrue(drivebase.sysIdDriveMotorCommand());

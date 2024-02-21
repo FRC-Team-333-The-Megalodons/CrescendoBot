@@ -3,7 +3,7 @@
     "front": -9.875,
     "left": -9.875
   },
-  "absoluteEncoderOffset": -0.257080078125,
+  "absoluteEncoderOffset": 271.399658203125,
   "drive": {
     "type": "sparkflex",
     "id": 13,
@@ -24,8 +24,8 @@
     "canbus": "rio"
   },
   "inverted": {
-    "drive": true,
-    "angle": false
+    "drive": false,
+    "angle": true
   },
   "absoluteEncoderInverted": false
 }
