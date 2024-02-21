@@ -40,9 +40,22 @@ public class Intake extends SubsystemBase {
         return true;
     } else {return false; }
 }
+  public boolean detectRight() {
+    if (peRight.get()) {
+       return true;
+    } else { return false; }
+}
+  public boolean detectLeft() {
+    if (peLeft.get()) {
+      return true;
+    } else { return false; }
+  }
+
 
 @Override
 public void periodic(){
     SmartDashboard.putBoolean("GetNote", detectNote());
+    SmartDashboard.putBoolean("GetRight", detectLeft());
+    SmartDashboard.putBoolean("GetLeft", detectRight());
   }
 }
