@@ -35,15 +35,15 @@ public final class Constants
   public static final class WristConstants
   {
     public static final int MOTOR_ID = 4;
-    public static final double INTAKE_SETPOINT = 0.374;
-    public static final double SHOOTING_SETPOINT = 0.164;
+    public static final double INTAKE_SETPOINT = 0.67;
+    public static final double SHOOTING_SETPOINT = 0.498;
     public static final double AMP_SETPOINT = 0.488;
     public static final double kP = 5.0;
     public static final double kI = 0.0;
     public static final double kD = 0.0;
     public static final double kFF = 0.0;
-    public static final double MIN_INPUT = -0.5;
-    public static final double MAX_INPUT = 0.5;
+    public static final double MIN_INPUT = -0.1;
+    public static final double MAX_INPUT = 0.1;
   }
 
   public static final class TrolleyConstants

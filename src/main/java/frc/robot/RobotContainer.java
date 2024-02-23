@@ -60,7 +60,10 @@ public class RobotContainer
   PS5Controller driverRoller = new PS5Controller(0);
   PS5Controller opRoller = new PS5Controller(1);
 
+  private final JoystickButton MANUAL_OVERRIDE = new JoystickButton(opRoller, PS5Controller.Button.kPS.value);
+
   private final JoystickButton INTAKE = new JoystickButton(opRoller, PS5Controller.Button.kCross.value);
+  private final JoystickButton OUTAKE = new JoystickButton(opRoller, PS5Controller.Button.kTriangle.value);
   private final JoystickButton AMP = new JoystickButton(opRoller, PS5Controller.Button.kOptions.value);
 
   private final JoystickButton WRIST_UP = new JoystickButton(opRoller, PS5Controller.Button.kL1.value);
@@ -107,18 +110,18 @@ public class RobotContainer
     // left stick controls translation
     // right stick controls the angular velocity of the robot
     Command driveFieldOrientedAnglularVelocity = drivebase.driveCommand(
-        () -> MathUtil.applyDeadband(driverRoller.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
-        () -> MathUtil.applyDeadband(driverRoller.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> -driverRoller.getRightX());
-
-    Command driveFieldOrientedDirectAngleSim = drivebase.simDriveCommand(
         () -> -MathUtil.applyDeadband(driverRoller.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
         () -> -MathUtil.applyDeadband(driverRoller.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
         () -> -driverRoller.getRightX());
 
+    Command driveFieldOrientedDirectAngleSim = drivebase.simDriveCommand(
+        () -> MathUtil.applyDeadband(driverRoller.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
+        () -> MathUtil.applyDeadband(driverRoller.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
+        () -> -driverRoller.getRightX());
+
     // drivebase.setDefaultCommand(
     //     !RobotBase.isSimulation() ? driveFieldOrientedAnglularVelocity : driveFieldOrientedAnglularVelocity);
-    drivebase.setDefaultCommand(driveFieldOrientedAnglularVelocity);//0.0020645
+    drivebase.setDefaultCommand(driveFieldOrientedAnglularVelocity);
   }
 
   /**
@@ -130,27 +133,39 @@ public class RobotContainer
    */
   private void configureBindings()
   {
-    GET_LITTT.whileTrue(new RunCommand(() -> leds.royalBlueLED()));
+    boolean manualMode = true;
 
-    INTAKE.whileTrue(new RunIntake(intake, 1.0).alongWith(new RunCommand(() -> leds.redLED())));
-    // AUTO_INTAKE.whileTrue(new RunCommand(() -> wrist.setPosition(WristConstants.INTAKE_SETPOINT), wrist).raceWith(new RunIntake(intake, 0.3).until(intake::hasNote)).andThen(new RunCommand(() -> wrist.setPosition(WristConstants.SHOOTING_SETPOINT), wrist)));
-    // AUTO_INTAKE.whileTrue(new AutoIntake(intake, wrist, trolley));
+    if (manualMode) {
+      // INTAKE.whileTrue(new RunIntake(intake, 1.0).alongWith(new RunCommand(() -> leds.redLED())));
+      INTAKE.whileTrue(new RunIntake(intake, 0.3).until(intake::hasNote));
+      OUTAKE.whileTrue(new RunIntake(intake, 1.0));
+      AMP.whileTrue(new RunIntake(intake, -1.0));
 
-    WRIST_UP.whileTrue(new RunWrist(wrist, -0.2));
-    //WRIST_UP.whileTrue(new RunCommand(() -> wrist.setPosition(WristConstants.SHOOTING_SETPOINT), wrist));
-    WRIST_DOWN.whileTrue(new RunWrist(wrist, 0.2));
-    // WRIST_DOWN.whileTrue(new RunCommand(() -> wrist.setPosition(WristConstants.INTAKE_SETPOINT), wrist));
+      GET_LITTT.whileTrue(new RunCommand(() -> leds.royalBlueLED()));
 
-    TROLLEY_IN.whileTrue(new RunTrolley(trolley, -0.5));
-    TROLLEY_OUT.whileTrue(new RunTrolley(trolley, 0.5));
-    // AUTO_TROLLEY.whileTrue(new RunCommand(() -> trolley.setPosition(TrolleyConstants.INTAKE_SETPOINT), trolley));
+      WRIST_UP.whileTrue(new RunWrist(wrist, -0.2));
+      WRIST_DOWN.whileTrue(new RunWrist(wrist, 0.2));
 
-    PIVOT_UP.whileTrue(new RunPivot(pivot, 0.1));
-    PIVOT_DOWN.whileTrue(new RunPivot(pivot, -0.1));
+      // REV_SHOOTER.whileTrue(new RunCommand(() -> wrist.setPosition(WristConstants.SHOOTING_SETPOINT), wrist));
+      // AUTO_INTAKE.whileTrue(new RunCommand(() -> wrist.setPosition(WristConstants.INTAKE_SETPOINT), wrist));
 
-    REV_SHOOTER.whileTrue(new RunShooter(shooter, ShooterConstants.SHOT_RPM));
+      TROLLEY_IN.whileTrue(new RunTrolley(trolley, -1.0));
+      TROLLEY_OUT.whileTrue(new RunTrolley(trolley, 1.0));
 
-    AMP.whileTrue(new RunIntake(intake, -0.3));
+      PIVOT_UP.whileTrue(new RunPivot(pivot, 0.2));
+      PIVOT_DOWN.whileTrue(new RunPivot(pivot, -0.2));
+
+      // REV_SHOOTER.whileTrue(new RunShooter(shooter, 0.9));
+    } else {
+      AUTO_INTAKE.whileTrue(new RunCommand(() -> wrist.setPosition(WristConstants.INTAKE_SETPOINT), wrist).raceWith(new RunIntake(intake, 0.3).until(intake::hasNote)).andThen(new RunCommand(() -> wrist.setPosition(WristConstants.SHOOTING_SETPOINT), wrist)));
+      // AUTO_INTAKE.whileTrue(new AutoIntake(intake, wrist, trolley));
+
+      // WRIST_UP.whileTrue(new RunCommand(() -> wrist.setPosition(WristConstants.SHOOTING_SETPOINT), wrist));
+      // WRIST_DOWN.whileTrue(new RunCommand(() -> wrist.setPosition(WristConstants.INTAKE_SETPOINT), wrist));
+
+      // AUTO_TROLLEY.whileTrue(new RunCommand(() -> trolley.setPosition(TrolleyConstants.INTAKE_SETPOINT), trolley));
+      REV_SHOOTER.whileTrue(new RunCommand(() -> shooter.setSpeed(ShooterConstants.SHOT_RPM), shooter));
+    }
 
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
 
