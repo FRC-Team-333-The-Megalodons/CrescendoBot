@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.RunFire;
+//import frc.robot.commands.RunFire;
 import frc.robot.commands.RunIntakeManual;
 import frc.robot.commands.RunIntakeSensors;
 import frc.robot.commands.RunPivot;
@@ -84,7 +84,7 @@ public class RobotContainer {
     INTAKE_MANUAL_BUTTON.whileTrue(new RunIntakeManual(m_Intake, 0.3));    // R2  push
 
     IDLE_FIRE_BUTTON.whileTrue(new RunRevUP(m_Shooter, 0.3)); // TOUCH PAD rev up
-    FIRE_BUTTON.whileTrue(new RunFire(m_Shooter, 0.3, m_Indexer, 0.3));       //  CIRCLE shoot
+   // FIRE_BUTTON.whileTrue(new RunFire(m_Shooter, 0.3, m_Indexer, 0.3));       //  CIRCLE shoot
    
     TRACK_UP.whileTrue(new RunTrack(m_Track, 0.3));    // R3       track up
     TRACK_DOWN.whileTrue(new RunTrack(m_Track, -0.3)); // L3       track down
