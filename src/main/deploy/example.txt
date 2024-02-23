@@ -14,7 +14,7 @@ Shooter: Shoots, 2 motors
 Climber:  Climbs, 2 motors
         MotorID = 10,11
     absolute encoders built into the flex
-Track:  One motor with a pid controller or a limit switch 
+Track:  One motor with a pid controller or a limit switc
         MotorID = 5
 Led: For indication   with the drive team, co-operate with the Limelight subsystem, Intake subsystem, Shooter subsystem
     PMW port
