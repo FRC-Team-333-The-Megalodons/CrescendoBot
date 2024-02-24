@@ -80,20 +80,46 @@ public class RobotContainer {
    */
 
    private void configureButtonBindings() {
-    INTAKE_SENSORS_BUTTON.whileTrue(new RunIntakeSensors(m_Intake, 0.3));  // R1 intake
-    INTAKE_MANUAL_BUTTON.whileTrue(new RunIntakeManual(m_Intake, 0.3));    // R2  push
+    // INTAKE_SENSORS_BUTTON.whileTrue(new RunIntakeSensors(m_Intake, 0.3));  // R1 intake
+    // INTAKE_MANUAL_BUTTON.whileTrue(new RunIntakeManual(m_Intake, 0.3));    // R2  push
 
-    IDLE_FIRE_BUTTON.whileTrue(new RunRevUP(m_Shooter, 0.3)); // TOUCH PAD rev up
-   // FIRE_BUTTON.whileTrue(new RunFire(m_Shooter, 0.3, m_Indexer, 0.3));       //  CIRCLE shoot
+    // IDLE_FIRE_BUTTON.whileTrue(new RunRevUP(m_Shooter, 0.3)); // TOUCH PAD rev up
+    // FIRE_BUTTON.whileTrue(new RunFire(m_Shooter, 0.3, m_Indexer, 0.3));       //  CIRCLE shoot
    
-    TRACK_UP.whileTrue(new RunTrack(m_Track, 0.3));    // R3       track up
-    TRACK_DOWN.whileTrue(new RunTrack(m_Track, -0.3)); // L3       track down
+    // TRACK_UP.whileTrue(new RunTrack(m_Track, 0.3));    // R3       track up
+    // TRACK_DOWN.whileTrue(new RunTrack(m_Track, -0.3)); // L3       track down
 
-    WRIST_UP.whileTrue(new RunWrist(m_Wrist, 0.3));    // CROSS    wrist  up
-    WRIST_DOWN.whileTrue(new RunWrist(m_Wrist, -0.3));  // SQUARE wrist down
+    // WRIST_UP.whileTrue(new RunWrist(m_Wrist, 0.3));    // CROSS    wrist  up
+    // WRIST_DOWN.whileTrue(new RunWrist(m_Wrist, -0.3));  // SQUARE wrist down
 
-    PIVOT_UP.whileTrue(new RunPivot(m_Pivot, 0.3));    // L1   pivot up
-    PIVOT_DOWN.whileTrue(new RunPivot(m_Pivot, -0.3));  // L2   pivot down
+    // PIVOT_UP.whileTrue(new RunPivot(m_Pivot, 0.3));    // L1   pivot up
+    // PIVOT_DOWN.whileTrue(new RunPivot(m_Pivot, -0.3));  // L2   pivot down
+
+    INTAKE_SENSORS_BUTTON.whileTrue(new RunCommand(() -> m_Intake.intake(0.4)));
+    INTAKE_SENSORS_BUTTON.whileFalse(new RunCommand(() -> m_Intake.intakeStop()));
+
+    IDLE_FIRE_BUTTON.whileTrue(new RunCommand(() -> m_Shooter.fire(0.4)));
+    IDLE_FIRE_BUTTON.whileFalse(new RunCommand(() -> m_Shooter.fireStop()));
+    FIRE_BUTTON.whileTrue(new RunCommand(() -> m_Shooter.fire(0.6)));
+    FIRE_BUTTON.whileFalse(new RunCommand(() -> m_Shooter.fireStop()));
+
+    TRACK_UP.whileTrue(new RunCommand(() -> m_Track.trolley(0.4)));
+    TRACK_UP.whileFalse(new RunCommand(() -> m_Track.trolleyStop()));
+
+    WRIST_UP.whileTrue(new RunCommand(() -> m_Wrist.wrist(0.3)));
+    WRIST_UP.whileFalse(new RunCommand(() -> m_Wrist.wristSTOP()));
+
+    WRIST_DOWN.whileTrue(new RunCommand(() -> m_Wrist.wrist(-0.3)));
+    WRIST_DOWN.whileFalse(new RunCommand(() -> m_Wrist.wristSTOP())); 
+
+    PIVOT_UP.whileTrue(new RunCommand(() -> m_Pivot.pivot(0.4)));
+    PIVOT_UP.whileFalse(new RunCommand(() -> m_Pivot.pivotStop()));
+
+    PIVOT_DOWN.whileTrue(new RunCommand(() -> m_Pivot.pivot(-0.4)));
+    PIVOT_DOWN.whileFalse(new RunCommand(() -> m_Pivot.pivotStop()));
+
+
+
 
   }
   /** 

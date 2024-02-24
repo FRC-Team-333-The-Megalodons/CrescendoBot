@@ -29,8 +29,9 @@ public class Pivot extends SubsystemBase {
        PivotPidController = new PIDController(PivotConstants.kP, PivotConstants.kI, PivotConstants.kD);
        PivotPidController.enableContinuousInput(PivotConstants.MIN_INPUT, PivotConstants.MAX_INPUT);
     
-    pivotEncoder = new DutyCycleEncoder(PivotConstants.PIVOT_ENCODER_ID);
-    pivotEncoder.setDistancePerRotation(900);
+        pivotEncoder = new DutyCycleEncoder(PivotConstants.PIVOT_ENCODER_ID);
+        pivotEncoder.setDistancePerRotation(900);
+        pivotEncoder.reset();
     }
     public void pivot(double value) {
         pivotMotorRight.set(value);
