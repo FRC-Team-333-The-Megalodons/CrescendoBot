@@ -27,7 +27,7 @@ public class LEDs extends SubsystemBase {
   }
   public void orangeLED() {
     for (var i = 0; i< m_ledBuffer.getLength(); i++) {
-        m_ledBuffer.setRGB(i, 255, 43, 0);
+        m_ledBuffer.setRGB(i, 255, 43, 0); //255, 43, 0
     }  m_led.setData(m_ledBuffer);
   }
   public void yellowLED() {
@@ -51,7 +51,7 @@ public class LEDs extends SubsystemBase {
   } m_led.setData(m_ledBuffer);
   }
 
-  public void shadesOFBlue() {
+  public void blinkingblue() {
     int length = m_ledBuffer.getLength();
     int blue = 100;
     int red = 20;
@@ -70,5 +70,47 @@ public class LEDs extends SubsystemBase {
             e.printStackTrace();
         }
       }
-  } 
+    }
+    public void blinkingRed() {
+    int length = m_ledBuffer.getLength();
+    int blue = 20;
+    int red = 100;
+    int green = 20;
+    while (true) {
+        blue = (blue - 5) % 10;
+        red = (red + 500) % 600;
+        green = (green - 5) % 10;
+        for (var i = 0; i < length; i++) {
+            m_ledBuffer.setRGB(i, red, green, blue); // Измените значения R, G и B, чтобы создать разноцветный эффект
+        }
+        m_led.setData(m_ledBuffer);
+        try {
+            Thread.sleep(200); // Подождите некоторое время перед обновлением цвета
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+      }
+    }
+
+
+    public void rainbowLED() {
+      int length = m_ledBuffer.getLength();
+      int blue = 100;
+      int red = 100;
+      int green = 100;
+      while (true) {
+          blue = (blue + 10) % 256;
+          red = (red - 10) % 256;
+          green = (green + 17) % 256;
+          for (var i = 0; i < length; i++) {
+              m_ledBuffer.setRGB(i, red, green, blue); // Измените значения R, G и B, чтобы создать разноцветный эффект
+          }
+          m_led.setData(m_ledBuffer);
+          try {
+              Thread.sleep(50); // Подождите некоторое время перед обновлением цвета
+          } catch (InterruptedException e) {
+              e.printStackTrace();
+  }
+  }
+  }
 }
