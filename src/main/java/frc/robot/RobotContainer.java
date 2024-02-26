@@ -11,13 +11,13 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-//import frc.robot.commands.RunFire;
-import frc.robot.commands.RunIntakeManual;
-import frc.robot.commands.RunIntakeSensors;
-import frc.robot.commands.RunPivot;
-import frc.robot.commands.RunRevUP;
-import frc.robot.commands.RunTrack;
-import frc.robot.commands.RunWrist;
+import frc.robot.commands.manualCommands.RunFire;
+import frc.robot.commands.manualCommands.RunIntakeManual;
+import frc.robot.commands.manualCommands.RunIntakeSensors;
+import frc.robot.commands.manualCommands.RunPivot;
+import frc.robot.commands.manualCommands.RunRevUP;
+import frc.robot.commands.manualCommands.RunTrack;
+import frc.robot.commands.manualCommands.RunWrist;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.LEDs;
@@ -77,6 +77,7 @@ public class RobotContainer {
    * CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
    * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
    * joysticks}.  ..
+   * 
    */
 
    private void configureButtonBindings() {
@@ -96,31 +97,19 @@ public class RobotContainer {
     // PIVOT_DOWN.whileTrue(new RunPivot(m_Pivot, -0.3));  // L2   pivot down
 
     INTAKE_SENSORS_BUTTON.whileTrue(new RunCommand(() -> m_Intake.intake(0.4)));
-    INTAKE_SENSORS_BUTTON.whileFalse(new RunCommand(() -> m_Intake.intakeStop()));
 
     IDLE_FIRE_BUTTON.whileTrue(new RunCommand(() -> m_Shooter.fire(0.4)));
-    IDLE_FIRE_BUTTON.whileFalse(new RunCommand(() -> m_Shooter.fireStop()));
     FIRE_BUTTON.whileTrue(new RunCommand(() -> m_Shooter.fire(0.6)));
-    FIRE_BUTTON.whileFalse(new RunCommand(() -> m_Shooter.fireStop()));
 
     TRACK_UP.whileTrue(new RunCommand(() -> m_Track.trolley(0.4)));
-    TRACK_UP.whileFalse(new RunCommand(() -> m_Track.trolleyStop()));
 
     WRIST_UP.whileTrue(new RunCommand(() -> m_Wrist.wrist(0.3)));
-    WRIST_UP.whileFalse(new RunCommand(() -> m_Wrist.wristSTOP()));
 
     WRIST_DOWN.whileTrue(new RunCommand(() -> m_Wrist.wrist(-0.3)));
-    WRIST_DOWN.whileFalse(new RunCommand(() -> m_Wrist.wristSTOP())); 
 
     PIVOT_UP.whileTrue(new RunCommand(() -> m_Pivot.pivot(0.4)));
-    PIVOT_UP.whileFalse(new RunCommand(() -> m_Pivot.pivotStop()));
 
     PIVOT_DOWN.whileTrue(new RunCommand(() -> m_Pivot.pivot(-0.4)));
-    PIVOT_DOWN.whileFalse(new RunCommand(() -> m_Pivot.pivotStop()));
-
-
-
-
   }
   /** 
    * Use this to pass the autonomous command to the main {@link Robot} class.

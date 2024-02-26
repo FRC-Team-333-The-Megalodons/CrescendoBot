@@ -38,7 +38,7 @@ public class Constants {
     public static final class PivotConstants {
     public static final int PIVOT_MOTOR1_ID = 6; 
     public static final int PIVOT_MOTOR2_ID = 7; 
-    public static final int PIVOT_ENCODER_ID = 8; 
+    public static final int PIVOT_ENCODER_ID = 9; 
     public static final double HOME_SETPOINT = 0.0;
     public static final double INTAKE_SETPOINT = 0.0;
     public static final double SPEAKER_SERPOINT = 0.0;

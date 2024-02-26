@@ -2,20 +2,21 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.manualCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Wrist;
+import frc.robot.subsystems.Pivot;
 
-public class RunWrist extends Command {
-  /** Creates a new RunWrist. */
-  private final Wrist m_Wrist;
+public class RunPivot extends Command {
+  /** Creates a new runPivot. */
+  private final Pivot m_Pivot;
   private final double value;
-  public RunWrist(Wrist wrist, double value) {
+  
+  public RunPivot(Pivot pivot, double value) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.m_Wrist = wrist;
+    this.m_Pivot = pivot;
     this.value = value;
-    addRequirements(m_Wrist);
+    addRequirements(m_Pivot);
   }
 
   // Called when the command is initially scheduled.
@@ -25,13 +26,13 @@ public class RunWrist extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_Wrist.wrist(value);
+    m_Pivot.pivot(value);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_Wrist.wristSTOP();
+    m_Pivot.pivotStop();
   }
 
   // Returns true when the command should end.
