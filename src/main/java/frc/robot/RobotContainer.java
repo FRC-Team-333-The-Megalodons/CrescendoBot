@@ -59,13 +59,13 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
-    m_Intake.setDefaultCommand(new RunCommand(() -> m_Intake.intakeStop(), m_Intake));
-    m_Shooter.setDefaultCommand(new RunCommand(() -> m_Shooter.fireStop(), m_Shooter));
-    m_Wrist.setDefaultCommand(new RunCommand(() -> m_Wrist.wristSTOP(), m_Wrist));
-    m_Track.setDefaultCommand(new RunCommand(() -> m_Track.trolleyStop(), m_Track));
-    m_Leds.setDefaultCommand(new RunCommand(() -> m_Leds.blinkingBlue(), m_Leds));
-    m_Pivot.setDefaultCommand(new RunCommand(() -> m_Pivot.pivotStop(), m_Pivot));
-    m_Indexer.setDefaultCommand(new RunCommand(() -> m_Indexer.indexStop(),  m_Indexer));
+    // m_Intake.setDefaultCommand(new RunCommand(() -> m_Intake.intakeStop(), m_Intake));
+    // m_Shooter.setDefaultCommand(new RunCommand(() -> m_Shooter.fireStop(), m_Shooter));
+    // m_Wrist.setDefaultCommand(new RunCommand(() -> m_Wrist.wristSTOP(), m_Wrist));
+    // m_Track.setDefaultCommand(new RunCommand(() -> m_Track.trolleyStop(), m_Track));
+    // m_Leds.setDefaultCommand(new RunCommand(() -> m_Leds.blinkingRed(), m_Leds));
+    // m_Pivot.setDefaultCommand(new RunCommand(() -> m_Pivot.pivotStop(), m_Pivot));
+    // m_Indexer.setDefaultCommand(new RunCommand(() -> m_Indexer.indexStop(),  m_Indexer));
     configureButtonBindings();
   }
 
@@ -96,20 +96,20 @@ public class RobotContainer {
     // PIVOT_UP.whileTrue(new RunPivot(m_Pivot, 0.3));    // L1   pivot up
     // PIVOT_DOWN.whileTrue(new RunPivot(m_Pivot, -0.3));  // L2   pivot down
 
-    INTAKE_SENSORS_BUTTON.whileTrue(new RunCommand(() -> m_Intake.intake(0.4)));
+    // INTAKE_SENSORS_BUTTON.whileTrue(new RunCommand(() -> m_Intake.intake(0.4)));
 
-    IDLE_FIRE_BUTTON.whileTrue(new RunCommand(() -> m_Shooter.fire(0.4)));
-    FIRE_BUTTON.whileTrue(new RunCommand(() -> m_Shooter.fire(0.6)));
+    // IDLE_FIRE_BUTTON.whileTrue(new RunCommand(() -> m_Shooter.fire(0.4)));
+    // FIRE_BUTTON.whileTrue(new RunCommand(() -> m_Shooter.fire(0.6)));
 
-    TRACK_UP.whileTrue(new RunCommand(() -> m_Track.trolley(0.4)));
+    // TRACK_UP.whileTrue(new RunCommand(() -> m_Track.trolley(0.4)));
 
-    WRIST_UP.whileTrue(new RunCommand(() -> m_Wrist.wrist(0.3)));
+    // WRIST_UP.whileTrue(new RunCommand(() -> m_Wrist.wrist(0.3)));
 
-    WRIST_DOWN.whileTrue(new RunCommand(() -> m_Wrist.wrist(-0.3)));
+    // WRIST_DOWN.whileTrue(new RunCommand(() -> m_Wrist.wrist(-0.3)));
 
-    PIVOT_UP.whileTrue(new RunCommand(() -> m_Pivot.pivot(0.4)));
+    // PIVOT_UP.whileTrue(new RunCommand(() -> m_Pivot.pivot(0.4)));
 
-    PIVOT_DOWN.whileTrue(new RunCommand(() -> m_Pivot.pivot(-0.4)));
+    // PIVOT_DOWN.whileTrue(new RunCommand(() -> m_Pivot.pivot(-0.4)));
   }
   /** 
    * Use this to pass the autonomous command to the main {@link Robot} class.

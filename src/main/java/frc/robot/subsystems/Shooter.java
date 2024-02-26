@@ -19,21 +19,21 @@ public class Shooter extends SubsystemBase{
     private CANSparkFlex shooterBottom;
     private SparkPIDController FirePIDController;
     
-public Shooter() {
-    shooterTop = new CANSparkFlex(ShooterConstants.FIRE_TOP_MOTOR_ID, MotorType.kBrushless);
-    shooterTop.setIdleMode(IdleMode.kCoast);
-    shooterBottom = new CANSparkFlex(ShooterConstants.FIRE_BOTTOM_MOTOR_ID, MotorType.kBrushless);
-    shooterBottom.setIdleMode(IdleMode.kCoast);
+    public Shooter() {
+        shooterTop = new CANSparkFlex(ShooterConstants.FIRE_TOP_MOTOR_ID, MotorType.kBrushless);
+        shooterTop.setIdleMode(IdleMode.kCoast);
+        shooterBottom = new CANSparkFlex(ShooterConstants.FIRE_BOTTOM_MOTOR_ID, MotorType.kBrushless);
+        shooterBottom.setIdleMode(IdleMode.kCoast);
 
-    shooterTop.restoreFactoryDefaults();
-    FirePIDController = shooterTop.getPIDController();
-    FirePIDController.setFeedbackDevice(shooterTop.getEncoder());
-    FirePIDController.setP(ShooterConstants.kP);
-    FirePIDController.setI(ShooterConstants.kI);
-    FirePIDController.setD(ShooterConstants.kD);
-    FirePIDController.setOutputRange(ShooterConstants.MIN_INPUT, ShooterConstants.MAX_INPUT);
-    shooterTop.burnFlash();
-}
+        shooterTop.restoreFactoryDefaults();
+        FirePIDController = shooterTop.getPIDController();
+        FirePIDController.setFeedbackDevice(shooterTop.getEncoder());
+        FirePIDController.setP(ShooterConstants.kP);
+        FirePIDController.setI(ShooterConstants.kI);
+        FirePIDController.setD(ShooterConstants.kD);
+        FirePIDController.setOutputRange(ShooterConstants.MIN_INPUT, ShooterConstants.MAX_INPUT);
+        shooterTop.burnFlash();
+    }
     public void idleFire(double value) {
         shooterTop.set(value);
         shooterBottom.follow(shooterTop);

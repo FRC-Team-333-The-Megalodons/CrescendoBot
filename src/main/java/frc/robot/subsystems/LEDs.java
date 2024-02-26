@@ -82,7 +82,7 @@ public class LEDs extends SubsystemBase {
         red = (red + 500) % 600;
         green = (green - 5) % 10;
         for (var i = 0; i < length; i++) {
-            m_ledBuffer.setRGB(i, red, green, blue); 
+            m_ledBuffer.setRGB(i, red, 0, 0); 
         }
         m_led.setData(m_ledBuffer);
         try {
@@ -95,15 +95,15 @@ public class LEDs extends SubsystemBase {
   
     public void blinkingGreen() {
     int length = m_ledBuffer.getLength();
-    int blue = 10;
-    int red = 10;
+    int blue = 20;
+    int red = 20;
     int green = 100;
     while (true) {
-        blue = (blue - 5) % 10;
-        red = (red - 5) % 10;
+        blue = (blue - 10) % 10;
+        red = (red - 10) % 10;
         green = (green + 500) % 600;
         for (var i = 0; i < length; i++) {
-            m_ledBuffer.setRGB(i, 0, green, 0);
+            m_ledBuffer.setRGB(i, red, green, blue);
         m_led.setData(m_ledBuffer);
         try {
             Thread.sleep(200); 
@@ -120,11 +120,11 @@ public class LEDs extends SubsystemBase {
     int red = 100;
     int green = 100;
     while (true) {
-        blue = (blue - 5) % 10;
+        blue = (blue - 10) % 20;
         red = (red + 500) % 600;
         green = (green + 500) % 600;
         for (var i = 0; i < length; i++) {
-            m_ledBuffer.setRGB(i, red, green, 0);
+            m_ledBuffer.setRGB(i, red, green, blue);
         m_led.setData(m_ledBuffer);
         try {
             Thread.sleep(200); 
@@ -137,15 +137,15 @@ public class LEDs extends SubsystemBase {
 
     public void blinkOrange() {
     int length = m_ledBuffer.getLength();
-    int blue = 10;
+    int blue = 20;
     int red = 100;
     int green =30;
     while (true) {
-        blue = (blue - 5) % 10;
-        red = (red - 500) % 600;
+        blue = (blue - 10) % 20;
+        red = (red + 500) % 600;
         green = (green + 200) % 600;
         for (var i = 0; i < length; i++) {
-            m_ledBuffer.setRGB(i, red, green, 0);
+            m_ledBuffer.setRGB(i, red, green, blue);
         m_led.setData(m_ledBuffer);
         try {
             Thread.sleep(200); 
