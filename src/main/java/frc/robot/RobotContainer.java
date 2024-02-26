@@ -16,10 +16,12 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants.PivotConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.TrolleyConstants;
 import frc.robot.Constants.WristConstants;
@@ -57,31 +59,8 @@ public class RobotContainer
   private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
                                                                          "swerve/neo"));
 
-  PS5Controller driverRoller = new PS5Controller(0);
-  PS5Controller opRoller = new PS5Controller(1);
-
-  private final JoystickButton MANUAL_OVERRIDE = new JoystickButton(opRoller, PS5Controller.Button.kPS.value);
-
-  private final JoystickButton INTAKE = new JoystickButton(opRoller, PS5Controller.Button.kCross.value);
-  private final JoystickButton OUTAKE = new JoystickButton(opRoller, PS5Controller.Button.kTriangle.value);
-  private final JoystickButton AMP = new JoystickButton(opRoller, PS5Controller.Button.kOptions.value);
-
-  private final JoystickButton WRIST_UP = new JoystickButton(opRoller, PS5Controller.Button.kL1.value);
-  private final JoystickButton WRIST_DOWN = new JoystickButton(opRoller, PS5Controller.Button.kR1.value);
-
-  private final JoystickButton TROLLEY_IN = new JoystickButton(opRoller, PS5Controller.Button.kL3.value);
-  private final JoystickButton TROLLEY_OUT = new JoystickButton(opRoller, PS5Controller.Button.kR3.value);
-
-  private final JoystickButton PIVOT_UP = new JoystickButton(opRoller, PS5Controller.Button.kR2.value);
-  private final JoystickButton PIVOT_DOWN = new JoystickButton(opRoller, PS5Controller.Button.kL2.value);
-
-  private final JoystickButton REV_SHOOTER = new JoystickButton(opRoller, PS5Controller.Button.kSquare.value);
-  private final JoystickButton GET_LITTT = new JoystickButton(opRoller, PS5Controller.Button.kTouchpad.value);
-
-  // Automated buttons
-  // private final JoystickButton AUTO_AMP = new JoystickButton(opRoller, PS5Controller.Button.kCircle.value);
-  private final JoystickButton AUTO_INTAKE = new JoystickButton(opRoller, PS5Controller.Button.kCircle.value);
-  private final JoystickButton AUTO_TROLLEY = new JoystickButton(opRoller, PS5Controller.Button.kTriangle.value);
+  CommandPS5Controller driverRoller = new CommandPS5Controller(0);
+  CommandPS5Controller opRoller = new CommandPS5Controller(1);
   
 
   /**
@@ -115,13 +94,12 @@ public class RobotContainer
         () -> -driverRoller.getRightX());
 
     Command driveFieldOrientedDirectAngleSim = drivebase.simDriveCommand(
-        () -> MathUtil.applyDeadband(driverRoller.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
-        () -> MathUtil.applyDeadband(driverRoller.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
+        () -> -MathUtil.applyDeadband(driverRoller.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
+        () -> -MathUtil.applyDeadband(driverRoller.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
         () -> -driverRoller.getRightX());
 
-    // drivebase.setDefaultCommand(
-    //     !RobotBase.isSimulation() ? driveFieldOrientedAnglularVelocity : driveFieldOrientedAnglularVelocity);
-    drivebase.setDefaultCommand(driveFieldOrientedAnglularVelocity);
+    drivebase.setDefaultCommand(
+        !RobotBase.isSimulation() ? driveFieldOrientedAnglularVelocity : driveFieldOrientedDirectAngleSim);
   }
 
   /**
@@ -136,50 +114,45 @@ public class RobotContainer
     boolean manualMode = true;
 
     if (manualMode) {
-      // INTAKE.whileTrue(new RunIntake(intake, 1.0).alongWith(new RunCommand(() -> leds.redLED())));
-      INTAKE.whileTrue(new RunIntake(intake, 0.3).until(intake::hasNote));
-      OUTAKE.whileTrue(new RunIntake(intake, 1.0));
-      AMP.whileTrue(new RunIntake(intake, -1.0));
+      opRoller.circle().whileTrue(new RunIntake(intake, 0.3).until(intake::hasNote));
+      opRoller.cross().whileTrue(new RunIntake(intake, 1.0));
+      opRoller.triangle().whileTrue(new RunIntake(intake, -1.0));
 
-      GET_LITTT.whileTrue(new RunCommand(() -> leds.royalBlueLED()));
+      opRoller.touchpad().whileTrue(new RunCommand(() -> leds.royalBlueLED()));
 
-      WRIST_UP.whileTrue(new RunWrist(wrist, -0.2));
-      WRIST_DOWN.whileTrue(new RunWrist(wrist, 0.2));
+      opRoller.L1().whileTrue(new RunWrist(wrist, -0.2));
+      opRoller.R1().whileTrue(new RunWrist(wrist, 0.2));
 
-      // REV_SHOOTER.whileTrue(new RunCommand(() -> wrist.setPosition(WristConstants.SHOOTING_SETPOINT), wrist));
-      // AUTO_INTAKE.whileTrue(new RunCommand(() -> wrist.setPosition(WristConstants.INTAKE_SETPOINT), wrist));
+      opRoller.povUp().whileTrue(new RunTrolley(trolley, -1.0));
+      opRoller.povDown().whileTrue(new RunTrolley(trolley, 1.0));
+      // opRoller.povDownRight().whileTrue(new RunCommand(() -> trolley.setPosition(TrolleyConstants.INTAKE_SETPOINT), trolley));
 
-      TROLLEY_IN.whileTrue(new RunTrolley(trolley, -1.0));
-      TROLLEY_OUT.whileTrue(new RunTrolley(trolley, 1.0));
+      opRoller.R2().whileTrue(new RunPivot(pivot, 0.2));
+      opRoller.L2().whileTrue(new RunPivot(pivot, -0.2));
+      // opRoller.R3().whileTrue(new RunCommand(() -> pivot.setAngle(PivotConstants.INTAKE_SETPOINT), pivot));
+      // opRoller.L3().whileTrue(new RunCommand(() -> pivot.setAngle(PivotConstants.HOME_SETPOINT), pivot));
 
-      PIVOT_UP.whileTrue(new RunPivot(pivot, 0.2));
-      PIVOT_DOWN.whileTrue(new RunPivot(pivot, -0.2));
-
-      // REV_SHOOTER.whileTrue(new RunShooter(shooter, 0.9));
+      opRoller.square().whileTrue(new RunShooter(shooter, 0.9));
     } else {
-      AUTO_INTAKE.whileTrue(new RunCommand(() -> wrist.setPosition(WristConstants.INTAKE_SETPOINT), wrist).raceWith(new RunIntake(intake, 0.3).until(intake::hasNote)).andThen(new RunCommand(() -> wrist.setPosition(WristConstants.SHOOTING_SETPOINT), wrist)));
-      // AUTO_INTAKE.whileTrue(new AutoIntake(intake, wrist, trolley));
+      opRoller.circle().whileTrue(new RunCommand(() -> wrist.setPosition(WristConstants.INTAKE_SETPOINT), wrist).raceWith(new RunIntake(intake, 0.3).until(intake::hasNote)).andThen(new RunCommand(() -> wrist.setPosition(WristConstants.SHOOTING_SETPOINT), wrist)));
+      // opRoller.circle().whileTrue(new AutoIntake(intake, wrist, trolley));
 
-      // WRIST_UP.whileTrue(new RunCommand(() -> wrist.setPosition(WristConstants.SHOOTING_SETPOINT), wrist));
-      // WRIST_DOWN.whileTrue(new RunCommand(() -> wrist.setPosition(WristConstants.INTAKE_SETPOINT), wrist));
+      // opRoller.L1().whileTrue(new RunCommand(() -> wrist.setPosition(WristConstants.SHOOTING_SETPOINT), wrist));
+      // opRoller.R1().whileTrue(new RunCommand(() -> wrist.setPosition(WristConstants.INTAKE_SETPOINT), wrist));
 
-      // AUTO_TROLLEY.whileTrue(new RunCommand(() -> trolley.setPosition(TrolleyConstants.INTAKE_SETPOINT), trolley));
-      REV_SHOOTER.whileTrue(new RunCommand(() -> shooter.setSpeed(ShooterConstants.SHOT_RPM), shooter));
+      // opRoller.povUp().whileTrue(new RunCommand(() -> trolley.setPosition(TrolleyConstants.INTAKE_SETPOINT), trolley));
+      opRoller.square().whileTrue(new RunCommand(() -> shooter.setSpeed(ShooterConstants.SHOT_RPM), shooter));
     }
 
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
 
-    new JoystickButton(driverRoller, 1).onTrue((new InstantCommand(drivebase::zeroGyro)));
-    // new JoystickButton(driverRoller, 3).onTrue(new InstantCommand(drivebase::addFakeVisionReading));
-    // new JoystickButton(driverRoller,
-    //                    2).whileTrue(
-    //     Commands.deferredProxy(() -> drivebase.driveToPose(
-    //                                new Pose2d(new Translation2d(4, 4), Rotation2d.fromDegrees(0)))
-    //                           ));
-    new JoystickButton(driverRoller, 3).whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
-
-    // new JoystickButton(driverRoller, PS5Controller.Button.kTriangle.value).whileTrue(drivebase.sysIdAngleMotorCommand());
-    // new JoystickButton(driverRoller, PS5Controller.Button.kCross.value).whileTrue(drivebase.sysIdDriveMotorCommand());
+    driverRoller.cross().onTrue((Commands.runOnce(drivebase::zeroGyro)));
+    driverRoller.square().onTrue(Commands.runOnce(drivebase::addFakeVisionReading));
+    driverRoller.circle().whileTrue(
+        Commands.deferredProxy(() -> drivebase.driveToPose(
+                                   new Pose2d(new Translation2d(4, 4), Rotation2d.fromDegrees(0)))
+                              ));
+    // drivController.x().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
   }
 
   /**
@@ -190,7 +163,7 @@ public class RobotContainer
   public Command getAutonomousCommand()
   {
     // An example command will be run in autonomous
-    return drivebase.getAutonomousCommand("New Path", true);
+    return drivebase.getAutonomousCommand("New Auto");
   }
 
   public void setDriveMode()
