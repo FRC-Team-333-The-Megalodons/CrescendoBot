@@ -54,8 +54,8 @@ public class LEDs extends SubsystemBase {
   public void blinkingBlue() {
     int length = m_ledBuffer.getLength();
     int blue = 100;
-    int red = 20;
-    int green = 20;
+    int red = 0;
+    int green = 0;
     while (true) {
         blue = (blue + 500) % 600;
         red = (red - 5) % 10;
@@ -86,7 +86,7 @@ public class LEDs extends SubsystemBase {
         }
         m_led.setData(m_ledBuffer);
         try {
-            Thread.sleep(200); 
+            Thread.sleep(100); 
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -99,16 +99,16 @@ public class LEDs extends SubsystemBase {
     int red = 20;
     int green = 100;
     while (true) {
-        blue = (blue - 10) % 10;
-        red = (red - 10) % 10;
+        blue = (blue - 5) % 10;
+        red = (red - 5) % 10;
         green = (green + 500) % 600;
         for (var i = 0; i < length; i++) {
-            m_ledBuffer.setRGB(i, red, green, blue);
+            m_ledBuffer.setRGB(i, 0, green, 0);
         m_led.setData(m_ledBuffer);
         try {
-            Thread.sleep(200); 
+            Thread.sleep(100); 
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            e.printStackTrace(); 
         }
       }
     }
@@ -148,7 +148,7 @@ public class LEDs extends SubsystemBase {
             m_ledBuffer.setRGB(i, red, green, blue);
         m_led.setData(m_ledBuffer);
         try {
-            Thread.sleep(200); 
+            Thread.sleep(5000); 
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

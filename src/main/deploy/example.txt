@@ -48,3 +48,7 @@ Buttons:
                                                     RightDown -> Climbers down (on Hold)
 
                                                     manual override on the dashboard?
+
+
+DEBUGGING
+- runFiew & IdleFire WORK

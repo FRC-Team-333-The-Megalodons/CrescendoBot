@@ -44,7 +44,7 @@ public class Shooter extends SubsystemBase{
     }
     public void fireStop() {
         shooterTop.set(0);
-        shooterBottom.follow(shooterTop);
+        shooterBottom.set(0);
     }
 
     public double getVelocity() {
