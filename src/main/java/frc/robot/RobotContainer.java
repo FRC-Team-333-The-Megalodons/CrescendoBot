@@ -18,6 +18,7 @@ import frc.robot.commands.manualCommands.RunPivot;
 import frc.robot.commands.manualCommands.RunRevUP;
 import frc.robot.commands.manualCommands.RunTrack;
 import frc.robot.commands.manualCommands.RunWrist;
+import frc.robot.commands.manualCommands.testtest;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.LEDs;
@@ -25,6 +26,7 @@ import frc.robot.subsystems.Pivot;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Trolley;
 import frc.robot.subsystems.Wrist;
+import frc.robot.subsystems.test;
 
 
 /**
@@ -43,18 +45,20 @@ public class RobotContainer {
   private final LEDs m_Leds = new LEDs();
   private final Indexer m_Indexer = new Indexer();
   private final Joystick joy = new Joystick(0);
+  private final test m_Test = new test();
 
 
-  private final JoystickButton INTAKE_MANUAL_BUTTON = new JoystickButton(joy, PS5Controller.Button.kR2.value);
-  private final JoystickButton INTAKE_SENSORS_BUTTON  = new JoystickButton(joy, PS5Controller.Button.kR1.value); 
-  private final JoystickButton FIRE_BUTTON = new JoystickButton(joy, PS5Controller.Button.kCircle.value);
-  private final JoystickButton IDLE_FIRE_BUTTON = new JoystickButton(joy, PS5Controller.Button.kTouchpad.value);
-  private final JoystickButton TRACK_UP = new JoystickButton(joy, PS5Controller.Button.kR3.value);
-  private final JoystickButton TRACK_DOWN = new JoystickButton(joy, PS5Controller.Button.kL3.value);
-  private final JoystickButton WRIST_UP = new JoystickButton(joy, PS5Controller.Button.kCross.value);
-  private final JoystickButton WRIST_DOWN = new JoystickButton(joy, PS5Controller.Button.kSquare.value);
-  private final JoystickButton PIVOT_UP = new JoystickButton(joy, PS5Controller.Button.kL1.value);
-  private final JoystickButton PIVOT_DOWN = new JoystickButton(joy, PS5Controller.Button.kL2.value);
+  // private final JoystickButton INTAKE_MANUAL_BUTTON = new JoystickButton(joy, PS5Controller.Button.kR2.value);
+  // private final JoystickButton INTAKE_SENSORS_BUTTON  = new JoystickButton(joy, PS5Controller.Button.kR1.value); 
+  // private final JoystickButton FIRE_BUTTON = new JoystickButton(joy, PS5Controller.Button.kCircle.value);
+  // private final JoystickButton IDLE_FIRE_BUTTON = new JoystickButton(joy, PS5Controller.Button.kTouchpad.value);
+  // private final JoystickButton TRACK_UP = new JoystickButton(joy, PS5Controller.Button.kR3.value);
+  // private final JoystickButton TRACK_DOWN = new JoystickButton(joy, PS5Controller.Button.kL3.value);
+  // private final JoystickButton WRIST_UP = new JoystickButton(joy, PS5Controller.Button.kCross.value);
+  // private final JoystickButton WRIST_DOWN = new JoystickButton(joy, PS5Controller.Button.kSquare.value);
+  // private final JoystickButton PIVOT_UP = new JoystickButton(joy, PS5Controller.Button.kL1.value);
+  // private final JoystickButton PIVOT_DOWN = new JoystickButton(joy, PS5Controller.Button.kL2.value);
+  private final JoystickButton TEST_BUT = new JoystickButton(joy, PS5Controller.Button.kCircle.value);
   
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -110,6 +114,11 @@ public class RobotContainer {
     // PIVOT_UP.whileTrue(new RunCommand(() -> m_Pivot.pivot(0.4)));
 
     // PIVOT_DOWN.whileTrue(new RunCommand(() -> m_Pivot.pivot(-0.4)));
+
+
+    //TEST_BUT.whileTrue(new testtest(m_Test));
+    TEST_BUT.whileTrue(new RunCommand(() -> m_Test.testIN()));
+    TEST_BUT.whileFalse(new RunCommand(() -> m_Test.testSTOP()));
   }
   /** 
    * Use this to pass the autonomous command to the main {@link Robot} class.

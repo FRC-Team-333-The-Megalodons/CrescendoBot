@@ -13,11 +13,18 @@ import frc.robot.Constants;
 
 /** Add your docs here. */
     public class test extends SubsystemBase{
-    private CANSparkFlex intakeMotor;
+    private CANSparkFlex testMotor;
     public test(){
-        intakeMotor = new CANSparkFlex(Constants.IntakeConstants.INTAKE_MOTOR_ID, MotorType.kBrushless);
-        intakeMotor.setIdleMode(IdleMode.kCoast);
-
-        
+        testMotor = new CANSparkFlex(Constants.IntakeConstants.INTAKE_MOTOR_ID, MotorType.kBrushless);
+        testMotor.setIdleMode(IdleMode.kCoast);
+    }
+    public void testIN(){
+        testMotor.set(0.2);
+    }
+    public void testOUT(){
+        testMotor.set(-0.2);
+    }
+    public void testSTOP(){
+        testMotor.set(0);
     }
 }
