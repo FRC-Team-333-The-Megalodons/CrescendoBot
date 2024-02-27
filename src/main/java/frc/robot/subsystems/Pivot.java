@@ -48,7 +48,7 @@ public class Pivot extends SubsystemBase {
 
     pivotEncoder = new DutyCycleEncoder(PivotConstants.ENCODER_ID);
     // pivotEncoder.setPositionOffset(PivotConstants.ZERO_OFFSET);
-    // pivotEncoder.setDutyCycleRange(1.0/1024.0, 1023.0/1024.0);
+    pivotEncoder.setDutyCycleRange(1.0/1024.0, 1023.0/1024.0);
 
     pivotController = new PIDController(PivotConstants.kP, PivotConstants.kI, PivotConstants.kD);
     // pivotController.enableContinuousInput(0, 1);

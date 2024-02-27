@@ -53,6 +53,10 @@ public class Intake extends SubsystemBase {
     intakeMotor.set(0.0);
   }
 
+  public double getPosition() {
+    return intakeMotor.getEncoder().getPosition();
+  }
+
   public void setPosition(double setpoint) {
     intakeController.setReference(setpoint, ControlType.kPosition);
   }
@@ -72,5 +76,6 @@ public class Intake extends SubsystemBase {
   @Override
   public void periodic() {
     SmartDashboard.putBoolean("Note?", hasNote());
+    SmartDashboard.putNumber("Intake Pos", getPosition());
   }
 }
