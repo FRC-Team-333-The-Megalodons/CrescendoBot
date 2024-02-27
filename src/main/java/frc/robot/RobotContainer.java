@@ -54,8 +54,6 @@ public class RobotContainer
   private final Pivot pivot = new Pivot();
   private final Shooter shooter = new Shooter();
   private final LEDStrip leds = new LEDStrip();
-
-  // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
                                                                          "swerve/neo"));
 
@@ -122,9 +120,11 @@ public class RobotContainer
 
       opRoller.L1().whileTrue(new RunWrist(wrist, -0.2));
       opRoller.R1().whileTrue(new RunWrist(wrist, 0.2));
+      // opRoller.L3().whileTrue(new RunCommand(() -> wrist.setPosition(WristConstants.SHOOTING_SETPOINT), wrist));
+      // opRoller.R3().whileTrue(new RunCommand(() -> wrist.setPosition(WristConstants.INTAKE_SETPOINT), wrist));
 
-      opRoller.povUp().whileTrue(new RunTrolley(trolley, -1.0));
-      opRoller.povDown().whileTrue(new RunTrolley(trolley, 1.0));
+      opRoller.povUp().whileTrue(new RunTrolley(trolley, 1.0));
+      opRoller.povDown().whileTrue(new RunTrolley(trolley, -1.0));
       // opRoller.povDownRight().whileTrue(new RunCommand(() -> trolley.setPosition(TrolleyConstants.INTAKE_SETPOINT), trolley));
 
       opRoller.R2().whileTrue(new RunPivot(pivot, 0.2));
@@ -152,7 +152,7 @@ public class RobotContainer
         Commands.deferredProxy(() -> drivebase.driveToPose(
                                    new Pose2d(new Translation2d(4, 4), Rotation2d.fromDegrees(0)))
                               ));
-    // drivController.x().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
+    // driverRoller.triangle().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
   }
 
   /**

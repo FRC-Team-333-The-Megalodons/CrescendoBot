@@ -30,6 +30,7 @@ public class Wrist extends SubsystemBase {
     wristMotor.restoreFactoryDefaults();
 
     wristEncoder = wristMotor.getAbsoluteEncoder(Type.kDutyCycle);
+    // wristEncoder.setZeroOffset(WristConstants.ZERO_OFFSET);
 
     wristController = wristMotor.getPIDController();
     wristController.setFeedbackDevice(wristEncoder);
@@ -38,6 +39,9 @@ public class Wrist extends SubsystemBase {
     wristController.setD(WristConstants.kD);
     wristController.setFF(WristConstants.kFF);
     wristController.setOutputRange(WristConstants.MIN_INPUT, WristConstants.MAX_INPUT);
+    wristController.setPositionPIDWrappingEnabled(true);
+    wristController.setPositionPIDWrappingMinInput(WristConstants.INTAKE_SETPOINT);
+    wristController.setPositionPIDWrappingMaxInput(WristConstants.SHOOTING_SETPOINT);
 
     wristMotor.setIdleMode(IdleMode.kBrake);
 

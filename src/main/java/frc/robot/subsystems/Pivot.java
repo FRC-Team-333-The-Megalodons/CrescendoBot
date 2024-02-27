@@ -47,9 +47,11 @@ public class Pivot extends SubsystemBase {
     pivotMotor2.burnFlash();
 
     pivotEncoder = new DutyCycleEncoder(PivotConstants.ENCODER_ID);
-    pivotEncoder.setDistancePerRotation(PivotConstants.PIVOT_CONVERSION_FACTOR);
+    // pivotEncoder.setPositionOffset(PivotConstants.ZERO_OFFSET);
+    // pivotEncoder.setDutyCycleRange(1.0/1024.0, 1023.0/1024.0);
 
     pivotController = new PIDController(PivotConstants.kP, PivotConstants.kI, PivotConstants.kD);
+    // pivotController.enableContinuousInput(0, 1);
 
     // camera = new PhotonCamera("camera");
   }

@@ -5,6 +5,8 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkFlex;
+import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
@@ -19,6 +21,8 @@ public class Intake extends SubsystemBase {
   private DigitalInput leftSensor;
   private DigitalInput rightSensor;
 
+  private SparkPIDController intakeController;
+
   /** Creates a new Intake. */
   public Intake() {
     intakeMotor = new CANSparkFlex(IntakeConstatnts.MOTOR_ID, MotorType.kBrushless);
@@ -28,6 +32,14 @@ public class Intake extends SubsystemBase {
     intakeMotor.setIdleMode(IdleMode.kCoast);
     
     intakeMotor.burnFlash();
+
+    intakeController = intakeMotor.getPIDController();
+    intakeController.setFeedbackDevice(intakeMotor.getEncoder());
+    intakeController.setP(IntakeConstatnts.kP);
+    intakeController.setI(IntakeConstatnts.kI);
+    intakeController.setD(IntakeConstatnts.kD);
+    intakeController.setFF(IntakeConstatnts.kFF);
+    intakeController.setOutputRange(IntakeConstatnts.MIN_INPUT, IntakeConstatnts.MAX_INPUT);
 
     leftSensor = new DigitalInput(IntakeConstatnts.LEFT_SENSOR_ID);
     rightSensor = new DigitalInput(IntakeConstatnts.RIGHT_SENSOR_ID);
@@ -41,12 +53,20 @@ public class Intake extends SubsystemBase {
     intakeMotor.set(0.0);
   }
 
+  public void setPosition(double setpoint) {
+    intakeController.setReference(setpoint, ControlType.kPosition);
+  }
+
   public boolean hasNote() {
     if (leftSensor.get() || rightSensor.get()) {
       return true;
     } else {
       return false;
     }
+  }
+
+  public void resetEncoder() {
+    intakeMotor.getEncoder().setPosition(0.0);
   }
 
   @Override

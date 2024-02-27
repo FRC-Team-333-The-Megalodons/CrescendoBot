@@ -6,6 +6,7 @@ package frc.robot;
 
 import com.pathplanner.lib.util.PIDConstants;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import swervelib.math.Matter;
@@ -30,13 +31,21 @@ public final class Constants
     public static final int MOTOR_ID = 3;
     public static final int LEFT_SENSOR_ID = 0;
     public static final int RIGHT_SENSOR_ID = 1;
+    public static final double NOTE_SETPOINT = 0.0;
+    public static final double kP = 5.0;
+    public static final double kI = 0.0;
+    public static final double kD = 0.0;
+    public static final double kFF = 0.0;
+    public static final double MIN_INPUT = -1.0;
+    public static final double MAX_INPUT = 1.0;
   }
 
   public static final class WristConstants
   {
     public static final int MOTOR_ID = 4;
-    public static final double INTAKE_SETPOINT = 0.67;
-    public static final double SHOOTING_SETPOINT = 0.498;
+    public static final double ZERO_OFFSET = 0.67;
+    public static final double INTAKE_SETPOINT = 0.798029005527496;
+    public static final double SHOOTING_SETPOINT = 0.485868990421295;
     public static final double AMP_SETPOINT = 0.488;
     public static final double kP = 5.0;
     public static final double kI = 0.0;
@@ -66,13 +75,15 @@ public final class Constants
     public static final int MOTOR1_ID = 6; 
     public static final int MOTOR2_ID = 7; 
     public static final int ENCODER_ID = 9; 
-    public static final double HOME_SETPOINT = 0.0;
-    public static final double INTAKE_SETPOINT = 0.0;
-    public static final double SUBWOFFER_SETPOINT = 0.0;
+    public static final double ZERO_OFFSET = 0.65362201634055;
+    public static final double HOME_SETPOINT = 0.634;
+    public static final double INTAKE_SETPOINT = 0.364;
+    public static final double SUBWOFFER_SETPOINT = -0.5;
     public static final double PODIUM_SETPOINT = 0.0;
     public static final double WING_SETPOINT = 0.0;
-    public static final double PIVOT_CONVERSION_FACTOR = (2 * Math.PI); // radians
-    public static final double kP = 0.05;
+    public static final double AMP_SETPOINT = 0.595;
+    // public static final double PIVOT_CONVERSION_FACTOR = Rotation2d.fromRotations().getDegrees(); // radians
+    public static final double kP = 0.5;
     public static final double kI = 0.0;
     public static final double kD = 0.0;
     public static final double kFF = 0.0;
