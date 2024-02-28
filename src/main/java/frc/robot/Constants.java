@@ -91,6 +91,19 @@ public final class Constants
     public static final double MAX_INPUT = 0.1;
   }
 
+  public static final class IndexerConstants
+  {
+    public static final int MOTOR_ID = 15;
+    public static final double SHOT_RPM = 6000;
+    public static final double IDLE_RPM = 1000;
+    public static final double kP = 0.001;
+    public static final double kI = 0.0;
+    public static final double kD = 0.0;
+    public static final double kFF = 0.0;
+    public static final double MIN_INPUT = -1;
+    public static final double MAX_INPUT = 1;
+  }
+
   public static final class ShooterConstants
   {
     public static final int TOP_MOTOR_ID = 8;

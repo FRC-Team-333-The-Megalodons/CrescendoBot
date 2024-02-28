@@ -20,17 +20,20 @@ import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants.IndexerConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.PivotConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.TrolleyConstants;
 import frc.robot.Constants.WristConstants;
 import frc.robot.commands.AutoIntake;
+import frc.robot.commands.RunIndexer;
 import frc.robot.commands.RunIntake;
 import frc.robot.commands.RunPivot;
 import frc.robot.commands.RunShooter;
 import frc.robot.commands.RunTrolley;
 import frc.robot.commands.RunWrist;
+import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.LEDStrip;
 import frc.robot.subsystems.Pivot;
@@ -52,6 +55,7 @@ public class RobotContainer
   private final Wrist wrist = new Wrist();
   private final Trolley trolley = new Trolley();
   private final Pivot pivot = new Pivot();
+  private final Indexer indexer = new Indexer();
   private final Shooter shooter = new Shooter();
   private final LEDStrip leds = new LEDStrip();
   private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
@@ -66,7 +70,6 @@ public class RobotContainer
    */
   public RobotContainer()
   {
-    leds.setDefaultCommand(new RunCommand(() -> leds.noLED(), leds));
     // Configure the trigger bindings
     configureBindings();
 
@@ -78,7 +81,7 @@ public class RobotContainer
     Command driveFieldOrientedDirectAngle = drivebase.driveCommand(
         () -> -MathUtil.applyDeadband(driverRoller.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
         () -> -MathUtil.applyDeadband(driverRoller.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> -driverRoller.getRightX());
+        () -> driverRoller.getRightX());
         //() -> driverRoller.getRightY());
 
     // Applies deadbands and inverts controls because joysticks
@@ -89,7 +92,7 @@ public class RobotContainer
     Command driveFieldOrientedAnglularVelocity = drivebase.driveCommand(
         () -> -MathUtil.applyDeadband(driverRoller.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
         () -> -MathUtil.applyDeadband(driverRoller.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> -driverRoller.getRightX());
+        () -> driverRoller.getRightX());
 
     Command driveFieldOrientedDirectAngleSim = drivebase.simDriveCommand(
         () -> -MathUtil.applyDeadband(driverRoller.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
@@ -132,7 +135,7 @@ public class RobotContainer
       // opRoller.R3().whileTrue(new RunCommand(() -> pivot.setAngle(PivotConstants.INTAKE_SETPOINT), pivot));
       // opRoller.L3().whileTrue(new RunCommand(() -> pivot.setAngle(PivotConstants.HOME_SETPOINT), pivot));
 
-      opRoller.square().whileTrue(new RunShooter(shooter, 0.9));
+      opRoller.square().whileTrue(new RunShooter(shooter, 0.9).alongWith(new RunIndexer(indexer, 0.45)));
     } else {
       opRoller.circle().whileTrue(new RunCommand(() -> wrist.setPosition(WristConstants.INTAKE_SETPOINT), wrist).raceWith(new RunIntake(intake, 0.3).until(intake::hasNote)).andThen(new RunCommand(() -> wrist.setPosition(WristConstants.SHOOTING_SETPOINT), wrist)));
       // opRoller.circle().whileTrue(new AutoIntake(intake, wrist, trolley));
@@ -141,7 +144,7 @@ public class RobotContainer
       // opRoller.R1().whileTrue(new RunCommand(() -> wrist.setPosition(WristConstants.INTAKE_SETPOINT), wrist));
 
       // opRoller.povUp().whileTrue(new RunCommand(() -> trolley.setPosition(TrolleyConstants.INTAKE_SETPOINT), trolley));
-      opRoller.square().whileTrue(new RunCommand(() -> shooter.setSpeed(ShooterConstants.SHOT_RPM), shooter));
+      opRoller.square().whileTrue(new RunCommand(() -> shooter.setSpeed(ShooterConstants.SHOT_RPM), shooter).alongWith(new RunCommand(() -> indexer.setSpeed(IndexerConstants.SHOT_RPM), indexer)));
     }
 
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`

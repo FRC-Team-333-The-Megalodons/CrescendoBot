@@ -5,16 +5,16 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Indexer;
 
-public class RunShooter extends Command {
+public class RunIndexer extends Command {
 
-  private final Shooter shooter;
+  private final Indexer indexer;
   private final double value;
 
   /** Creates a new RunShooter. */
-  public RunShooter(Shooter shooter, double value) {
-    this.shooter = shooter;
+  public RunIndexer(Indexer indexer, double value) {
+    this.indexer = indexer;
     this.value = value;
   }
 
@@ -25,14 +25,14 @@ public class RunShooter extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooter.runShooter(value);
-    // shooter.setSpeed(value);
+    indexer.runIndexer(value);
+    //indexer.setSpeed(value);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shooter.stopShooter();
+    indexer.stopIndexer();
   }
 
   // Returns true when the command should end.

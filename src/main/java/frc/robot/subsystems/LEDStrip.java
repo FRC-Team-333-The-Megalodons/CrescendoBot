@@ -14,7 +14,7 @@ public class LEDStrip extends SubsystemBase {
   /** Creates a new LEDS. */
   public LEDStrip() {
     m_led = new AddressableLED(9);
-    m_ledBuffer = new AddressableLEDBuffer(120);
+    m_ledBuffer = new AddressableLEDBuffer(50);
     m_led.setLength(m_ledBuffer.getLength());
     m_led.setData(m_ledBuffer);
     m_led.start();
