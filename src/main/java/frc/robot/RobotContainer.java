@@ -4,32 +4,25 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.PS5Controller;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-// import frc.robot.commands.manualCommands.RunFire;
-//import frc.robot.commands.manualCommands.testtest;
- import frc.robot.commands.manualCommands.RunFire;
+import frc.robot.commands.manualCommands.RunFire;
 import frc.robot.commands.manualCommands.RunIntakeManual;
 import frc.robot.commands.manualCommands.RunIntakeSensors;
 import frc.robot.commands.manualCommands.RunPivot;
 import frc.robot.commands.manualCommands.RunRevUP;
-// import frc.robot.commands.manualCommands.RunTrack;
-// import frc.robot.commands.manualCommands.RunWrist;
-// import frc.robot.commands.manualCommands.testtest;
-  import frc.robot.subsystems.Indexer;
+import frc.robot.commands.manualCommands.RunTrack;
+import frc.robot.commands.manualCommands.RunWrist;
+import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.LEDs;
 import frc.robot.subsystems.Pivot;
- import frc.robot.subsystems.Shooter;
-  // import frc.robot.subsystems.Trolley;
+import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Trolley;
 import frc.robot.subsystems.Wrist;
-// import frc.robot.subsystems.test;
-
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -39,40 +32,26 @@ import frc.robot.subsystems.Wrist;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-   private final Intake m_Intake = new Intake();
-  //  private final Shooter m_Shooter = new Shooter();
-  // private final Pivot m_Pivot = new Pivot();
-    // private final Trolley m_Track = new Trolley();
-  // // private final Wrist m_Wrist = new Wrist();
+  private final Intake m_Intake = new Intake();
+  private final Shooter m_Shooter = new Shooter(); 
+  private final Pivot m_Pivot = new Pivot();
+  private final Trolley m_Track = new Trolley();
+  private final Wrist m_Wrist = new Wrist();
+  private final CommandPS5Controller joy = new CommandPS5Controller(0);
+  private final Indexer m_Indexer = new Indexer();
+  //  private final Joystick joy = new Joystick(0);
   //   private final LEDs m_Leds = new LEDs();
-  //  private final Indexer m_Indexer = new Indexer();
-   private final Joystick joy = new Joystick(0);
-  // private final test m_Test = new test();
-
-
-   private final JoystickButton INTAKE_MANUAL_BUTTON = new JoystickButton(joy, PS5Controller.Button.kR2.value);
-   private final JoystickButton INTAKE_SENSORS_BUTTON  = new JoystickButton(joy, PS5Controller.Button.kR1.value); 
-  //  private final JoystickButton FIRE_BUTTON = new JoystickButton(joy, PS5Controller.Button.kCircle.value);
-  //  private final JoystickButton IDLE_FIRE_BUTTON = new JoystickButton(joy, PS5Controller.Button.kTouchpad.value);
-  //  private final JoystickButton TRACK_UP = new JoystickButton(joy, PS5Controller.Button.kR3.value);
-  //  private final JoystickButton TRACK_DOWN = new JoystickButton(joy, PS5Controller.Button.kL3.value);
-  // private final JoystickButton WRIST_UP = new JoystickButton(joy, PS5Controller.Button.kCross.value);
-  // private final JoystickButton WRIST_DOWN = new JoystickButton(joy, PS5Controller.Button.kSquare.value);
-  // private final JoystickButton PIVOT_UP = new JoystickButton(joy, PS5Controller.Button.kL1.value);
-  // private final JoystickButton PIVOT_DOWN = new JoystickButton(joy, PS5Controller.Button.kL2.value);
-  // private final JoystickButton TEST_BUT = new JoystickButton(joy, PS5Controller.Button.kCircle.value);
   
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
-  m_Intake.setDefaultCommand(new RunCommand(() -> m_Intake.intakeStop(), m_Intake));
-   //  m_Shooter.setDefaultCommand(new RunCommand(() -> m_Shooter.fireStop(), m_Shooter));
-    // m_Wrist.setDefaultCommand(new RunCommand(() -> m_Wrist.wristSTOP(), m_Wrist));
-   // m_Track.setDefaultCommand(new RunCommand(() -> m_Track.trolleyStop(), m_Track));
-   // m_Leds.setDefaultCommand(new RunCommand(() -> m_Leds.blinkOrange(), m_Leds));
-     //m_Test.setDefaultCommand(new RunCommand(() -> m_Test.testSTOP(), m_Test));
-    // m_Pivot.setDefaultCommand(new RunCommand(() -> m_Pivot.pivotStop(), m_Pivot));
-    // m_Indexer.setDefaultCommand(new RunCommand(() -> m_Indexer.indexStop(),  m_Indexer));
+  //  m_Intake.setDefaultCommand(new RunCommand(() -> m_Intake.intakeStop(), m_Intake));
+  //  m_Shooter.setDefaultCommand(new RunCommand(() -> m_Shooter.fireStop(), m_Shooter));
+  //  m_Wrist.setDefaultCommand(new RunCommand(() -> m_Wrist.wristSTOP(), m_Wrist));
+  //  m_Track.setDefaultCommand(new RunCommand(() -> m_Track.trolleyStop(), m_Track));
+  //  m_Pivot.setDefaultCommand(new RunCommand(() -> m_Pivot.pivotStop(), m_Pivot));
+  //  m_Indexer.setDefaultCommand(new RunCommand(() -> m_Indexer.indexStop(),  m_Indexer));
+    // m_Leds.setDefaultCommand(new RunCommand(() -> m_Leds.blinkOrange(), m_Leds));
     configureButtonBindings();
   }
 
@@ -88,24 +67,35 @@ public class RobotContainer {
    */
 
    private void configureButtonBindings() {
-     INTAKE_SENSORS_BUTTON.whileTrue(new RunIntakeSensors(m_Intake, 0.3));  // R1 intake
-     INTAKE_MANUAL_BUTTON.whileTrue(new RunIntakeManual(m_Intake, 0.3));    // R2  push
+    joy.R1().whileTrue(new RunIntakeSensors(m_Intake, 0.3));  // R1 intake
+    joy.L1().whileFalse(new RunIntakeSensors(m_Intake, 0));
 
-    // IDLE_FIRE_BUTTON.whileTrue(new RunRevUP(m_Shooter, 0.3)); // TOUCH PAD rev up
-    // IDLE_FIRE_BUTTON.whileFalse(new RunRevUP(m_Shooter, 0));
+    joy.R2().whileTrue(new RunIntakeManual(m_Intake, 0.3));    // R2  push
+    joy.R2().whileFalse(new RunIntakeManual(m_Intake, 0));
 
-    // FIRE_BUTTON.whileTrue(new RunFire(m_Shooter, -0.3, m_Indexer, -0.3));       //  CIRCLE shoot
-    // FIRE_BUTTON.whileFalse(new RunFire(m_Shooter, 0, m_Indexer, 0));
+    joy.touchpad().whileTrue(new RunRevUP(m_Shooter, 0.3)); // TOUCH PAD rev up
+    joy.touchpad().whileFalse(new RunRevUP(m_Shooter, 0));
+
+    joy.circle().whileTrue(new RunFire(m_Shooter, -0.3, m_Indexer, -0.3));       //  CIRCLE shoot
+    joy.circle().whileFalse(new RunFire(m_Shooter, 0, m_Indexer, 0));
    
-    // TRACK_UP.whileTrue(new RunTrack(m_Track, 0.3));    // R3       track up
+    joy.R3().whileTrue(new RunTrack(m_Track, 0.3));    // R3       track up
+    joy.R3().whileFalse(new RunTrack(m_Track, 0));
 
-    // TRACK_DOWN.whileTrue(new RunTrack(m_Track, -0.3)); // L3       track down
+    joy.L3().whileTrue(new RunTrack(m_Track, -0.3)); // L3       track down
+    joy.L3().whileFalse(new RunTrack(m_Track, 0));
 
-    // WRIST_UP.whileTrue(new RunWrist(m_Wrist, 0.3));    // CROSS    wrist  up
-    // WRIST_DOWN.whileTrue(new RunWrist(m_Wrist, -0.3));  // SQUARE wrist down
+    joy.cross().whileTrue(new RunWrist(m_Wrist, 0.3));    // CROSS    wrist  up
+    joy.cross().whileFalse(new RunWrist(m_Wrist, 0));
 
-    // PIVOT_UP.whileTrue(new RunPivot(m_Pivot, 0.3));    // L1   pivot up
-    // PIVOT_DOWN.whileTrue(new RunPivot(m_Pivot, -0.3));  // L2   pivot down
+    joy.square().whileTrue(new RunWrist(m_Wrist, -0.3));  // SQUARE wrist down
+    joy.square().whileFalse(new RunWrist(m_Wrist, 0));
+
+    joy.L1().whileTrue(new RunPivot(m_Pivot, 0.3));    // L1   pivot up
+    joy.L1().whileFalse(new RunPivot(m_Pivot, 0));
+
+    joy.L2().whileTrue(new RunPivot(m_Pivot, -0.3));  // L2   pivot down
+    joy.L2().whileFalse(new RunPivot(m_Pivot, 0));
 
 
 
@@ -128,11 +118,6 @@ public class RobotContainer {
     // PIVOT_UP.whileFalse(new RunCommand(() -> m_Pivot.pivot(0)));
     // PIVOT_DOWN.whileTrue(new RunCommand(() -> m_Pivot.pivot(-0.4)));
     // PIVOT_DOWN.whileFalse(new RunCommand(() -> m_Pivot.pivot(0)));
-
-
-    // TEST_BUT.whileTrue(new testtest(m_Test));
-    //TEST_BUT.whileTrue(new RunCommand(() -> m_Test.testIN()));
-    //TEST_BUT.whileFalse(new RunCommand(() -> m_Test.testSTOP()));
   }
   /** 
    * Use this to pass the autonomous command to the main {@link Robot} class.

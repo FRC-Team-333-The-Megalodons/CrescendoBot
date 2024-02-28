@@ -3,6 +3,8 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.subsystems;
+import org.w3c.dom.css.RGBColor;
+
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -53,7 +55,7 @@ public class LEDs extends SubsystemBase {
 
   public void blinkingBlue() {
     int length = m_ledBuffer.getLength();
-    int blue = 100;
+    int blue = 200;
     int red = 0;
     int green = 0;
     while (true) {
@@ -75,7 +77,7 @@ public class LEDs extends SubsystemBase {
     public void blinkingRed() {
     int length = m_ledBuffer.getLength();
     int blue = 20;
-    int red = 100;
+    int red = 200;
     int green = 20;
     while (true) {
         blue = (blue - 5) % 10;
@@ -97,7 +99,7 @@ public class LEDs extends SubsystemBase {
     int length = m_ledBuffer.getLength();
     int blue = 20;
     int red = 20;
-    int green = 100;
+    int green = 200;
     while (true) {
         blue = (blue - 5) % 10;
         red = (red - 5) % 10;
@@ -117,14 +119,14 @@ public class LEDs extends SubsystemBase {
   public void blinkingYellow() {
     int length = m_ledBuffer.getLength();
     int blue = 10;
-    int red = 100;
+    int red = 200;
     int green = 100;
     while (true) {
         blue = (blue - 10) % 20;
         red = (red + 500) % 600;
         green = (green + 500) % 600;
         for (var i = 0; i < length; i++) {
-            m_ledBuffer.setRGB(i, red, green, blue);
+            m_ledBuffer.setRGB(i, 230, 223, blue);
         m_led.setData(m_ledBuffer);
         try {
             Thread.sleep(200); 
@@ -138,17 +140,17 @@ public class LEDs extends SubsystemBase {
     public void blinkOrange() {
     int length = m_ledBuffer.getLength();
     int blue = 20;
-    int red = 100;
-    int green =30;
+    int red = 20;
+    int green =100;
     while (true) {
         blue = (blue - 10) % 20;
-        red = (red + 500) % 600;
-        green = (green + 200) % 600;
+        red = (red + 255) % 510;
+        green = (green - 44) % 80;
         for (var i = 0; i < length; i++) {
-            m_ledBuffer.setRGB(i, red, green, blue);
+            m_ledBuffer.setRGB(i, red, green, 0);
         m_led.setData(m_ledBuffer);
         try {
-            Thread.sleep(5000); 
+            Thread.sleep(50); 
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

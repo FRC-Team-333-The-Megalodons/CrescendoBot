@@ -66,7 +66,7 @@ public class Constants {
         public static final int INDEXER_MOTOR_ID = 15;
     }
     public static final class LEDConstants {
-        public static final int LED_PORT_ID = 9;
+        public static final int LED_PORT_ID = 3;
         public static final int NUMBER_OF_LED =1000;
         // public static final int LED_PORT_ID2 = 8;
         // public static final int NUMBER_OF_LED2 =120;
