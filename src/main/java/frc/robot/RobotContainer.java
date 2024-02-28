@@ -58,7 +58,7 @@ public class RobotContainer
    */
   public RobotContainer()
   {
-    autChooser = AutoBuilder.buildAutoChooser("Center");
+    autChooser = AutoBuilder.buildAutoChooser("Leave");
     SmartDashboard.putData("Auto", autChooser);
     // Configure the trigger bindings
     configureBindings();
@@ -87,7 +87,7 @@ public class RobotContainer
     Command driveFieldOrientedDirectAngle = drivebase.driveCommand(
         () -> -MathUtil.applyDeadband(driveroller.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
         () -> -MathUtil.applyDeadband(driveroller.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> -MathUtil.applyDeadband(driveroller.getRightX(),OperatorConstants.RIGHT_X_DEADBAND));
+        () -> MathUtil.applyDeadband(driveroller.getRightX(),OperatorConstants.RIGHT_X_DEADBAND));
         //() -> roller.getRightY());
 
     // Applies deadbands and inverts controls because joysticks
@@ -109,7 +109,7 @@ public class RobotContainer
         () -> -roller.getRawAxis(4));*/
         //() -> -MathUtil.applyDeadband(roller.getRightX(),OperatorConstants.RIGHT_X_DEADBAND));
       drivebase.setDefaultCommand(
-        !RobotBase.isSimulation() ? driveFieldOrientedDirectAngle : driveFieldOrientedDirectAngle);
+        !RobotBase.isSimulation() ? driveFieldOrientedDirectAngle : driveFieldOrientedDirectAngleSim);
   }
 
   /**
