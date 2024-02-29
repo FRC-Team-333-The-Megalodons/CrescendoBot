@@ -29,7 +29,7 @@ public class RunIntakeSensors extends Command{
 
     @Override
     public void end(boolean interrupted) {
-        m_IntakeSensors.detectNote();
+        m_IntakeSensors.intakeStop();;
     }
 
     @Override

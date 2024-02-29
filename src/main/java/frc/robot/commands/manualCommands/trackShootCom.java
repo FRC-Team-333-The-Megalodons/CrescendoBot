@@ -7,11 +7,11 @@ package frc.robot.commands.manualCommands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Trolley;
 
-public class RunTrack extends Command {
-  /** Creates a new RunTrack. */
+public class trackShootCom extends Command {
+  /** Creates a new trackShootCom. */
   private final Trolley m_Track;
   private final double value;
-  public RunTrack(Trolley track, double value) {
+  public trackShootCom(Trolley track, double value) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.m_Track = track;
     this.value = value;
@@ -31,7 +31,7 @@ public class RunTrack extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_Track.getLimitSwitch();
+    m_Track.atHomePositionTrack();
   }
 
   // Returns true when the command should end.

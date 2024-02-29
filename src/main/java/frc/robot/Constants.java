@@ -17,11 +17,19 @@ public class Constants {
         public static final double INTAKE_SETPOINT = 0.374;
         public static final double SHOOTING_SETPOINT = 0.164;
         public static final double AMP_SETPOINT = 0.488;
-        public static final double kP = 5.0;
+        public static final double kP = 0.3;
         public static final double kI = 0.0;
         public static final double kD = 0.0;
         public static final double MIN_INPUT = -1.0;
         public static final double MAX_INPUT = 1.0;
+
+        public static final double NEW_INTAKE_POS = 0.6897;
+        public static final double NEW_SHOOTING_POS = 0.3267;
+
+        /*
+         * wrist intake position 0.6897
+         * swrist shooting position 0.3267
+         */
     }
     public static final class TrolleyConstants {
       public static final int TROLLEY_MOTOR_ID = 5;
@@ -29,7 +37,7 @@ public class Constants {
       public static final double HOME_SETPOINT = 0;
       public static final double INTAKE_SETPOINT = 85;
       public static final double AMP_SETPOINT = 69;
-      public static final double kP = 1.0;
+      public static final double kP = 0.2;;
       public static final double kI = 0.0;
       public static final double kD = 0.0;
       public static final double MIN_INPUT = -1.0;

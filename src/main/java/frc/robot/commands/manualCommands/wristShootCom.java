@@ -5,17 +5,17 @@
 package frc.robot.commands.manualCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Trolley;
+import frc.robot.subsystems.Wrist;
 
-public class RunTrack extends Command {
-  /** Creates a new RunTrack. */
-  private final Trolley m_Track;
+public class wristShootCom extends Command {
+  /** Creates a new wristInCom. */
+private final Wrist m_Wrist;
   private final double value;
-  public RunTrack(Trolley track, double value) {
+  public wristShootCom(Wrist wrist, double value) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.m_Track = track;
+    this.m_Wrist = wrist;
     this.value = value;
-    addRequirements(m_Track);
+    addRequirements(m_Wrist);
   }
 
   // Called when the command is initially scheduled.
@@ -25,13 +25,13 @@ public class RunTrack extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_Track.trolley(value);
+    m_Wrist.wrist(value);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_Track.getLimitSwitch();
+    m_Wrist.atShooringPositonWrist();
   }
 
   // Returns true when the command should end.

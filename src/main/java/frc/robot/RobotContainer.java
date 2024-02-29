@@ -16,6 +16,7 @@ import frc.robot.commands.manualCommands.RunPivot;
 import frc.robot.commands.manualCommands.RunRevUP;
 import frc.robot.commands.manualCommands.RunTrack;
 import frc.robot.commands.manualCommands.RunWrist;
+import frc.robot.commands.manualCommands.wristIntakeCom;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.LEDs;
@@ -67,7 +68,7 @@ public class RobotContainer {
    */
 
    private void configureButtonBindings() {
-    joy.R1().whileTrue(new RunIntakeSensors(m_Intake, 0.3));  // R1 intake
+    joy.R1().whileTrue(new RunIntakeSensors(m_Intake, 0.3).until(m_Intake::detectNote));  // R1 intake
     joy.L1().whileFalse(new RunIntakeSensors(m_Intake, 0));
 
     joy.R2().whileTrue(new RunIntakeManual(m_Intake, 0.3));    // R2  push
@@ -97,27 +98,10 @@ public class RobotContainer {
     joy.L2().whileTrue(new RunPivot(m_Pivot, -0.3));  // L2   pivot down
     joy.L2().whileFalse(new RunPivot(m_Pivot, 0));
 
+    joy.triangle().whileTrue(new wristIntakeCom(m_Wrist, 0.15));
+    joy.triangle().whileFalse(new wristIntakeCom(m_Wrist, 0));                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
 
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
-    // INTAKE_SENSORS_BUTTON.whileTrue(new RunCommand(() -> m_Intake.intake(0.4)));
-
-    // IDLE_FIRE_BUTTON.whileTrue(new RunCommand(() -> m_Shooter.fire(0.4)));
-    // FIRE_BUTTON.whileTrue(new RunCommand(() -> m_Shooter.fire(0.6)));
-
-    // TRACK_UP.whileTrue(new RunCommand(() -> m_Track.trolley(0.4)));
-    // TRACK_UP.whileFalse(new RunCommand(() -> m_Track.trolley(0)));
-    // TRACK_DOWN.whileTrue(new RunCommand(() -> m_Track.trolley(-0.4)));
-    // TRACK_DOWN.whileFalse(new RunCommand(() -> m_Track.trolley(0)));
-
-    // WRIST_UP.whileTrue(new RunCommand(() -> m_Wrist.wrist(0.3)));
-
-    // WRIST_DOWN.whileTrue(new RunCommand(() -> m_Wrist.wrist(-0.3)));
-
-    // PIVOT_UP.whileTrue(new RunCommand(() -> m_Pivot.pivot(0.4)));
-    // PIVOT_UP.whileFalse(new RunCommand(() -> m_Pivot.pivot(0)));
-    // PIVOT_DOWN.whileTrue(new RunCommand(() -> m_Pivot.pivot(-0.4)));
-    // PIVOT_DOWN.whileFalse(new RunCommand(() -> m_Pivot.pivot(0)));
   }
   /** 
    * Use this to pass the autonomous command to the main {@link Robot} class.
