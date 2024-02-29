@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.4,
-      "y": 5.35
+      "x": 1.32,
+      "y": 5.53
     },
     "rotation": 0
   },
@@ -14,12 +14,12 @@
         {
           "type": "path",
           "data": {
-            "pathName": "New Path"
+            "pathName": "GoStraight"
           }
         }
       ]
     }
   },
-  "folder": null,
+  "folder": "Autos",
   "choreoAuto": false
 }

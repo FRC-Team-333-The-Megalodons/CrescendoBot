@@ -1,0 +1,52 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 0.77,
+        "y": 4.457363976456348
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.0694791421681606,
+        "y": 3.7240864605186
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 7.574107000065853,
+        "y": 0.7631304151497189
+      },
+      "prevControl": {
+        "x": 5.894066109119873,
+        "y": 1.6727658146674325
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "RightN1"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "3GamePiece2",
+  "previewStartingState": {
+    "rotation": -59.03624346792645,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

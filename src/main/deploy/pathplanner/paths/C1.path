@@ -1,0 +1,52 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 1.3074487833435935,
+        "y": 5.52
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.9306931140552677,
+        "y": 4.925970247290436
+      },
+      "isLocked": false,
+      "linkedName": "C0"
+    },
+    {
+      "anchor": {
+        "x": 2.4078645547563937,
+        "y": 4.479568626990161
+      },
+      "prevControl": {
+        "x": 1.8333081865819156,
+        "y": 5.0443807491438175
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "C1"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -34.77783136636391,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "4GamePiece",
+  "previewStartingState": {
+    "rotation": 0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}
