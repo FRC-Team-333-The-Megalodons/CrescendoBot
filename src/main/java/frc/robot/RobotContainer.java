@@ -33,11 +33,11 @@ import frc.robot.subsystems.Wrist;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  // private final Intake m_Intake = new Intake();
+  private final Intake m_Intake = new Intake();
   // private final Shooter m_Shooter = new Shooter(); 
-  // private final Pivot m_Pivot = new Pivot();
-  // private final Trolley m_Track = new Trolley();
-  // private final Wrist m_Wrist = new Wrist();
+  private final Pivot m_Pivot = new Pivot();
+  private final Trolley m_Track = new Trolley();
+  private final Wrist m_Wrist = new Wrist();
   private final CommandPS5Controller joy = new CommandPS5Controller(0);
   // private final Indexer m_Indexer = new Indexer();
 //  private final Joystick joy = new Joystick(0);
@@ -52,13 +52,13 @@ public class RobotContainer {
   //  m_Track.setDefaultCommand(new RunCommand(() -> m_Track.trolleyStop(), m_Track));
   //  m_Pivot.setDefaultCommand(new RunCommand(() -> m_Pivot.pivotStop(), m_Pivot));
   //  m_Indexer.setDefaultCommand(new RunCommand(() -> m_Indexer.indexStop(),  m_Indexer));
-   //  m_Leds.setDefaultCommand(new RunCommand(() -> m_Leds.noLED(), m_Leds));
+  //  m_Leds.setDefaultCommand(new RunCommand(() -> m_Leds.blinkingColor(0, 0, 255), m_Leds));
     configureButtonBindings();
   }
 
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
-   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
+   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary 
    * predicate, or via the named factories in {@link
    * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for {@link
    * CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
@@ -68,8 +68,8 @@ public class RobotContainer {
    */
 
    private void configureButtonBindings() {
-    // joy.R1().whileTrue(new RunIntakeSensors(m_Intake, 0.3).until(m_Intake::detectNote));  // R1 intake
-    // joy.L1().whileFalse(new RunIntakeSensors(m_Intake, 0));
+    joy.R1().whileTrue(new RunIntakeSensors(m_Intake, 0.3).until(m_Intake::detectNote));  // R1 intake
+    joy.L1().whileFalse(new RunIntakeSensors(m_Intake, 0));
 
     // joy.R2().whileTrue(new RunIntakeManual(m_Intake, 0.3));    // R2  push
     // joy.R2().whileFalse(new RunIntakeManual(m_Intake, 0));
@@ -80,43 +80,43 @@ public class RobotContainer {
     // joy.circle().whileTrue(new RunFire(m_Shooter, -0.3, m_Indexer, -0.3));       //  CIRCLE shoot
     // joy.circle().whileFalse(new RunFire(m_Shooter, 0, m_Indexer, 0));
    
-    // joy.R3().whileTrue(new RunTrack(m_Track, 0.3));    // R3       track up
-    // joy.R3().whileFalse(new RunTrack(m_Track, 0));
+    joy.R3().whileTrue(new RunTrack(m_Track, 0.3));    // R3       track up
+    joy.R3().whileFalse(new RunTrack(m_Track, 0));
 
-    // joy.L3().whileTrue(new RunTrack(m_Track, -0.3)); // L3       track down
-    // joy.L3().whileFalse(new RunTrack(m_Track, 0));
+    joy.L3().whileTrue(new RunTrack(m_Track, -0.3)); // L3       track down
+    joy.L3().whileFalse(new RunTrack(m_Track, 0));
 
-    // joy.cross().whileTrue(new RunWrist(m_Wrist, 0.3));    // CROSS    wrist  up
-    // joy.cross().whileFalse(new RunWrist(m_Wrist, 0));
+    joy.cross().whileTrue(new RunWrist(m_Wrist, 0.3));    // CROSS    wrist  up
+    joy.cross().whileFalse(new RunWrist(m_Wrist, 0));
 
-    // joy.square().whileTrue(new RunWrist(m_Wrist, -0.3));  // SQUARE wrist down
-    // joy.square().whileFalse(new RunWrist(m_Wrist, 0));
+    joy.square().whileTrue(new RunWrist(m_Wrist, -0.3));  // SQUARE wrist down
+    joy.square().whileFalse(new RunWrist(m_Wrist, 0));
 
-    // joy.L1().whileTrue(new RunPivot(m_Pivot, 0.3));    // L1   pivot up
-    // joy.L1().whileFalse(new RunPivot(m_Pivot, 0));
+    joy.L1().whileTrue(new RunPivot(m_Pivot, 0.3));    // L1   pivot up
+    joy.L1().whileFalse(new RunPivot(m_Pivot, 0));
 
-    // joy.L2().whileTrue(new RunPivot(m_Pivot, -0.3));  // L2   pivot down
-    // joy.L2().whileFalse(new RunPivot(m_Pivot, 0));
+    joy.L2().whileTrue(new RunPivot(m_Pivot, -0.3));  // L2   pivot down
+    joy.L2().whileFalse(new RunPivot(m_Pivot, 0));
 
-    // joy.triangle().whileTrue(new wristIntakePos(m_Wrist, 0.15));
-    // joy.triangle().whileFalse(new wristIntakePos(m_Wrist, 0));                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+    joy.triangle().whileTrue(new wristIntakePos(m_Wrist, -0.1));
+    joy.triangle().whileFalse(new wristIntakePos(m_Wrist, 0));                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
 
 
-    joy.triangle().whileFalse((new RunCommand(() -> m_Leds.noLED(), m_Leds)));
-    joy.triangle().whileTrue((new RunCommand(() -> m_Leds.blinkingColor(0, 0, 250), m_Leds))); //BLUE
+  //   joy.triangle().whileFalse((new RunCommand(() -> m_Leds.noLED(), m_Leds)));
+  //   joy.triangle().whileTrue((new RunCommand(() -> m_Leds.blinkingColor(0, 0, 250), m_Leds))); //BLUE
 
-    joy.circle().whileFalse((new RunCommand(() -> m_Leds.noLED(), m_Leds)));
-    joy.circle().whileTrue((new RunCommand(() -> m_Leds.blinkingColor(250, 0, 0), m_Leds))); // RED
+  //   joy.circle().whileFalse((new RunCommand(() -> m_Leds.noLED(), m_Leds)));
+  //   joy.circle().whileTrue((new RunCommand(() -> m_Leds.blinkingColor(250, 0, 0), m_Leds))); // RED
     
-    joy.square().whileFalse((new RunCommand(() -> m_Leds.noLED(), m_Leds)));
-    joy.square().whileTrue((new RunCommand(() -> m_Leds.blinkingColor(0, 250, 0), m_Leds))); // 
+  //   joy.square().whileFalse((new RunCommand(() -> m_Leds.noLED(), m_Leds)));
+  //   joy.square().whileTrue((new RunCommand(() -> m_Leds.blinkingColor(0, 250, 0), m_Leds))); // 
 
-    joy.cross().whileFalse((new RunCommand(() -> m_Leds.noLED(), m_Leds)));
-    joy.cross().whileTrue((new RunCommand(() -> m_Leds.blinkingColor(230, 57, 0), m_Leds)));
+  //   joy.cross().whileFalse((new RunCommand(() -> m_Leds.noLED(), m_Leds)));
+  //   joy.cross().whileTrue((new RunCommand(() -> m_Leds.blinkingColor(230, 57, 0), m_Leds)));
 
-    joy.touchpad().whileFalse((new RunCommand(() -> m_Leds.noLED(), m_Leds)));
-    joy.touchpad().whileTrue((new RunCommand(() -> m_Leds.blinkingColor(230, 223, 0), m_Leds)));
-  }
+  //   joy.touchpad().whileFalse((new RunCommand(() -> m_Leds.noLED(), m_Leds)));
+  //   joy.touchpad().whileTrue((new RunCommand(() -> m_Leds.blinkingColor(230, 223, 0), m_Leds)));
+   }
   /** 
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *

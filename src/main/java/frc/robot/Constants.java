@@ -17,13 +17,13 @@ public class Constants {
         public static final double INTAKE_SETPOINT = 0.374;
         public static final double SHOOTING_SETPOINT = 0.164;
         public static final double AMP_SETPOINT = 0.488;
-        public static final double kP = 0.3;
+        public static final double kP = 0.15;
         public static final double kI = 0.0;
         public static final double kD = 0.0;
         public static final double MIN_INPUT = -1.0;
         public static final double MAX_INPUT = 1.0;
 
-        public static final double NEW_INTAKE_POS = 0.6897;
+        public static final double NEW_INTAKE_POS = 0.52; //6897
         public static final double NEW_SHOOTING_POS = 0.3267;
 
         /*
@@ -74,7 +74,7 @@ public class Constants {
         public static final int INDEXER_MOTOR_ID = 15;
     }
     public static final class LEDConstants {
-        public static final int LED_PORT_ID = 3;
+        public static final int LED_PORT_ID = 9;
         public static final int NUMBER_OF_LED =1000;
         // public static final int LED_PORT_ID2 = 8;
         // public static final int NUMBER_OF_LED2 =120;
