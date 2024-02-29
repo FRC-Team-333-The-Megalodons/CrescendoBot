@@ -26,10 +26,10 @@ public class Wrist extends SubsystemBase {
         wristPIDController = new PIDController(WristConstants.kP, WristConstants.kI, WristConstants.kD);
         wristPIDController.enableContinuousInput(WristConstants.MIN_INPUT, WristConstants.MAX_INPUT);
         wristEncoder = wristMotor.getAbsoluteEncoder(com.revrobotics.SparkAbsoluteEncoder.Type.kDutyCycle);
-        wristPIDController.setOutputRange(WristConstants.MIN_INPUT, WristConstants.MAX_INPUT);
-        wristPIDController.setPositionPIDWrappingEnabled(true);
-        wristPIDController.setPositionPIDWrappingMinInput(WristConstants.INTAKE_SETPOINT);
-        wristPIDController.setPositionPIDWrappingMaxInput(WristConstants.SHOOTING_SETPOINT);
+        // wristPIDController.setOutputRange(WristConstants.MIN_INPUT, WristConstants.MAX_INPUT);
+        // wristPIDController.setPositionPIDWrappingEnabled(true);
+        // wristPIDController.setPositionPIDWrappingMinInput(WristConstants.INTAKE_SETPOINT);
+        // wristPIDController.setPositionPIDWrappingMaxInput(WristConstants.SHOOTING_SETPOINT);
     }
     public void wrist(double value) {
         wristMotor.set(value);
@@ -79,9 +79,9 @@ public class Wrist extends SubsystemBase {
         }
     }
 
-    public void setPosition(double setpoint) {
-        wristPIDController.setReference(setpoint, ControlType.kPosition);
-      }
+    // public void setPosition(double setpoint) {
+    //     wristPIDController.setReference(setpoint, ControlType.kPosition);
+    //   }
 
     @Override
     public void periodic(){

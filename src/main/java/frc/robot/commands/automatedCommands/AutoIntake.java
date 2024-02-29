@@ -15,11 +15,11 @@ import frc.robot.subsystems.Wrist;
 public class AutoIntake extends SequentialCommandGroup {
   /** Creates a new AutoIntake. */
 
-  public AutoIntake(Intake m_Intake, Wrist m_Wrist, Trolley m_Trolley) {
-    addCommands(
-      new RunCommand(() -> m_Wrist.setPosition(WristConstants.INTAKE_SETPOINT), m_Wrist)
-        .raceWith(new RunIntakeSensors(m_Intake, 0.3).until(m_Intake::detectNote)),
-      new RunCommand(() -> m_Wrist.setPosition(WristConstants.SHOOTING_SETPOINT), m_Wrist)
-    );
-  }
+  // public AutoIntake(Intake m_Intake, Wrist m_Wrist, Trolley m_Trolley) {
+  //   addCommands(
+  //     new RunCommand(() -> m_Wrist.setPosition(WristConstants.INTAKE_SETPOINT), m_Wrist)
+  //       .raceWith(new RunIntakeSensors(m_Intake, 0.3).until(m_Intake::detectNote)),
+  //     new RunCommand(() -> m_Wrist.setPosition(WristConstants.SHOOTING_SETPOINT), m_Wrist)
+  //   );
+  // }
 }

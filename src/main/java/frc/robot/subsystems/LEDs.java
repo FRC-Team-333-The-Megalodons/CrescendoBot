@@ -8,7 +8,8 @@ import org.w3c.dom.css.RGBColor;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.LEDConstants;;
+import frc.robot.Constants.LEDConstants;
+import java.lang.Thread;
 
 public class LEDs extends SubsystemBase {
   private AddressableLED m_led;
@@ -22,139 +23,122 @@ public class LEDs extends SubsystemBase {
     m_led.setData(m_ledBuffer);
     m_led.start();
   }
-  public void royalBlueLED() {
-    for (var i = 0; i< m_ledBuffer.getLength(); i++) {
-        m_ledBuffer.setRGB(i, 0, 59, 174);
-    } m_led.setData(m_ledBuffer);
-  }
-  public void orangeLED() {
-    for (var i = 0; i< m_ledBuffer.getLength(); i++) {
-        m_ledBuffer.setRGB(i, 255, 43, 0); //255, 43, 0
-    }  m_led.setData(m_ledBuffer);
-  }
-  public void yellowLED() {
-    for (var i = 0; i< m_ledBuffer.getLength(); i++) {
-        m_ledBuffer.setRGB(i, 230, 223, 0);
-    }  m_led.setData(m_ledBuffer);
-  }
-  public void greenLED() {
-    for (var i = 0; i< m_ledBuffer.getLength(); i++) {
-        m_ledBuffer.setRGB(i, 0, 250, 0);
-    } m_led.setData(m_ledBuffer);
-  }
-  public void redLED() {
-    for (var i=0; i< m_ledBuffer.getLength(); i++) {
-        m_ledBuffer.setRGB(i, 250, 0, 0);
-    } m_led.setData(m_ledBuffer);
-  }
-  public void RGBColor(int r, int g, int b){
-    for (var i=0; i< m_ledBuffer.getLength(); i++) {
-      m_ledBuffer.setRGB(i, r, g, b);
-  } m_led.setData(m_ledBuffer);
-  }
 
-  public void blinkingBlue() {
-    int length = m_ledBuffer.getLength();
-    int blue = 200;
-    int red = 0;
-    int green = 0;
-    while (true) {
-        blue = (blue + 500) % 600;
-        red = (red - 5) % 10;
-        green = (green - 5) % 10;
-        for (var i = 0; i < length; i++) {
-            m_ledBuffer.setRGB(i, 0, 0, blue); // Измените значения R, G и B, чтобы создать разноцветный эффект
-        }
-        m_led.setData(m_ledBuffer);
-        try {
-            Thread.sleep(100); // Подождите некоторое время перед обновлением цвета
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+    public void noLED() {
+      for (var i=0; i< m_ledBuffer.getLength(); i++) {
+          m_ledBuffer.setRGB(i, 0, 0, 0);
+      } m_led.setData(m_ledBuffer);
+    }
+
+    public void blinkingColor(int r, int g, int b) {
+      int length = m_ledBuffer.getLength();
+      for (int i = 0; i<length; i++) {
+        m_ledBuffer.setRGB(i, r, g, b);
+      }
+      m_led.setData(m_ledBuffer);
+      try {
+        Thread.sleep(100);
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
+      for (int i = 0; i<length; i++) {
+        m_ledBuffer.setRGB(i , 0, 0, 0);
+      }
+      m_led.setData(m_ledBuffer);
+      try {
+        Thread.sleep(100);
+      } catch (InterruptedException e) {
+        e.printStackTrace();
       }
     }
 
-    public void blinkingRed() {
-    int length = m_ledBuffer.getLength();
-    int blue = 20;
-    int red = 200;
-    int green = 20;
-    while (true) {
-        blue = (blue - 5) % 10;
-        red = (red + 500) % 600;
-        green = (green - 5) % 10;
-        for (var i = 0; i < length; i++) {
-            m_ledBuffer.setRGB(i, red, 0, 0); 
-        }
-        m_led.setData(m_ledBuffer);
-        try {
-            Thread.sleep(100); 
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-      }
-    }
+
+  // public void color(int r, int g, int b){
+  //   for(var i=0; i<m_ledBuffer.getLength();i++){
+  //     m_ledBuffer.setRGB(i, r, g, b);
+  //   }
+  // }
+  //   public void blinkingRed() {
+  //   int length = m_ledBuffer.getLength();
+  //   int blue = 20;
+  //   int red = 200;
+  //   int green = 20;
+  //   while (true) {
+  //       blue = (blue - 5) % 10;
+  //       red = (red + 500) % 600;
+  //       green = (green - 5) % 10;
+  //       for (var i = 0; i < length; i++) {
+  //           m_ledBuffer.setRGB(i, red, 0, 0); 
+  //       }
+  //       m_led.setData(m_ledBuffer);
+  //       try {
+  //           Thread.sleep(100); 
+  //       } catch (InterruptedException e) {
+  //           e.printStackTrace();
+  //       }
+  //     }
+  //   }
   
-    public void blinkingGreen() {
-    int length = m_ledBuffer.getLength();
-    int blue = 20;
-    int red = 20;
-    int green = 200;
-    while (true) {
-        blue = (blue - 5) % 10;
-        red = (red - 5) % 10;
-        green = (green + 500) % 600;
-        for (var i = 0; i < length; i++) {
-            m_ledBuffer.setRGB(i, 0, green, 0);
-        m_led.setData(m_ledBuffer);
-        try {
-            Thread.sleep(100); 
-        } catch (InterruptedException e) {
-            e.printStackTrace(); 
-        }
-      }
-    }
-  }
+  //   public void blinkingGreen() {
+  //   int length = m_ledBuffer.getLength();
+  //   int blue = 20;
+  //   int red = 20;
+  //   int green = 200;
+  //   while (true) {
+  //       blue = (blue - 5) % 10;
+  //       red = (red - 5) % 10;
+  //       green = (green + 500) % 600;
+  //       for (var i = 0; i < length; i++) {
+  //           m_ledBuffer.setRGB(i, 0, green, 0);
+  //       m_led.setData(m_ledBuffer);
+  //       try {
+  //           Thread.sleep(100); 
+  //       } catch (InterruptedException e) {
+  //           e.printStackTrace(); 
+  //       }
+  //     }
+  //   }
+  // }
 
-  public void blinkingYellow() {
-    int length = m_ledBuffer.getLength();
-    int blue = 10;
-    int red = 200;
-    int green = 100;
-    while (true) {
-        blue = (blue - 10) % 20;
-        red = (red + 500) % 600;
-        green = (green + 500) % 600;
-        for (var i = 0; i < length; i++) {
-            m_ledBuffer.setRGB(i, 230, 223, blue);
-        m_led.setData(m_ledBuffer);
-        try {
-            Thread.sleep(200); 
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-      }
-    }
-  }
+  // public void blinkingYellow() {
+  //   int length = m_ledBuffer.getLength();
+  //   int blue = 10;
+  //   int red = 200;
+  //   int green = 100;
+  //   while (true) {
+  //       blue = (blue - 10) % 20;
+  //       red = (red + 500) % 600;
+  //       green = (green + 500) % 600;
+  //       for (var i = 0; i < length; i++) {
+  //           m_ledBuffer.setRGB(i, 230, 223, blue);
+  //       m_led.setData(m_ledBuffer);
+  //       try {
+  //           Thread.sleep(200); 
+  //       } catch (InterruptedException e) {
+  //           e.printStackTrace();
+  //       }
+  //     }
+  //   }
+  // }
 
-    public void blinkOrange() {
-    int length = m_ledBuffer.getLength();
-    int blue = 20;
-    int red = 20;
-    int green =100;
-    while (true) {
-        blue = (blue - 10) % 20;
-        red = (red + 255) % 510;
-        green = (green - 44) % 80;
-        for (var i = 0; i < length; i++) {
-            m_ledBuffer.setRGB(i, red, green, 0);
-        m_led.setData(m_ledBuffer);
-        try {
-            Thread.sleep(50); 
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-      }
-    }
-  }
+  //   public void blinkOrange() {
+  //   int length = m_ledBuffer.getLength();
+  //   int blue = 20;
+  //   int red = 20;
+  //   int green =100;
+  //   while (true) {
+  //       blue = (blue - 10) % 20;
+  //       red = (red + 255) % 510;
+  //       green = (green - 44) % 80;
+  //       for (var i = 0; i < length; i++) {
+  //           m_ledBuffer.setRGB(i, red, green, 0);
+  //       m_led.setData(m_ledBuffer);
+  //       try {
+  //           Thread.sleep(50); 
+  //       } catch (InterruptedException e) {
+  //           e.printStackTrace();
+  //       }
+  //     }
+  //   }
+  // }
 }
