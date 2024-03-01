@@ -52,22 +52,10 @@
           "data": {
             "waitTime": 2.0
           }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "C4"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 2.0
-          }
         }
       ]
     }
   },
-  "folder": "Autos",
+  "folder": null,
   "choreoAuto": false
 }
