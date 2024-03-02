@@ -61,6 +61,7 @@ public final class Constants
   {
     public static final int MOTOR_ID = 5;
     public static final int LIMIT_SWITCH_ID = 7;
+    public static final int ENCODER_ID = 3;
     public static final double HOME_SETPOINT_POS = 0.0;
     public static final double INTAKE_SETPOINT_POS = 85;
     public static final double AMP_SETPOINT_POS = 69;
