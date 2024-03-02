@@ -6,14 +6,17 @@ package frc.robot.commands.manualCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.LEDs;
 
 public class RunIntakeManual extends Command {
   private final Intake m_IntakeManual;
+  private final LEDs m_Leds;
   private final double value;
 
-  public RunIntakeManual(Intake intake, double value) {
+  public RunIntakeManual(Intake intake, double value, LEDs leds) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.m_IntakeManual = intake;
+    this.m_Leds = leds;
     this.value = value;
     addRequirements(m_IntakeManual);
   }
@@ -26,12 +29,14 @@ public class RunIntakeManual extends Command {
   @Override
   public void execute() {
     m_IntakeManual.intake(value);
+    m_Leds.blinkingColor(100, 0, 255);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     m_IntakeManual.intakeStop();
+    m_Leds.noLED();
   }
 
   // Returns true when the command should end.

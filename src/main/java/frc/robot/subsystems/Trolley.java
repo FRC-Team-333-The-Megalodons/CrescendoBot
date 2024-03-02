@@ -9,11 +9,10 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.TrolleyConstants;
-import frc.robot.Constants.WristConstants;
-
 import com.revrobotics.SparkPIDController;
 
 /** Add your docs here. */
@@ -21,6 +20,7 @@ public class Trolley extends SubsystemBase {
     private CANSparkFlex trolleyMotor;
     private DigitalInput limitSwitch;
     private SparkPIDController trolleyController;
+    DutyCycleEncoder trolleyEncoder;
 
     public Trolley() {
         trolleyMotor = new CANSparkFlex(TrolleyConstants.TROLLEY_MOTOR_ID, MotorType.kBrushless);
@@ -35,6 +35,10 @@ public class Trolley extends SubsystemBase {
         trolleyController.setOutputRange(TrolleyConstants.MIN_INPUT, TrolleyConstants.MAX_INPUT);
         trolleyMotor.setIdleMode(IdleMode.kBrake);
         trolleyMotor.burnFlash();
+
+        trolleyEncoder = new DutyCycleEncoder(TrolleyConstants.TROLLEY_ENCODER_ID);
+        trolleyEncoder.setDistancePerRotation(900);
+        trolleyEncoder.reset();
     }
     public void trolley(double value) {
         trolleyMotor.set(value);
@@ -79,7 +83,7 @@ public class Trolley extends SubsystemBase {
     @Override
     public void periodic(){
         SmartDashboard.putBoolean("TrolleyLimitSwitch", getLimitSwitch());
-        SmartDashboard.putNumber("TrackEncoder", trolleyMotor.getEncoder().getPosition());
+        SmartDashboard.putNumber("encoderWrist" , trolleyEncoder.getAbsolutePosition());
         SmartDashboard.putBoolean("TrackHomePosition", atHomePositionTrack());
         SmartDashboard.putBoolean("TrackIntakePosition", atIntakePositionTrack());
     }

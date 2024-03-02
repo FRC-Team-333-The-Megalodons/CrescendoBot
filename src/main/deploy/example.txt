@@ -50,5 +50,10 @@ Buttons:
                                                     manual override on the dashboard?
 
 
+trolley pivot wrist (intake)
+wrist pivot trolley (home)
+pivot indexer shooter (shooot)
+
+
 DEBUGGING
 - runFiew & IdleFire WORK

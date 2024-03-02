@@ -25,6 +25,8 @@ public class Constants {
 
         public static final double NEW_INTAKE_POS = 0.664; //6897
         public static final double NEW_SHOOTING_POS = 0.3267;
+        public static final double WRIST_POS_LOWER_LIMIT_WHILE_ELEVATOR_UP = 0;
+        public static final double WRIST_POS_LOWER_LIMIT_WHILE_ELEVATOR_DOWN = 0;
 
         /*
          * wrist intake position 0.6897
@@ -34,6 +36,7 @@ public class Constants {
     public static final class TrolleyConstants {
       public static final int TROLLEY_MOTOR_ID = 5;
       public static final int TROLLEY_LIMIT_SWITCH_ID = 7;
+      public static final int TROLLEY_ENCODER_ID = 3;
       public static final double HOME_SETPOINT = 0;
       public static final double INTAKE_SETPOINT = 85;
       public static final double AMP_SETPOINT = 69;
@@ -42,6 +45,9 @@ public class Constants {
       public static final double kD = 0.0;
       public static final double MIN_INPUT = -1.0;
       public static final double MAX_INPUT = 1.0;
+      public static final int WRIST_POS_LOWER_LIMIT_WHILE_TROLLEY_DOWN = 0;
+      public static final double ELEVATOR_POS_LOWEST_POINT_WRIST_CAN_MOVE = 0;
+      public static final double ELEVATOR_POS_LOWEST_POINT_ELEVATOR_CAN_GO_WHILE_WRIST_DOWN = 0;
     }
     public static final class PivotConstants {
     public static final int PIVOT_MOTOR1_ID = 6; 
