@@ -19,7 +19,7 @@ import frc.robot.Constants.PivotConstants;
 
 public class Pivot extends SubsystemBase {
 
-  private CANSparkFlex pivotMotor1, pivotMotor2;
+  private CANSparkFlex pivotMotorLeader, pivotMotorFollower;
   private DutyCycleEncoder pivotEncoder;
   private PhotonCamera camera;
 
@@ -34,17 +34,19 @@ public class Pivot extends SubsystemBase {
 
   /** Creates a new Pivot. */
   public Pivot() {
-    pivotMotor1 = new CANSparkFlex(PivotConstants.MOTOR1_ID, MotorType.kBrushless);
-    pivotMotor2 = new CANSparkFlex(PivotConstants.MOTOR2_ID, MotorType.kBrushless);
+    pivotMotorLeader = new CANSparkFlex(PivotConstants.MOTOR1_ID, MotorType.kBrushless);
+    pivotMotorFollower = new CANSparkFlex(PivotConstants.MOTOR2_ID, MotorType.kBrushless);
 
-    pivotMotor1.restoreFactoryDefaults();
-    pivotMotor2.restoreFactoryDefaults();
+    pivotMotorLeader.restoreFactoryDefaults();
+    pivotMotorFollower.restoreFactoryDefaults();
 
-    pivotMotor1.setIdleMode(IdleMode.kBrake);
-    pivotMotor2.setIdleMode(IdleMode.kBrake);
+    pivotMotorLeader.setIdleMode(IdleMode.kBrake);
+    pivotMotorFollower.setIdleMode(IdleMode.kBrake);
 
-    pivotMotor1.burnFlash();
-    pivotMotor2.burnFlash();
+    pivotMotorLeader.burnFlash();
+    pivotMotorFollower.burnFlash();
+
+    pivotMotorFollower.follow(pivotMotorLeader);
 
     pivotEncoder = new DutyCycleEncoder(PivotConstants.ENCODER_ID);
     // pivotEncoder.setPositionOffset(PivotConstants.ZERO_OFFSET);
@@ -60,33 +62,64 @@ public class Pivot extends SubsystemBase {
     return pivotEncoder.getAbsolutePosition();
   }
 
-  public void runPivot(double value) {
-    pivotMotor1.set(value);
-    pivotMotor2.follow(pivotMotor1);
+  public void runPivot(double speed) {
+    if (mustStopDueToLimit(speed)) {
+      stopPivot();
+      return;
+    }
+
+    pivotMotorLeader.set(speed);
   }
 
   public void stopPivot() {
-    pivotMotor1.set(0.0);
-    pivotMotor2.set(0.0);
+    pivotMotorLeader.set(0.0);
   }
 
-  public void setAngle(double angle) {
-    pivotMotor1.set(pivotController.calculate(getPosition(), angle));
+  public void runPivotToTargetAngle(double angle) {
+    double speed = pivotController.calculate(getPosition(), angle);
+    runPivot(speed);
   }
 
   public void trackTarget() {
     var result = camera.getLatestResult();
 
     if (result.hasTargets()) {
-      pivotMotor1.set(pivotController.calculate(result.getBestTarget().getYaw(), 0));
+      pivotMotorLeader.set(pivotController.calculate(result.getBestTarget().getYaw(), 0));
     } else {
       stopPivot();
     }
   }
 
+  private boolean mustStopDueToLimit(double speed)
+  {
+    // TODO: Is positive Up or Down? This code assumes value > 0 means "go Up", might need to be flipped if not so.
+    if ((speed > 0 && getPosition() >= getUpLimitFromState()) ||
+        (speed < 0 && getPosition() <= getDownLimitFromState())) {
+      return true;
+    }
+    return false;
+  }
+
+  // Note: DOWN means the shooter is down, and the Intake is up.
+  private double getDownLimitFromState()
+  {
+    // TODO
+    return 0.0;
+  }
+
+  // Note: UP means the shooter is up, and the Intake is down.
+  private double getUpLimitFromState()
+  {
+    // TODO
+    return 0.0;
+  }
+
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Pivot Pos", getPosition());
-    SmartDashboard.putBoolean("Pivot Setpoint?", pivotController.atSetpoint());
+    final String PREFIX = "Pivot ";
+    SmartDashboard.putNumber(PREFIX+"Position", getPosition());
+    SmartDashboard.putBoolean(PREFIX+"Setpoint", pivotController.atSetpoint());
+    SmartDashboard.putNumber(PREFIX+"Up Limit", getUpLimitFromState());
+    SmartDashboard.putNumber(PREFIX+"Down Limit", getDownLimitFromState());
   }
 }

@@ -64,6 +64,18 @@ public class Wrist extends SubsystemBase {
     wristController.setReference(setpoint, ControlType.kPosition);
   }
 
+  private double getDownLimitFromState()
+  {
+    // TODO
+    return 0.0;
+  }
+
+  private double getUpLimitFromState()
+  {
+    // TODO
+    return 0.0;
+  }
+
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Wrist Pos", getPosition());

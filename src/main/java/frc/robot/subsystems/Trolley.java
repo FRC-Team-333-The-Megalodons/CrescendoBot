@@ -68,19 +68,11 @@ public class Trolley extends SubsystemBase {
 
   public boolean atSetpoint(double setpoint) {
     // If our encoder is at a premeditated setpoint, return true, otherwise return false
-    if (getPostion() == setpoint) {
-      return true;
-    } else {
-      return false;
-    }
+    return (getPostion() == setpoint);
   }
 
   public boolean getLimitSwitch(){
-    if (limitSwitch.get() == true) {
-      return false;
-    }else{
-      return true;
-    }
+    return !limitSwitch.get();
   }
 
   public void zeroPosition(){
@@ -88,6 +80,18 @@ public class Trolley extends SubsystemBase {
       //stopTrolley();
       resetEncoder();
     }
+  }
+
+  private double getBackLimitFromState()
+  {
+    // TODO
+    return 0.0;
+  }
+
+  private double getFrontLimitFromState()
+  {
+    // TODO
+    return 0.0;
   }
 
   @Override
