@@ -26,13 +26,13 @@ import frc.robot.Constants.PivotConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.TrolleyConstants;
 import frc.robot.Constants.WristConstants;
-import frc.robot.commands.AutoIntake;
-import frc.robot.commands.RunIndexer;
-import frc.robot.commands.RunIntake;
-import frc.robot.commands.RunPivot;
-import frc.robot.commands.RunShooter;
-import frc.robot.commands.RunTrolley;
-import frc.robot.commands.RunWrist;
+import frc.robot.commands.advanced.AutoIntake;
+import frc.robot.commands.basic.RunIndexer;
+import frc.robot.commands.basic.RunIntake;
+import frc.robot.commands.basic.RunPivot;
+import frc.robot.commands.basic.RunShooter;
+import frc.robot.commands.basic.RunTrolley;
+import frc.robot.commands.basic.RunWrist;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
@@ -139,7 +139,7 @@ public class RobotContainer
     if (manualMode) {
       opRoller.circle().whileTrue(new RunIntake(intake, 0.5).until(intake::hasNote));
       opRoller.cross().whileTrue(new RunIntake(intake, 1.0));
-      opRoller.triangle().whileTrue(new RunIntake(intake, -1.0));
+      opRoller.triangle().whileTrue(new RunIntake(intake, -0.5));
 
       opRoller.touchpad().whileTrue(new RunCommand(() -> leds.royalBlueLED()));
 

@@ -83,7 +83,7 @@ public class Trolley extends SubsystemBase {
     }
   }
 
-  public void resetPositionToZero(){
+  public void zeroPosition(){
     if (getLimitSwitch() == true) {
       //stopTrolley();
       resetEncoder();
@@ -92,7 +92,7 @@ public class Trolley extends SubsystemBase {
 
   @Override
   public void periodic() {
-    resetPositionToZero();
+    zeroPosition();
     SmartDashboard.putNumber("Trolley Pos", getPostion());
     SmartDashboard.putBoolean("LimitSwitch", getLimitSwitch());
     SmartDashboard.putBoolean("At Setpoint?", atSetpoint(getPostion()));
