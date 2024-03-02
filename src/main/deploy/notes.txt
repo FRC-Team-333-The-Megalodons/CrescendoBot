@@ -68,3 +68,43 @@ We will use the limelight to track the april tags on the field and we would like
             b. Adjust to target when in rannge, but to setpoints (e.g: when in range of speaker, adjust to subwoffer shot)
         - We will use whatever way we can get working within a resonable time
     4. Driver Assist - Track our targets, but instead of doing robot actions, flash LEDs a certain color to let the driver know we are ready to do something
+
+
+
+Josh's notes:
+
+- Following today's conversation about the various Commands that transition between states, we've identified the following total required commands:
+  - Home-to-Intake
+  - Intake-to-Home
+  - Intake-to-Amp
+  - Intake-to-Climb* (this might be basically the same as Intake-to-Amp)
+  - Home-to-Shoot
+  - Shoot-to-Home
+  - Home-to-Amp
+  - Amp-to-Home
+  - Amp-to-Intake
+  - Home-to-Climb* (this might be basically the same as Home-to-Amp)
+  - Climb-to-Home* (this might be basically the same as Amp-to-Home)
+
+- What are the various "states" we can be in?
+  - WristPartiallyDown+TrolleyBack+PivotUp [Intake Position]
+  - WristUp+TrolleyFront+PivotMid [Home Position]
+  - WristUp+TrolleyFront+PivotPartiallyUp  [Shoot Position]
+  - WristPartiallyDown+TrolleyBack+PivotMostlyDown [Amp Position]
+  - WristCompletelyDown+TrolleyBack+PivotDown(Vertical) [ClimbPosition]
+
+- Are there "substates" you need to worry about? 
+  - Not if we set up the actions within a Command to all happen in parallel, so long as there's a "don't move" on conditional limits.
+  - Our hard limits are:
+    - Wrist: Up: flush; 
+             Down: flush
+    - Trolley: Back: flush; 
+               Forward: No further than home position (i.e. as far as it can go with wrist flush up)
+    - Pivot: Down: Slightly further than vertical (i.e. amp position); 
+             Up: Slightly further than horizontal (i.e. shoot position)
+  - Our conditional limits are:
+    - Wrist: Down: If the Pivot is up, must be limited (I don't think it even matters where the trolley is back or not)
+    - Pivot: Down: If the Trolley is Forward, must be limited (I don't think it even matters where the wrist is)
+             Up: If the trolley is Back, must be limited (I don't think it even matters where the wrist is)
+    - Trolley: Back: If the Pivot is up, must be limited 
+               Forward: If the Pivot is down, must be limited
