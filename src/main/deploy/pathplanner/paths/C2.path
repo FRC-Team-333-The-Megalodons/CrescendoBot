@@ -43,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "4GamePiece",
+  "folder": null,
   "previewStartingState": {
     "rotation": -37.874983651098134,
     "velocity": 0

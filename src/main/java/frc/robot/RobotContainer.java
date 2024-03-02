@@ -33,6 +33,7 @@ import frc.robot.commands.RunPivot;
 import frc.robot.commands.RunShooter;
 import frc.robot.commands.RunTrolley;
 import frc.robot.commands.RunWrist;
+import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.LEDStrip;
@@ -65,7 +66,7 @@ public class RobotContainer
   private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
                                                                          "swerve/neo"));
 
-  CommandPS5Controller driverRoller = new CommandPS5Controller(0);
+  PS5Controller driverRoller = new PS5Controller(0);
   CommandPS5Controller opRoller = new CommandPS5Controller(1);
   
 
@@ -76,7 +77,7 @@ public class RobotContainer
   {
     // Configure the trigger bindings
     configureBindings();
-    /*AbsoluteDriveAdv closedAbsoluteDriveAdv = new AbsoluteDriveAdv(drivebase,
+    AbsoluteDriveAdv closedAbsoluteDriveAdv = new AbsoluteDriveAdv(drivebase,
                                                                    () -> MathUtil.applyDeadband(-driverRoller.getLeftY(),
                                                                                                 OperatorConstants.LEFT_Y_DEADBAND),
                                                                    () -> MathUtil.applyDeadband(-driverRoller.getLeftX(),
@@ -86,7 +87,7 @@ public class RobotContainer
                                                                    driverRoller::getTriangleButtonPressed,
                                                                    driverRoller::getCrossButtonPressed,
                                                                    driverRoller::getSquareButtonPressed,
-                                                                   driverRoller::getCircleButtonPressed);*/
+                                                                   driverRoller::getCircleButtonPressed);
     /*AbsoluteDriveAdv closedAbsoluteDriveAdv = new AbsoluteDriveAdv(drivebase,
      () -> MathUtil.applyDeadband(driverRoller.getLeft, OperatorConstants.LEFT_X_DEADBAND), 
      () -> MathUtil.applyDeadband(driverRoller.getLeftY(), )
@@ -102,8 +103,8 @@ public class RobotContainer
     Command driveFieldOrientedDirectAngle = drivebase.driveCommand(
         () -> -MathUtil.applyDeadband(driverRoller.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
         () -> -MathUtil.applyDeadband(driverRoller.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> driverRoller.getRightX()*0.3);
-        //() -> driverRoller.getRightY());
+        () -> -driverRoller.getRightX(),
+        () -> -driverRoller.getRightY());
 
     // Applies deadbands and inverts controls because joysticks
     // are back-right positive while robot
@@ -113,7 +114,7 @@ public class RobotContainer
     Command driveFieldOrientedAnglularVelocity = drivebase.driveCommand(
         () -> -MathUtil.applyDeadband(driverRoller.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
         () -> -MathUtil.applyDeadband(driverRoller.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-        () ->  MathUtil.applyDeadband(driverRoller.getRightX()*.85, OperatorConstants.RIGHT_X_DEADBAND));
+        () ->  -MathUtil.applyDeadband(driverRoller.getRightX()*.85, OperatorConstants.RIGHT_X_DEADBAND));
 
     Command driveFieldOrientedDirectAngleSim = drivebase.simDriveCommand(
         () -> -MathUtil.applyDeadband(driverRoller.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
@@ -136,7 +137,7 @@ public class RobotContainer
     boolean manualMode = true;
 
     if (manualMode) {
-      opRoller.circle().whileTrue(new RunIntake(intake, 0.3).until(intake::hasNote));
+      opRoller.circle().whileTrue(new RunIntake(intake, 0.5).until(intake::hasNote));
       opRoller.cross().whileTrue(new RunIntake(intake, 1.0));
       opRoller.triangle().whileTrue(new RunIntake(intake, -1.0));
 
@@ -156,7 +157,7 @@ public class RobotContainer
       // opRoller.R3().whileTrue(new RunCommand(() -> pivot.setAngle(PivotConstants.INTAKE_SETPOINT), pivot));
       // opRoller.L3().whileTrue(new RunCommand(() -> pivot.setAngle(PivotConstants.HOME_SETPOINT), pivot));
 
-      opRoller.square().whileTrue(new RunShooter(shooter, 0.9).alongWith(new RunIndexer(indexer, 0.45)));
+      opRoller.square().whileTrue(new RunShooter(shooter, 0.9).alongWith(new RunIndexer(indexer, 1.0)));
     } else {
       opRoller.circle().whileTrue(new RunCommand(() -> wrist.setPosition(WristConstants.INTAKE_SETPOINT), wrist).raceWith(new RunIntake(intake, 0.3).until(intake::hasNote)).andThen(new RunCommand(() -> wrist.setPosition(WristConstants.SHOOTING_SETPOINT), wrist)));
       // opRoller.circle().whileTrue(new AutoIntake(intake, wrist, trolley));
@@ -169,14 +170,20 @@ public class RobotContainer
     }
 
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-
-    driverRoller.cross().onTrue((Commands.runOnce(drivebase::zeroGyro)));
-    driverRoller.square().onTrue(Commands.runOnce(drivebase::addFakeVisionReading));
-    driverRoller.circle().whileTrue(
+    new JoystickButton(driverRoller, 4).onTrue((new InstantCommand(drivebase::zeroGyro)));
+    new JoystickButton(driverRoller, 5).onTrue(new InstantCommand(drivebase::addFakeVisionReading));
+    new JoystickButton(driverRoller,
+                       12).whileTrue(
         Commands.deferredProxy(() -> drivebase.driveToPose(
-                                   new Pose2d(new Translation2d(4, 4), Rotation2d.fromDegrees(0)))
+                                   new Pose2d(new Translation2d(0, 0), Rotation2d.fromDegrees(0)))
                               ));
-     driverRoller.triangle().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
+    //driverRoller.cross().onTrue((Commands.runOnce(drivebase::zeroGyro)));
+    //driverRoller.square().onTrue(Commands.runOnce(drivebase::addFakeVisionReading));
+    //driverRoller.circle().whileTrue(
+      //  Commands.deferredProxy(() -> drivebase.driveToPose(
+        //                           new Pose2d(new Translation2d(4, 4), Rotation2d.fromDegrees(0)))
+          //                    ));
+     //driverRoller.triangle().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
   }
 
   /**

@@ -43,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "CenterGamePieces",
+  "folder": null,
   "previewStartingState": {
     "rotation": -159.74353782547686,
     "velocity": 0
