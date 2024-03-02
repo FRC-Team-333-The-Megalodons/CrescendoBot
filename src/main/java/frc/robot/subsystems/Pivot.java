@@ -93,11 +93,8 @@ public class Pivot extends SubsystemBase {
   private boolean mustStopDueToLimit(double speed)
   {
     // TODO: Is positive Up or Down? This code assumes value > 0 means "go Up", might need to be flipped if not so.
-    if ((speed > 0 && getPosition() >= getUpLimitFromState()) ||
-        (speed < 0 && getPosition() <= getDownLimitFromState())) {
-      return true;
-    }
-    return false;
+    return ((speed > 0 && getPosition() >= getUpLimitFromState()) ||
+            (speed < 0 && getPosition() <= getDownLimitFromState()));
   }
 
   // Note: DOWN means the shooter is down, and the Intake is up.

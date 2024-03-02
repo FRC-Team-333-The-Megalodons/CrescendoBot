@@ -46,12 +46,17 @@ public class Trolley extends SubsystemBase {
     trolleyMotor.getEncoder().setPosition(0.0);
   }
 
-  public double getPostion() {
+  public double getPosition() {
     return trolleyMotor.getEncoder().getPosition();
   }
 
-  public void runTrolley(double value) {
-    trolleyMotor.set(value);
+  public void runTrolley(double speed) {
+    if (mustStopDueToLimit(speed)) {
+      stopTrolley();
+      return;
+    }
+  
+    trolleyMotor.set(speed);
   }
 
   public void stopTrolley() {
@@ -59,16 +64,20 @@ public class Trolley extends SubsystemBase {
   }
 
   public void setPosition(double setpoint) {
+    // TODO: How can we apply the limits here and cancel the controller?
+    // We can "guess" at what direction it'll set:
+    double direction = (setpoint > getPosition() ? 1.0 : -1.0);
+    if (mustStopDueToLimit(direction)) {
+      stopTrolley();
+      //trolleyController.cancel();// TODO: How do we tell the onboard controller to stop? 
+      return;
+    }
     trolleyController.setReference(setpoint, ControlType.kPosition);
-
-    // TODO: Add some Trolley logic
-    // When this function is ran, the trolley will ignore limit switch input and go to its setpoint
-    // How will it ignore it? We'll burn that bridge when we get there...
   }
 
   public boolean atSetpoint(double setpoint) {
     // If our encoder is at a premeditated setpoint, return true, otherwise return false
-    return (getPostion() == setpoint);
+    return (getPosition() == setpoint);
   }
 
   public boolean getLimitSwitch(){
@@ -80,6 +89,13 @@ public class Trolley extends SubsystemBase {
       //stopTrolley();
       resetEncoder();
     }
+  }
+
+  private boolean mustStopDueToLimit(double speed)
+  {
+    // TODO: Is positive Front or Back? This code assumes value > 0 means "go Up", might need to be flipped if not so.
+    return ((speed > 0 && getPosition() >= getFrontLimitFromState()) ||
+            (speed < 0 && getPosition() <= getBackLimitFromState()));
   }
 
   private double getBackLimitFromState()
@@ -97,8 +113,8 @@ public class Trolley extends SubsystemBase {
   @Override
   public void periodic() {
     zeroPosition();
-    SmartDashboard.putNumber("Trolley Pos", getPostion());
+    SmartDashboard.putNumber("Trolley Pos", getPosition());
     SmartDashboard.putBoolean("LimitSwitch", getLimitSwitch());
-    SmartDashboard.putBoolean("At Setpoint?", atSetpoint(getPostion()));
+    SmartDashboard.putBoolean("At Setpoint?", atSetpoint(getPosition()));
   }
 }

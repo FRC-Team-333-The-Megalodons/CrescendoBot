@@ -52,8 +52,13 @@ public class Wrist extends SubsystemBase {
     return wristEncoder.getPosition();
   }
 
-  public void runWrist(double value) {
-    wristMotor.set(value);
+  public void runWrist(double speed) {
+    if (mustStopDueToLimit(speed)) {
+      stopWrist();
+      return;
+    }
+
+    wristMotor.set(speed);
   }
 
   public void stopWrist() {
@@ -61,7 +66,23 @@ public class Wrist extends SubsystemBase {
   }
 
   public void setPosition(double setpoint) {
+    // TODO: How can we apply the limits here and cancel the controller?
+    // We can "guess" at what direction it'll set:
+    double direction = (setpoint > getPosition() ? 1.0 : -1.0);
+    if (mustStopDueToLimit(direction)) {
+      stopWrist();
+      wristController.cancel();// TODO: How do we tell the onboard controller to stop? 
+      return;
+    }
+
     wristController.setReference(setpoint, ControlType.kPosition);
+  }
+
+  private boolean mustStopDueToLimit(double speed)
+  {
+    // TODO: Is positive Up or Down? This code assumes value > 0 means "go Up", might need to be flipped if not so.
+    return ((speed > 0 && getPosition() >= getUpLimitFromState()) ||
+            (speed < 0 && getPosition() <= getDownLimitFromState()));
   }
 
   private double getDownLimitFromState()
