@@ -6,6 +6,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.AbsoluteEncoder;
+import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
@@ -18,18 +19,15 @@ public class Wrist extends SubsystemBase {
     private CANSparkMax wristMotor;
     private PIDController wristPIDController;
     private AbsoluteEncoder wristEncoder;
-
+    
 
     public Wrist() {
         wristMotor = new CANSparkMax(WristConstants.WRIST_MOTOR_ID, MotorType.kBrushless);
         wristMotor.setIdleMode(IdleMode.kBrake);
         wristPIDController = new PIDController(WristConstants.kP, WristConstants.kI, WristConstants.kD);
+        wristEncoder = wristMotor.getAbsoluteEncoder(com.revrobotics.SparkAbsoluteEncoder.Type.kDutyCycle);
         wristPIDController.enableContinuousInput(WristConstants.MIN_INPUT, WristConstants.MAX_INPUT);
         wristEncoder = wristMotor.getAbsoluteEncoder(com.revrobotics.SparkAbsoluteEncoder.Type.kDutyCycle);
-        // wristPIDController.setOutputRange(WristConstants.MIN_INPUT, WristConstants.MAX_INPUT);
-        // wristPIDController.setPositionPIDWrappingEnabled(true);
-        // wristPIDController.setPositionPIDWrappingMinInput(WristConstants.INTAKE_SETPOINT);
-        // wristPIDController.setPositionPIDWrappingMaxInput(WristConstants.SHOOTING_SETPOINT);
     }
     public void wrist(double value) {
         wristMotor.set(value);
@@ -79,9 +77,20 @@ public class Wrist extends SubsystemBase {
         }
     }
 
-    // public void setPosition(double setpoint) {
-    //     wristPIDController.setReference(setpoint, ControlType.kPosition);
-    //   }
+    public double getPosition() {
+        return wristEncoder.getPosition();
+      }
+
+    // public void goIntakeWrist(){
+    //   wristMotor.set(wristPIDController.calculate(getPosition(), WristConstants.NEW_INTAKE_POS));
+    // }
+    
+    // public void goHomeWrist(){
+    //   wristMotor.set(wristPIDController.calculate(getPosition(), WristConstants.NEW_SHOOTING_POS));
+    // }
+     public void wristPIDController(double position ){
+        wristMotor.set(wristPIDController.calculate(getPosition(),position));
+    }
 
     @Override
     public void periodic(){
@@ -90,3 +99,4 @@ public class Wrist extends SubsystemBase {
         SmartDashboard.putBoolean("WristAtHomePosition", atHomePositionWrist());
     }
 }
+

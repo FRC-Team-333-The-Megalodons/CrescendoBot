@@ -12,6 +12,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.PivotConstants;
 
 /** Add your docs here. */
@@ -77,6 +78,18 @@ public class Pivot extends SubsystemBase {
       public void resetPivotEncoderPivot() { 
         pivotMotorRight.getEncoder().setPosition(0); 
       } 
+
+    //   public double getPosition() {
+    //     return pivotEncoder.getAbsolutePosition();
+    //   }
+
+    //   public void goIntakePivot() {
+    //     pivotMotorRight.set(PivotPidController.calculate(getPosition(), PivotConstants.INTAKE_SETPOINT));
+    //   }// if you read this, you have the gay
+
+    //   public void goHomePivot() {
+    //     pivotMotorRight.set(PivotPidController.calculate(getPosition(), PivotConstants.HOME_SETPOINT));
+    //   }
 
     @Override
     public void periodic(){

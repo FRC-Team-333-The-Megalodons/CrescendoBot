@@ -5,16 +5,17 @@
 package frc.robot.commands.manualCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.WristConstants;
 import frc.robot.subsystems.Wrist;
 
 public class wristIntakePos extends Command {
   /** Creates a new wristAtSetpoint. */
   private final Wrist m_Wrist;
-  private final double value;
-  public wristIntakePos(Wrist wrist, double value) {
+  //private final double value;
+  public wristIntakePos(Wrist wrist) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.m_Wrist = wrist;
-    this.value = value;
+    //this.value = value;
     addRequirements(m_Wrist);
   }
 
@@ -25,13 +26,13 @@ public class wristIntakePos extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_Wrist.wrist(value);
+    m_Wrist.wristPIDController(WristConstants.NEW_INTAKE_POS);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_Wrist.atIntakePositionWrist();
+    m_Wrist.wristSTOP();
   }
 
   // Returns true when the command should end.

@@ -33,15 +33,14 @@ import frc.robot.subsystems.Wrist;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final Intake m_Intake = new Intake();
+ // private final Intake m_Intake = new Intake();
   // private final Shooter m_Shooter = new Shooter(); 
   private final Pivot m_Pivot = new Pivot();
   private final Trolley m_Track = new Trolley();
   private final Wrist m_Wrist = new Wrist();
   private final CommandPS5Controller joy = new CommandPS5Controller(0);
   // private final Indexer m_Indexer = new Indexer();
-//  private final Joystick joy = new Joystick(0);
-  private final LEDs m_Leds = new LEDs();
+  // private final LEDs m_Leds = new LEDs();
   
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -68,8 +67,8 @@ public class RobotContainer {
    */
 
    private void configureButtonBindings() {
-    joy.R1().whileTrue(new RunIntakeSensors(m_Intake, 0.3).until(m_Intake::detectNote));  // R1 intake
-    joy.L1().whileFalse(new RunIntakeSensors(m_Intake, 0));
+    // joy.R1().whileTrue(new RunIntakeSensors(m_Intake, 0.3).until(m_Intake::detectNote));  // R1 intake
+    // joy.L1().whileFalse(new RunIntakeSensors(m_Intake, 0));
 
     // joy.R2().whileTrue(new RunIntakeManual(m_Intake, 0.3));    // R2  push
     // joy.R2().whileFalse(new RunIntakeManual(m_Intake, 0));
@@ -98,8 +97,8 @@ public class RobotContainer {
     joy.L2().whileTrue(new RunPivot(m_Pivot, -0.3));  // L2   pivot down
     joy.L2().whileFalse(new RunPivot(m_Pivot, 0));
 
-    joy.triangle().whileTrue(new wristIntakePos(m_Wrist, -0.1));
-    joy.triangle().whileFalse(new wristIntakePos(m_Wrist, 0));                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+    joy.triangle().whileTrue(new wristIntakePos(m_Wrist));
+    joy.triangle().whileFalse(new wristIntakePos(m_Wrist));                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
 
 
   //   joy.triangle().whileFalse((new RunCommand(() -> m_Leds.noLED(), m_Leds)));
