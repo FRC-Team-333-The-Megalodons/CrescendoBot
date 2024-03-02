@@ -14,6 +14,7 @@ import com.revrobotics.SparkAbsoluteEncoder.Type;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.PivotConstants;
 import frc.robot.Constants.WristConstants;
 
 public class Wrist extends SubsystemBase {
@@ -23,8 +24,11 @@ public class Wrist extends SubsystemBase {
 
   private SparkPIDController wristController;
 
+  private Pivot pivotRef;
+
   /** Creates a new Wrist. */
-  public Wrist() {
+  public Wrist(Pivot _pivotRef) {
+    pivotRef = _pivotRef;
     wristMotor = new CANSparkMax(WristConstants.MOTOR_ID, MotorType.kBrushless);
 
     wristMotor.restoreFactoryDefaults();
@@ -86,14 +90,17 @@ public class Wrist extends SubsystemBase {
 
   private double getDownLimitFromState()
   {
-    // This is always the hard-stop (i.e. flush) limit
-    return 0.0;
+    if (pivotRef.getPosition() > PivotConstants.HOME_SETPOINT_POS) {
+      // This intends to say, "If the Pivot is up (i.e. the wrist is down), then don't rotate the wrist down past the point of intake, else it'll smack the bumper/interior."
+      return WristConstants.INTAKE_SETPOINT_POS;
+    }
+    return WristConstants.DOWN_LIMIT_POS;
   }
 
   private double getUpLimitFromState()
   {
-    // TODO
-    return 0.0;
+    //  This is always the hard-stop (i.e. flush) limit
+    return WristConstants.UP_LIMIT_POS;
   }
 
   @Override

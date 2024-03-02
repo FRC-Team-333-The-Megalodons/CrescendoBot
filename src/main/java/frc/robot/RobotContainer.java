@@ -57,9 +57,9 @@ public class RobotContainer
 {
 
   private final Intake intake = new Intake();
-  private final Wrist wrist = new Wrist();
   private final Trolley trolley = new Trolley();
   private final Pivot pivot = new Pivot(trolley);
+  private final Wrist wrist = new Wrist(pivot);
   private final Indexer indexer = new Indexer();
   private final Shooter shooter = new Shooter();
   private final LEDStrip leds = new LEDStrip();
