@@ -40,8 +40,8 @@ public class Wrist extends SubsystemBase {
     wristController.setFF(WristConstants.kFF);
     wristController.setOutputRange(WristConstants.MIN_INPUT, WristConstants.MAX_INPUT);
     wristController.setPositionPIDWrappingEnabled(true);
-    wristController.setPositionPIDWrappingMinInput(WristConstants.INTAKE_SETPOINT);
-    wristController.setPositionPIDWrappingMaxInput(WristConstants.SHOOTING_SETPOINT);
+    wristController.setPositionPIDWrappingMinInput(WristConstants.INTAKE_SETPOINT_POS);
+    wristController.setPositionPIDWrappingMaxInput(WristConstants.SHOOTING_SETPOINT_POS);
 
     wristMotor.setIdleMode(IdleMode.kBrake);
 
@@ -70,8 +70,7 @@ public class Wrist extends SubsystemBase {
     // We can "guess" at what direction it'll set:
     double direction = (setpoint > getPosition() ? 1.0 : -1.0);
     if (mustStopDueToLimit(direction)) {
-      stopWrist();
-      wristController.cancel();// TODO: How do we tell the onboard controller to stop? 
+      stopWrist(); // TODO: Verify that doing `set` on the motor cancels the closed-loop mode by setReference (I hope so, nothing in the documentation explains how to do it if not)
       return;
     }
 
@@ -87,7 +86,7 @@ public class Wrist extends SubsystemBase {
 
   private double getDownLimitFromState()
   {
-    // TODO
+    // This is always the hard-stop (i.e. flush) limit
     return 0.0;
   }
 

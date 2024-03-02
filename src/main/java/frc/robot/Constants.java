@@ -44,9 +44,11 @@ public final class Constants
   {
     public static final int MOTOR_ID = 4;
     public static final double ZERO_OFFSET = 0.67;
-    public static final double INTAKE_SETPOINT = 0.798029005527496;
-    public static final double SHOOTING_SETPOINT = 0.485868990421295;
-    public static final double AMP_SETPOINT = 0.488;
+    public static final double INTAKE_SETPOINT_POS = 0.798029005527496;
+    public static final double SHOOTING_SETPOINT_POS = 0.485868990421295;
+    public static final double AMP_SETPOINT_POS = 0.488;
+    public static final double UP_LIMIT_POS = 0.2; // TODO: This is a guess!!
+    public static final double DOWN_LIMIT_POS = 1.0; // TODO: This is a guess!!
     public static final double kP = 5.0;
     public static final double kI = 0.0;
     public static final double kD = 0.0;
@@ -59,9 +61,11 @@ public final class Constants
   {
     public static final int MOTOR_ID = 5;
     public static final int LIMIT_SWITCH_ID = 7;
-    public static final double HOME_SETPOINT = 0.0;
-    public static final double INTAKE_SETPOINT = 85;
-    public static final double AMP_SETPOINT = 69;
+    public static final double HOME_SETPOINT_POS = 0.0;
+    public static final double INTAKE_SETPOINT_POS = 85;
+    public static final double AMP_SETPOINT_POS = 69;
+    public static final double UP_LIMIT_POS = 90; // TODO: This is a guess!!
+    public static final double DOWN_LIMIT_POS = -20; // TODO: This is a guess!!
     public static final double kP = 1.0;
     public static final double kI = 0.0;
     public static final double kD = 0.0;
@@ -76,12 +80,15 @@ public final class Constants
     public static final int MOTOR2_ID = 7; 
     public static final int ENCODER_ID = 9; 
     public static final double ZERO_OFFSET = 0.65362201634055;
-    public static final double HOME_SETPOINT = 0.634;
-    public static final double INTAKE_SETPOINT = 0.364;
-    public static final double SUBWOFFER_SETPOINT = -0.5;
-    public static final double PODIUM_SETPOINT = 0.0;
-    public static final double WING_SETPOINT = 0.0;
-    public static final double AMP_SETPOINT = 0.595;
+    public static final double HOME_SETPOINT_POS = 0.634;
+    public static final double INTAKE_SETPOINT_POS = 0.364;
+    public static final double SUBWOFFER_SETPOINT_POS = -0.5;
+    public static final double PODIUM_SETPOINT_POS = 0.0;
+    public static final double WING_SETPOINT_POS = 0.0;
+    public static final double SHOOTING_SETPOINT_POS = 0.8; // TODO: This is a guess!!
+    public static final double AMP_SETPOINT_POS = 0.595;
+    public static final double UP_LIMIT_POS = 0.8; // TODO: This is a guess!!
+    public static final double DOWN_LIMIT_POS = -0.6; // TODO: This is a guess!!
     // public static final double PIVOT_CONVERSION_FACTOR = Rotation2d.fromRotations().getDegrees(); // radians
     public static final double kP = 0.5;
     public static final double kI = 0.0;

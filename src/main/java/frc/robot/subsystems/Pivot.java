@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.PivotConstants;
+import frc.robot.Constants.TrolleyConstants;
 
 public class Pivot extends SubsystemBase {
 
@@ -32,8 +33,10 @@ public class Pivot extends SubsystemBase {
   // How far from the target we want to be
   private final double goalRangeMeters = Units.feetToMeters(0);
 
+  private Trolley trolleyRef; 
   /** Creates a new Pivot. */
-  public Pivot() {
+  public Pivot(Trolley _trolleyRef) {
+    trolleyRef = _trolleyRef;
     pivotMotorLeader = new CANSparkFlex(PivotConstants.MOTOR1_ID, MotorType.kBrushless);
     pivotMotorFollower = new CANSparkFlex(PivotConstants.MOTOR2_ID, MotorType.kBrushless);
 
@@ -100,15 +103,22 @@ public class Pivot extends SubsystemBase {
   // Note: DOWN means the shooter is down, and the Intake is up.
   private double getDownLimitFromState()
   {
-    // TODO
-    return 0.0;
+    if (trolleyRef.getPosition() > TrolleyConstants.INTAKE_SETPOINT_POS) {
+      // This intends to say "if the trolley position is towards the front, don't let us move the Pivot down"
+      return PivotConstants.HOME_SETPOINT_POS; 
+    }
+    return PivotConstants.AMP_SETPOINT_POS;
   }
 
   // Note: UP means the shooter is up, and the Intake is down.
   private double getUpLimitFromState()
   {
-    // TODO
-    return 0.0;
+    if (trolleyRef.getPosition() < TrolleyConstants.HOME_SETPOINT_POS) {
+      // This intends to say "if the trolley position is towards the back, don't let us move the Pivot up"
+      return PivotConstants.HOME_SETPOINT_POS;
+    }
+
+    return PivotConstants.SHOOTING_SETPOINT_POS;
   }
 
   @Override

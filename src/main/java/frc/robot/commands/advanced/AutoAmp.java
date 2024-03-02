@@ -17,8 +17,8 @@ public class AutoAmp extends SequentialCommandGroup {
   /** Creates a new AutoAmp. */
   public AutoAmp(Intake intake, Wrist wrist, Trolley trolley) {
     addCommands(
-      new RunCommand(() -> trolley.setPosition(TrolleyConstants.AMP_SETPOINT), trolley),
-      new RunCommand(() -> wrist.setPosition(WristConstants.AMP_SETPOINT), wrist),
+      new RunCommand(() -> trolley.setPosition(TrolleyConstants.AMP_SETPOINT_POS), trolley),
+      new RunCommand(() -> wrist.setPosition(WristConstants.AMP_SETPOINT_POS), wrist),
       new RunIntake(intake, -0.3)
     );
   }

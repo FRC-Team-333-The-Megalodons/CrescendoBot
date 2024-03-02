@@ -59,7 +59,7 @@ public class RobotContainer
   private final Intake intake = new Intake();
   private final Wrist wrist = new Wrist();
   private final Trolley trolley = new Trolley();
-  private final Pivot pivot = new Pivot();
+  private final Pivot pivot = new Pivot(trolley);
   private final Indexer indexer = new Indexer();
   private final Shooter shooter = new Shooter();
   private final LEDStrip leds = new LEDStrip();
@@ -75,6 +75,7 @@ public class RobotContainer
    */
   public RobotContainer()
   {
+    trolley.setPivotRef(pivot);
     // Configure the trigger bindings
     configureBindings();
     AbsoluteDriveAdv closedAbsoluteDriveAdv = new AbsoluteDriveAdv(drivebase,
@@ -159,7 +160,7 @@ public class RobotContainer
 
       opRoller.square().whileTrue(new RunShooter(shooter, 0.9).alongWith(new RunIndexer(indexer, 1.0)));
     } else {
-      opRoller.circle().whileTrue(new RunCommand(() -> wrist.setPosition(WristConstants.INTAKE_SETPOINT), wrist).raceWith(new RunIntake(intake, 0.3).until(intake::hasNote)).andThen(new RunCommand(() -> wrist.setPosition(WristConstants.SHOOTING_SETPOINT), wrist)));
+      opRoller.circle().whileTrue(new RunCommand(() -> wrist.setPosition(WristConstants.INTAKE_SETPOINT_POS), wrist).raceWith(new RunIntake(intake, 0.3).until(intake::hasNote)).andThen(new RunCommand(() -> wrist.setPosition(WristConstants.SHOOTING_SETPOINT_POS), wrist)));
       // opRoller.circle().whileTrue(new AutoIntake(intake, wrist, trolley));
 
       // opRoller.L1().whileTrue(new RunCommand(() -> wrist.setPosition(WristConstants.SHOOTING_SETPOINT), wrist));

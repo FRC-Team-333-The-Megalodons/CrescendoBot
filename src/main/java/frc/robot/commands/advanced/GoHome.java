@@ -17,9 +17,9 @@ public class GoHome extends SequentialCommandGroup {
   /** Creates a new GoHome. */
   public GoHome(Pivot pivot, Trolley trolley, Wrist wrist) {
     addCommands(
-      new RunCommand(() -> pivot.runPivotToTargetAngle(PivotConstants.HOME_SETPOINT), pivot),
-      new RunCommand(() -> trolley.setPosition(TrolleyConstants.HOME_SETPOINT), trolley)
-        .alongWith(new RunCommand(() -> wrist.setPosition(WristConstants.SHOOTING_SETPOINT), wrist))
+      new RunCommand(() -> pivot.runPivotToTargetAngle(PivotConstants.HOME_SETPOINT_POS), pivot),
+      new RunCommand(() -> trolley.setPosition(TrolleyConstants.HOME_SETPOINT_POS), trolley)
+        .alongWith(new RunCommand(() -> wrist.setPosition(WristConstants.SHOOTING_SETPOINT_POS), wrist))
     );
   }
 }

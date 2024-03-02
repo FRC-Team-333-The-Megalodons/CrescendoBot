@@ -22,8 +22,15 @@ public class Trolley extends SubsystemBase {
 
   private SparkPIDController trolleyController;
 
+  private Pivot pivotRef; // Needed to check limits.
+
   /** Creates a new Trolley. */
-  public Trolley() {
+  public Trolley(Pivot _pivotRef) {
+    this();
+    this.setPivotRef(_pivotRef);
+  }
+  public Trolley()
+  {
     trolleyMotor = new CANSparkFlex(TrolleyConstants.MOTOR_ID, MotorType.kBrushless);
     limitSwitch = new DigitalInput(TrolleyConstants.LIMIT_SWITCH_ID);
 
@@ -40,6 +47,11 @@ public class Trolley extends SubsystemBase {
     trolleyMotor.setIdleMode(IdleMode.kBrake);
 
     trolleyMotor.burnFlash();
+  }
+
+  public void setPivotRef(Pivot _pivotRef)
+  {
+    pivotRef = _pivotRef;
   }
 
   public void resetEncoder() {
@@ -64,12 +76,10 @@ public class Trolley extends SubsystemBase {
   }
 
   public void setPosition(double setpoint) {
-    // TODO: How can we apply the limits here and cancel the controller?
     // We can "guess" at what direction it'll set:
     double direction = (setpoint > getPosition() ? 1.0 : -1.0);
     if (mustStopDueToLimit(direction)) {
-      stopTrolley();
-      //trolleyController.cancel();// TODO: How do we tell the onboard controller to stop? 
+      stopTrolley(); // TODO: Verify that doing `set` on the motor cancels the closed-loop mode by setReference (I hope so, nothing in the documentation explains how to do it if not)
       return;
     }
     trolleyController.setReference(setpoint, ControlType.kPosition);
@@ -101,13 +111,12 @@ public class Trolley extends SubsystemBase {
   private double getBackLimitFromState()
   {
     // TODO
-    return 0.0;
+    return TrolleyConstants.DOWN_LIMIT_POS;
   }
 
   private double getFrontLimitFromState()
   {
-    // TODO
-    return 0.0;
+    return TrolleyConstants.HOME_SETPOINT_POS;
   }
 
   @Override
