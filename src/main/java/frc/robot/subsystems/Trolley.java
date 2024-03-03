@@ -6,6 +6,9 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.SparkPIDController;
+
+import java.util.Date;
+
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
@@ -65,7 +68,8 @@ public class Trolley extends SubsystemBase {
   */
 
   public double getPosition() {
-    return trolleyEncoder.getAbsolutePosition();
+    return trolleyEncoder.get();
+    // return trolleyEncoder.getAbsolutePosition();
     //return trolleyMotor.getEncoder().getPosition();
   }
 
@@ -112,9 +116,10 @@ public class Trolley extends SubsystemBase {
 
   private boolean mustStopDueToLimit(double speed)
   {
-    // TODO: Is positive Front or Back? This code assumes value > 0 means "go Up", might need to be flipped if not so.
-    return ((speed > 0 && getPosition() >= getFrontLimitFromState()) ||
-            (speed < 0 && getPosition() <= getBackLimitFromState()));
+    return false;
+    // // TODO: Is positive Front or Back? This code assumes value > 0 means "go Up", might need to be flipped if not so.
+    // return ((speed > 0 && getPosition() >= getFrontLimitFromState()) ||
+    //         (speed < 0 && getPosition() <= getBackLimitFromState()));
   }
 
   private double getBackLimitFromState()

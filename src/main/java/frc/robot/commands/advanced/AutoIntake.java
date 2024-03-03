@@ -18,6 +18,7 @@ public class AutoIntake extends SequentialCommandGroup {
     addCommands(
       new RunCommand(() -> wrist.setPosition(WristConstants.INTAKE_SETPOINT_POS), wrist)
         .raceWith(new RunIntake(intake, 0.3)).until(intake::hasNote),
+        // TODO: Should probably be alongWith?
       new RunCommand(() -> wrist.setPosition(WristConstants.SHOOTING_SETPOINT_POS), wrist)
     );
   }
