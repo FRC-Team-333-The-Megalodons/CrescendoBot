@@ -40,17 +40,16 @@ public class Constants {
       public static final double HOME_SETPOINT = 0;
       public static final double INTAKE_SETPOINT = 85;
       public static final double AMP_SETPOINT = 69;
-      public static final double kP = 0.2;;
+      public static final double kP = 0.2;
       public static final double kI = 0.0;
       public static final double kD = 0.0;
       public static final double MIN_INPUT = -1.0;
       public static final double MAX_INPUT = 1.0;
-      public static final int WRIST_POS_LOWER_LIMIT_WHILE_TROLLEY_DOWN = 0;
-      public static final double ELEVATOR_POS_LOWEST_POINT_WRIST_CAN_MOVE = 0;
-      public static final double ELEVATOR_POS_LOWEST_POINT_ELEVATOR_CAN_GO_WHILE_WRIST_DOWN = 0;
+      public static final double WRIST_POS_LOWER_LIMIT_WHILE_TROLLEY_DOWN = 0.7024;
+      public static final double TROLLEY_POS_LOWEST_POINT_WRIST_CAN_MOVE = 4.185;                                                 
     }
     public static final class PivotConstants {
-    public static final int PIVOT_MOTOR1_ID = 6; 
+    public static final int PIVOT_MOTOR1_ID = 6;
     public static final int PIVOT_MOTOR2_ID = 7; 
     public static final int PIVOT_ENCODER_ID = 9; 
     public static final double HOME_SETPOINT = 0.0;
@@ -62,6 +61,7 @@ public class Constants {
     public static final double kD = 0.0;
     public static final double MIN_INPUT = -1.0;
     public static final double MAX_INPUT = 1.0;
+          public static final double PIVOT_POS_LOWEST_POINT_WRIST_CAN_MOVE = 0;
     }
     public static final class ShooterConstants {
         public static final int FIRE_TOP_MOTOR_ID = 8;
