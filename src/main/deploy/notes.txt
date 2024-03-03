@@ -97,7 +97,7 @@ Josh's notes:
   - Not if we set up the actions within a Command to all happen in parallel, so long as there's a "don't move" on conditional limits.
   - Our hard limits are:
     - Wrist: Up: flush; 
-             Down: If the Pivot is Up, must be limited so it doesnt hit the bumper/internal-wiring (I dont think it even matters where the trolley is)
+             Down: flush;
     - Trolley: Back: flush; 
                Forward: No further than home position (i.e. as far as it can go with wrist flush up)
     - Pivot: Down: Slightly further than vertical (i.e. amp position); 

@@ -7,6 +7,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.WristConstants;
+import frc.robot.commands.basic.RunIntake;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Trolley;
 import frc.robot.subsystems.Wrist;
