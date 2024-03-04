@@ -15,12 +15,12 @@
     "canbus": "rio"
   },
   "inverted": {
-    "drive": true,
+    "drive": false,
     "angle": true
   },
-  "absoluteEncoderOffset": 286.5234375,
+  "absoluteEncoderOffset": 330.8203125,
   "location": {
-    "front": -13.82,
-    "left": 13.82
+    "front": 13.82,
+    "left": -13.82
   }
 }
