@@ -87,8 +87,8 @@ public class RobotContainer
     Command driveFieldOrientedDirectAngle = drivebase.driveCommand(
         () -> -MathUtil.applyDeadband(driveroller.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
         () -> -MathUtil.applyDeadband(driveroller.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> MathUtil.applyDeadband(driveroller.getRightX(),OperatorConstants.RIGHT_X_DEADBAND));
-        //() -> roller.getRightY());
+        () -> driveroller.getRightX(),
+        () -> driveroller.getRightY());
 
     // Applies deadbands and inverts controls because joysticks
     // are back-right positive while robot
@@ -98,7 +98,7 @@ public class RobotContainer
     Command driveFieldOrientedAnglularVelocity = drivebase.driveCommand(
         () -> -MathUtil.applyDeadband(driveroller.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
         () -> -MathUtil.applyDeadband(driveroller.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> -driveroller.getRawAxis(4));
+        () -> -MathUtil.applyDeadband(driveroller.getRightX(), OperatorConstants.RIGHT_X_DEADBAND));
 
     Command driveFieldOrientedDirectAngleSim = drivebase.simDriveCommand(
         () -> -MathUtil.applyDeadband(driveroller.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
@@ -109,7 +109,7 @@ public class RobotContainer
         () -> -roller.getRawAxis(4));*/
         //() -> -MathUtil.applyDeadband(roller.getRightX(),OperatorConstants.RIGHT_X_DEADBAND));
       drivebase.setDefaultCommand(
-        !RobotBase.isSimulation() ? driveFieldOrientedDirectAngle : driveFieldOrientedDirectAngleSim);
+        !RobotBase.isSimulation() ? driveFieldOrientedAnglularVelocity : driveFieldOrientedDirectAngleSim);
   }
 
   /**
