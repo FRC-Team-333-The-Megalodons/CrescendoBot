@@ -1,3 +1,59 @@
-Files placed in this directory will be deployed to the RoboRIO into the
-'deploy' directory in the home folder. Use the 'Filesystem.getDeployDirectory' wpilib function
-to get a proper path relative to the deploy directory.
+Swerve: Driving, Takes in 8 motors (SpartFlex)
+Intake: Intakes, Scores into the AMP, 1 motors, 2 photoelectic sensor
+        MotorID = 3 
+        using absolute encoders builtin Flex  reletive
+Wrist: Holds on the Intake and has 1 motor, absolute encoder from REV (use rev lib for it)
+        MotorID = 4
+    using dutyCycle, converted into degrees, thrubore encoder 
+Pivot:  Holds the Slides, Shooter and the Intake, has 2 motors, 1 absolute encoder
+        MotorID = 6,7
+    using dutyCycle, converted into degrees, thrubore encoder
+Shooter: Shoots, 2 motors 
+        MotorID = 8,9
+    using absolute encoders from flex
+Climber:  Climbs, 2 motors
+        MotorID = 10,11
+    absolute encoders built into the flex
+Track:  One motor with a pid controller or a limit switc
+        MotorID = 5
+Led: For indication   with the drive team, co-operate with the Limelight subsystem, Intake subsystem, Shooter subsystem
+    PMW port
+Limelight: for april tag detection, co operates with Shooter and Swerve 
+    network
+Mechanism order order:
+INTAKE GROUND Track -> Wrist -> Intake 
+DRIVE ALIGN Limelight -> Swerve,
+SCORE SPEAKER Limelight -> Pivot -> Shooter
+SCORE AMP Limelight -> Track -> Wrist -> Intake 
+CLIMB Climb - independent, extend all in, extend all out 
+
+Buttons:
+
+    Driver PS5Controller:                           CoDriver PS5Controller:
+    Left Joystick -> Driving                        Left Joystick   ->  Pivot
+    Right Joystick -> Turning                       Right Joystick  ->  Wrist
+    Share Button ->  Reset the odometry             R3  ->  TrackDown
+    Face Button -> Locking the wheels/preset        L3  ->  TrackUp
+    R2 -> Fire                                    
+    L2 -> Auto allign                               Triangle -> Score Speaker Sabwoofer
+    Face Buttons preset ->                          Square  ->  Score Speaker Wing
+    TrackPad -> Fancy LED                           Circle  ->  Score Speaker Podium
+                                                    X   ->  Score AMP 
+                                                    LeftDown -> AMP 
+                                                    R1 -> intake manual
+                                                    L1 -> eject manual
+                                                    R2 -> INTAKE home
+                                                    L2 -> Go Home
+                                                    LeftUP -> Climbers up (on Hold)
+                                                    RightDown -> Climbers down (on Hold)
+
+                                                    manual override on the dashboard?
+
+
+trolley pivot wrist (intake)
+wrist pivot trolley (home)
+pivot indexer shooter (shooot)
+
+
+DEBUGGING
+- runFiew & IdleFire WORK
