@@ -67,7 +67,7 @@ public class Wrist extends SubsystemBase {
 
   public  boolean isWristAtMaxDown() { 
     // This considers the elevator state.
-    if (m_Trolley.trolleyEncoder.getAbsolutePosition() >= TrolleyConstants.ELEVATOR_POS_LOWEST_POINT_WRIST_CAN_MOVE) {
+    if (m_Trolley.trolleyEncoder.getAbsolutePosition() >= TrolleyConstants.PIVOT_POS_LOWEST_POINT_WRIST_CAN_MOVE) {
     return getPosition() <= WristConstants.WRIST_POS_LOWER_LIMIT_WHILE_ELEVATOR_UP;
     }
 
