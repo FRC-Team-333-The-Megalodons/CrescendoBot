@@ -116,7 +116,7 @@ public class RobotContainer
     Command driveFieldOrientedAnglularVelocity = drivebase.driveCommand(
         () -> -MathUtil.applyDeadband(driverRoller.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
         () -> -MathUtil.applyDeadband(driverRoller.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-        () ->  -MathUtil.applyDeadband(driverRoller.getRightX()*.85, OperatorConstants.RIGHT_X_DEADBAND));
+        () ->  -MathUtil.applyDeadband(driverRoller.getRightX(), OperatorConstants.RIGHT_X_DEADBAND));
 
     Command driveFieldOrientedDirectAngleSim = drivebase.simDriveCommand(
         () -> -MathUtil.applyDeadband(driverRoller.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
@@ -124,7 +124,7 @@ public class RobotContainer
         () -> driverRoller.getRightX());
 
     drivebase.setDefaultCommand(
-        !RobotBase.isSimulation() ? driveFieldOrientedDirectAngle : driveFieldOrientedDirectAngleSim);
+        !RobotBase.isSimulation() ? driveFieldOrientedAnglularVelocity : driveFieldOrientedDirectAngleSim);
   }
 
   /**
@@ -172,7 +172,7 @@ public class RobotContainer
     }
 
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    new JoystickButton(driverRoller, 4).onTrue((new InstantCommand(drivebase::zeroGyro)));
+    new JoystickButton(driverRoller, 15).onTrue((new InstantCommand(drivebase::zeroGyro)));
     new JoystickButton(driverRoller, 5).onTrue(new InstantCommand(drivebase::addFakeVisionReading));
     new JoystickButton(driverRoller,
                        12).whileTrue(
