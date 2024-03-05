@@ -35,6 +35,7 @@ public class Trolley extends SubsystemBase {
     this();
     this.setPivotRef(_pivotRef);
   }
+  
   public Trolley()
   {
     trolleyMotor = new CANSparkFlex(TrolleyConstants.MOTOR_ID, MotorType.kBrushless);

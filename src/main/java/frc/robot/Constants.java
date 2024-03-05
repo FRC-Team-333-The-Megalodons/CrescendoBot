@@ -52,7 +52,7 @@ public final class Constants
     public static final double DOWN_LIMIT_POS = 1.0; // TODO: This is a guess!!
     public static final double kP = 0.5;
     public static final double kI = 0.0;
-    public static final double kD = 0.0;
+    public static final double kD = 0.1;
     public static final double kFF = 0.0;
     public static final double MIN_INPUT = -0.1;
     public static final double MAX_INPUT = 0.1;
