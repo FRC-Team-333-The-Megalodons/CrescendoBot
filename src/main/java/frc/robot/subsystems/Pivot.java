@@ -66,10 +66,10 @@ public class Pivot extends SubsystemBase {
   }
 
   public void runPivot(double speed) {
-    if (mustStopDueToLimit(speed)) {
-      stopPivot();
-      return;
-    }
+    // if (mustStopDueToLimit(speed)) {
+    //   stopPivot();
+    //   return;
+    // }
 
     pivotMotorLeader.set(speed);
   }

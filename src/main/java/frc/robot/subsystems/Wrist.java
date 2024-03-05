@@ -57,10 +57,10 @@ public class Wrist extends SubsystemBase {
   }
 
   public void runWrist(double speed) {
-    if (mustStopDueToLimit(speed)) {
-      stopWrist();
-      return;
-    }
+    // if (mustStopDueToLimit(speed)) {
+    //   stopWrist();
+    //   return;
+    // }
 
     wristMotor.set(speed);
   }
@@ -72,11 +72,11 @@ public class Wrist extends SubsystemBase {
   public void setPosition(double setpoint) {
     // TODO: How can we apply the limits here and cancel the controller?
     // We can "guess" at what direction it'll set:
-    double direction = (setpoint > getPosition() ? 1.0 : -1.0);
-    if (mustStopDueToLimit(direction)) {
-      stopWrist(); // TODO: Verify that doing `set` on the motor cancels the closed-loop mode by setReference (I hope so, nothing in the documentation explains how to do it if not)
-      return;
-    }
+    // double direction = (setpoint > getPosition() ? 1.0 : -1.0);
+    // if (mustStopDueToLimit(direction)) {
+    //   stopWrist(); // TODO: Verify that doing `set` on the motor cancels the closed-loop mode by setReference (I hope so, nothing in the documentation explains how to do it if not)
+    //   return;
+    // }
 
     wristController.setReference(setpoint, ControlType.kPosition);
   }

@@ -27,6 +27,7 @@ import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.TrolleyConstants;
 import frc.robot.Constants.WristConstants;
 import frc.robot.commands.advanced.AutoIntake;
+import frc.robot.commands.advanced.AutoWrist;
 import frc.robot.commands.basic.RunIndexer;
 import frc.robot.commands.basic.RunIntake;
 import frc.robot.commands.basic.RunPivot;
@@ -123,7 +124,7 @@ public class RobotContainer
         () -> driverRoller.getRightX());
 
     drivebase.setDefaultCommand(
-        !RobotBase.isSimulation() ? driveFieldOrientedAnglularVelocity : driveFieldOrientedDirectAngleSim);
+        !RobotBase.isSimulation() ? driveFieldOrientedDirectAngle : driveFieldOrientedDirectAngleSim);
   }
 
   /**
@@ -146,8 +147,8 @@ public class RobotContainer
 
       opRoller.L1().whileTrue(new RunWrist(wrist, -0.2));
       opRoller.R1().whileTrue(new RunWrist(wrist, 0.2));
-      // opRoller.L3().whileTrue(new RunCommand(() -> wrist.setPosition(WristConstants.SHOOTING_SETPOINT), wrist));
-      // opRoller.R3().whileTrue(new RunCommand(() -> wrist.setPosition(WristConstants.INTAKE_SETPOINT), wrist));
+      opRoller.L3().whileTrue(new AutoWrist(wrist, WristConstants.INTAKE_SETPOINT_POS));
+      opRoller.R3().whileTrue(new AutoWrist(wrist, WristConstants.SHOOTING_SETPOINT_POS));
 
       opRoller.povUp().whileTrue(new RunTrolley(trolley, 1.0));
       opRoller.povDown().whileTrue(new RunTrolley(trolley, -1.0));
@@ -176,7 +177,7 @@ public class RobotContainer
     new JoystickButton(driverRoller,
                        12).whileTrue(
         Commands.deferredProxy(() -> drivebase.driveToPose(
-                                   new Pose2d(new Translation2d(0, 0), Rotation2d.fromDegrees(0)))
+                                   new Pose2d(new Translation2d(1, 0), Rotation2d.fromDegrees(0)))
                               ));
     //driverRoller.cross().onTrue((Commands.runOnce(drivebase::zeroGyro)));
     //driverRoller.square().onTrue(Commands.runOnce(drivebase::addFakeVisionReading));
