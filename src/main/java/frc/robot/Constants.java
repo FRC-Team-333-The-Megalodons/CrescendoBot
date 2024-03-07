@@ -45,17 +45,17 @@ public final class Constants
   {
     public static final int MOTOR_ID = 4;
     public static final double ZERO_OFFSET = 0.67;
-    public static final double INTAKE_SETPOINT_POS = 0.798029005527496;
+    public static final double INTAKE_SETPOINT_POS = 0.278036594390869;
     public static final double SHOOTING_SETPOINT_POS = 0.485868990421295;
     public static final double AMP_SETPOINT_POS = 0.488;
-    public static final double UP_LIMIT_POS = 0.2; // TODO: This is a guess!!
-    public static final double DOWN_LIMIT_POS = 1.0; // TODO: This is a guess!!
-    public static final double kP = 0.5;
+    public static final double UP_LIMIT_POS = 0.7; // TODO: This is a guess!!
+    public static final double DOWN_LIMIT_POS = 0.03; // TODO: This is a guess!!
+    public static final double kP = 5.0;
     public static final double kI = 0.0;
-    public static final double kD = 0.1;
+    public static final double kD = 0.0;
     public static final double kFF = 0.0;
-    public static final double MIN_INPUT = -0.1;
-    public static final double MAX_INPUT = 0.1;
+    public static final double MIN_INPUT = -0.5;
+    public static final double MAX_INPUT = 0.5;
   }
 
   public static final class TrolleyConstants
@@ -105,7 +105,7 @@ public final class Constants
     public static final int MOTOR_ID = 15;
     public static final double SHOT_RPM = 6000;
     public static final double IDLE_RPM = 1000;
-    public static final double kP = 0.001;
+    public static final double kP = 0.00004;
     public static final double kI = 0.0;
     public static final double kD = 0.0;
     public static final double kFF = 0.0;

@@ -14,28 +14,44 @@ public class LEDStrip extends SubsystemBase {
   /** Creates a new LEDS. */
   public LEDStrip() {
     m_led = new AddressableLED(9);
-    m_ledBuffer = new AddressableLEDBuffer(50);
+    m_ledBuffer = new AddressableLEDBuffer(100);
     m_led.setLength(m_ledBuffer.getLength());
     m_led.setData(m_ledBuffer);
     m_led.start();
-
   }
 
-  public void setColorLED() {
-    for (var i = 0; i < m_ledBuffer.getLength(); i++) {
-      m_ledBuffer.setRGB(i, 32, 62, 543);
-    }
-  }
-  public void whatLightLED() {
-    for (var i = 0; i < m_ledBuffer.getLength(); i++) {
-        m_ledBuffer.setLED(i, Color.kBlueViolet);
-    }
-  }
   public void noLED() {
-    for (var i = 0; i< m_ledBuffer.getLength(); i++) {
+    for (var i=0; i< m_ledBuffer.getLength(); i++) {
         m_ledBuffer.setRGB(i, 0, 0, 0);
     } m_led.setData(m_ledBuffer);
   }
+
+  public void blinkingColor(int r, int g, int b) {
+    int length = m_ledBuffer.getLength();
+
+    for (int i = 0; i<length; i++) {
+      m_ledBuffer.setRGB(i, r, g, b);
+    }
+    m_led.setData(m_ledBuffer);
+
+    try {
+      Thread.sleep(100);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+
+    for (int i = 0; i<length; i++) {
+      m_ledBuffer.setRGB(i , 0, 0, 0);
+    }
+    m_led.setData(m_ledBuffer);
+
+    try {
+      Thread.sleep(100);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+  }
+
   public void royalBlueLED() {
     for (var i = 0; i< m_ledBuffer.getLength(); i++) {
         m_ledBuffer.setRGB(i, 0, 59, 174);

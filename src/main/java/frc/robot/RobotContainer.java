@@ -26,7 +26,9 @@ import frc.robot.Constants.PivotConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.TrolleyConstants;
 import frc.robot.Constants.WristConstants;
+import frc.robot.commands.advanced.AutoIndexer;
 import frc.robot.commands.advanced.AutoIntake;
+import frc.robot.commands.advanced.AutoShooter;
 import frc.robot.commands.advanced.AutoWrist;
 import frc.robot.commands.basic.RunIndexer;
 import frc.robot.commands.basic.RunIntake;
@@ -143,7 +145,7 @@ public class RobotContainer
       opRoller.cross().whileTrue(new RunIntake(intake, 1.0));
       opRoller.triangle().whileTrue(new RunIntake(intake, -0.5));
 
-      opRoller.touchpad().whileTrue(new RunCommand(() -> leds.royalBlueLED()));
+      opRoller.touchpad().whileTrue(new RunCommand(() -> leds.blinkingColor(255,0,255), leds));
 
       opRoller.L1().whileTrue(new RunWrist(wrist, -0.2));
       opRoller.R1().whileTrue(new RunWrist(wrist, 0.2));
@@ -152,20 +154,19 @@ public class RobotContainer
 
       opRoller.povUp().whileTrue(new RunTrolley(trolley, 1.0));
       opRoller.povDown().whileTrue(new RunTrolley(trolley, -1.0));
-      // opRoller.povDownRight().whileTrue(new RunCommand(() -> trolley.setPosition(TrolleyConstants.INTAKE_SETPOINT), trolley));
 
       opRoller.R2().whileTrue(new RunPivot(pivot, 0.2));
       opRoller.L2().whileTrue(new RunPivot(pivot, -0.2));
-      // opRoller.R3().whileTrue(new RunCommand(() -> pivot.setAngle(PivotConstants.INTAKE_SETPOINT), pivot));
-      // opRoller.L3().whileTrue(new RunCommand(() -> pivot.setAngle(PivotConstants.HOME_SETPOINT), pivot));
 
-      opRoller.square().whileTrue(new RunShooter(shooter, 0.9).alongWith(new RunIndexer(indexer, 1.0)));
+      // opRoller.square().whileTrue(new RunShooter(shooter, 0.9).alongWith(new RunIndexer(indexer, 1.0)));
+      // opRoller.square().whileTrue(new AutoShooter(shooter, ShooterConstants.SHOT_RPM).alongWith(new AutoIndexer(indexer, IndexerConstants.SHOT_RPM)));
+      // opRoller.square().whileTrue(new AutoShooter(shooter, ShooterConstants.SHOT_RPM));
+      opRoller.square().whileTrue(new AutoIndexer(indexer, IndexerConstants.SHOT_RPM));
     } else {
-      opRoller.circle().whileTrue(new RunCommand(() -> wrist.setPosition(WristConstants.INTAKE_SETPOINT_POS), wrist).raceWith(new RunIntake(intake, 0.3).until(intake::hasNote)).andThen(new RunCommand(() -> wrist.setPosition(WristConstants.SHOOTING_SETPOINT_POS), wrist)));
-      // opRoller.circle().whileTrue(new AutoIntake(intake, wrist, trolley));
+      opRoller.circle().whileTrue(new RunIntake(intake, 0.5).until(intake::hasNote));
 
-      // opRoller.L1().whileTrue(new RunCommand(() -> wrist.setPosition(WristConstants.SHOOTING_SETPOINT), wrist));
-      // opRoller.R1().whileTrue(new RunCommand(() -> wrist.setPosition(WristConstants.INTAKE_SETPOINT), wrist));
+      opRoller.L1().whileTrue(new AutoWrist(wrist, WristConstants.INTAKE_SETPOINT_POS));
+      opRoller.R1().whileTrue(new AutoWrist(wrist, WristConstants.SHOOTING_SETPOINT_POS));
 
       // opRoller.povUp().whileTrue(new RunCommand(() -> trolley.setPosition(TrolleyConstants.INTAKE_SETPOINT), trolley));
       opRoller.square().whileTrue(new RunCommand(() -> shooter.setSpeed(ShooterConstants.SHOT_RPM), shooter).alongWith(new RunCommand(() -> indexer.setSpeed(IndexerConstants.SHOT_RPM), indexer)));

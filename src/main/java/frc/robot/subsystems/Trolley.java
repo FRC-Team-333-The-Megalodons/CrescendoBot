@@ -75,10 +75,10 @@ public class Trolley extends SubsystemBase {
   }
 
   public void runTrolley(double speed) {
-    if (mustStopDueToLimit(speed)) {
-      stopTrolley();
-      return;
-    }
+    // if (mustStopDueToLimit(speed)) {
+    //   stopTrolley();
+    //   return;
+    // }
   
     trolleyMotor.set(speed);
   }
@@ -89,11 +89,11 @@ public class Trolley extends SubsystemBase {
 
   public void setPosition(double setpoint) {
     // We can "guess" at what direction it'll set:
-    double direction = (setpoint > getPosition() ? 1.0 : -1.0);
-    if (mustStopDueToLimit(direction)) {
-      stopTrolley(); // TODO: Verify that doing `set` on the motor cancels the closed-loop mode by setReference (I hope so, nothing in the documentation explains how to do it if not)
-      return;
-    }
+    // double direction = (setpoint > getPosition() ? 1.0 : -1.0);
+    // if (mustStopDueToLimit(direction)) {
+    //   stopTrolley(); // TODO: Verify that doing `set` on the motor cancels the closed-loop mode by setReference (I hope so, nothing in the documentation explains how to do it if not)
+    //   return;
+    // }
     trolleyController.setReference(setpoint, ControlType.kPosition);
   }
 

@@ -49,8 +49,6 @@ public class Pivot extends SubsystemBase {
     pivotMotorLeader.burnFlash();
     pivotMotorFollower.burnFlash();
 
-    pivotMotorFollower.follow(pivotMotorLeader);
-
     pivotEncoder = new DutyCycleEncoder(PivotConstants.ENCODER_ID);
     // pivotEncoder.setPositionOffset(PivotConstants.ZERO_OFFSET);
     pivotEncoder.setDutyCycleRange(1.0/1024.0, 1023.0/1024.0);
@@ -72,10 +70,12 @@ public class Pivot extends SubsystemBase {
     // }
 
     pivotMotorLeader.set(speed);
+    pivotMotorFollower.follow(pivotMotorLeader);
   }
 
   public void stopPivot() {
     pivotMotorLeader.set(0.0);
+    pivotMotorFollower.set(0.0);
   }
 
   public void runPivotToTargetAngle(double angle) {
