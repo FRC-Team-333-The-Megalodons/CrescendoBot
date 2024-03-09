@@ -8,6 +8,9 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+
+import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -20,13 +23,14 @@ public class Trolley extends SubsystemBase {
     private CANSparkFlex trolleyMotor;
     private DigitalInput limitSwitch;
     private SparkPIDController trolleyController;
-    DutyCycleEncoder trolleyEncoder;
+    //DutyCycleEncoder trolleyEncoder;
     private Pivot m_pivotRef;
     private Wrist m_wristRef;
-
+    private AnalogInput potInput;
+    private AnalogPotentiometer potentiometer;
     public Trolley() {
         trolleyMotor = new CANSparkFlex(TrolleyConstants.TROLLEY_MOTOR_ID, MotorType.kBrushless);
-        limitSwitch = new DigitalInput(TrolleyConstants.TROLLEY_LIMIT_SWITCH_ID);
+        limitSwitch = new DigitalInput(TrolleyConstants.TROLLEY_BACK_LIMIT_SWITCH_ID);
 
         trolleyMotor.restoreFactoryDefaults();
         trolleyController = trolleyMotor.getPIDController();
@@ -38,9 +42,16 @@ public class Trolley extends SubsystemBase {
         trolleyMotor.setIdleMode(IdleMode.kBrake);
         trolleyMotor.burnFlash();
 
+        potInput = new AnalogInput(TrolleyConstants.TROLLEY_ENCODER_ID);
+        potInput.setAverageBits(2); // enable 2-bit averaging to smooth it out
+        potentiometer = new AnalogPotentiometer(potInput);
+
+
+        /*
         trolleyEncoder = new DutyCycleEncoder(TrolleyConstants.TROLLEY_ENCODER_ID);
         trolleyEncoder.setDistancePerRotation(900);
         trolleyEncoder.reset();
+        */
     }
     public void setPivotRef(Pivot pivotRef)
     {
@@ -81,6 +92,13 @@ public class Trolley extends SubsystemBase {
         }
     }
 
+    public double getPotentiometerPosition()
+    {
+        // We flip the sign, add a constant, and multiply by 100 to
+        //  make this number more "intuitive" / legible.
+        return potentiometer.get() * -100 + 7;
+    }
+
     
     public boolean getLimitSwitch() {
         if (limitSwitch.get() == true) {
@@ -102,7 +120,7 @@ public class Trolley extends SubsystemBase {
     @Override
     public void periodic(){
         SmartDashboard.putBoolean("TrolleyLimitSwitch", getLimitSwitch());
-        SmartDashboard.putNumber("encoderWrist" , trolleyEncoder.getAbsolutePosition());
+        SmartDashboard.putNumber("TrolleyEncoder" , getPotentiometerPosition());
         SmartDashboard.putBoolean("TrackHomePosition", atHomePositionTrack());
         SmartDashboard.putBoolean("TrackIntakePosition", atIntakePositionTrack());
     }

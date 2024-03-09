@@ -101,6 +101,11 @@ public class Pivot extends SubsystemBase {
         return false;
     }
 
+    public double getPivotPosition()
+    {
+        return (pivotEncoder.getAbsolutePosition() * -1) + 1.0;
+    }
+
     //   public double getPosition() {
     //     return pivotEncoder.getAbsolutePosition();
     //   }
@@ -115,7 +120,7 @@ public class Pivot extends SubsystemBase {
 
     @Override
     public void periodic(){
-        SmartDashboard.putNumber("encoderPivot", pivotEncoder.getAbsolutePosition());
+        SmartDashboard.putNumber("encoderPivot", getPivotPosition());
         SmartDashboard.putBoolean("PivotAtIntakePosition?", atIntakePositionPivot());
         SmartDashboard.putBoolean("PivotAtSpeakerPosition?", atSpeakerPositionPivot());
         SmartDashboard.putBoolean("PivotAtHomePosition", atHomePositionPivot());
