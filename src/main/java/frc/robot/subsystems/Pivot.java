@@ -92,6 +92,9 @@ public class Pivot extends SubsystemBase {
 
     public boolean isOkToMovePivotUp()
     {
+        // For now, just return true here because my checks aren't working
+        return true;
+        /*
         if (m_trolleyRef.isTrolleyTooFarInToPivotUpPastBumper())
         {
             return getPivotPosition() > PivotConstants.PIVOT_UP_FAR_ENOUGH_THAT_TROLLEY_COULD_HIT_BACK_BUMPER;
@@ -101,6 +104,7 @@ public class Pivot extends SubsystemBase {
             return getPivotPosition() > PivotConstants.PIVOT_UP_FAR_ENOUGH_THAT_TROLLEY_COULD_HIT_UNDERBELLY;
         }
         return true;
+        */
     }
 
     public boolean isOkToMovePivotDown()

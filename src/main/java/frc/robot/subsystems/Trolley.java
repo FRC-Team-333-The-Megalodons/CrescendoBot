@@ -21,7 +21,7 @@ import com.revrobotics.SparkPIDController;
 /** Add your docs here. */
 public class Trolley extends SubsystemBase {
     private CANSparkFlex trolleyMotor;
-    private DigitalInput limitSwitch;
+    private DigitalInput maxOutLimitSwitch, minInLimitSwitch;
     private SparkPIDController trolleyController;
     //DutyCycleEncoder trolleyEncoder;
     private Pivot m_pivotRef;
@@ -30,7 +30,8 @@ public class Trolley extends SubsystemBase {
     private AnalogPotentiometer potentiometer;
     public Trolley() {
         trolleyMotor = new CANSparkFlex(TrolleyConstants.TROLLEY_MOTOR_ID, MotorType.kBrushless);
-        limitSwitch = new DigitalInput(TrolleyConstants.TROLLEY_BACK_LIMIT_SWITCH_ID);
+        maxOutLimitSwitch = new DigitalInput(TrolleyConstants.TROLLEY_OUT_LIMIT_SWITCH_ID);
+        minInLimitSwitch = new DigitalInput(TrolleyConstants.TROLLEY_IN_LIMIT_SWITCH_ID);
 
         trolleyMotor.restoreFactoryDefaults();
         trolleyController = trolleyMotor.getPIDController();
@@ -62,34 +63,39 @@ public class Trolley extends SubsystemBase {
         m_wristRef = wristRef;
     }
     public void trolley(double value) {
+        // Negative number means moving trolley in; positive number means moving trolley out.
+        if (value > 0) {
+            if (isTrolleyAtMaxOutLimitSwitch()) {
+                trolleyStop();
+                return;
+            }
+        } else if (value < 0) {
+            if (isTrolleyAtMinInLimitSwitch()) {
+                trolleyStop();
+                return;
+            }
+        }
         trolleyMotor.set(value);
     }
     public void trolleyStop() {
         trolleyMotor.set(0);
     }
 
+    public boolean fuzzyEquals(double a, double b)
+    {
+        final double epsilon = 0.01;
+        return Math.abs(a-b) < epsilon;
+    }
     
-     public boolean atHomePositionTrack() {
-        if (trolleyMotor.getEncoder().getPosition() == TrolleyConstants.HOME_SETPOINT) {
-            return true;
-        } else {
-            return false;
-        }
+    public boolean atHomePositionTrack() {
+        return fuzzyEquals(getPotentiometerPosition(), TrolleyConstants.HOME_SETPOINT);
     }
 
     public boolean atIntakePositionTrack() {
-        if (trolleyMotor.getEncoder().getPosition() == TrolleyConstants.INTAKE_SETPOINT) {
-            return true;
-        } else {
-            return false;
-        }
+        return fuzzyEquals(getPotentiometerPosition(), TrolleyConstants.INTAKE_SETPOINT);
     }
     public boolean atAMPPosition() {
-        if (trolleyMotor.getEncoder().getPosition() == TrolleyConstants.AMP_SETPOINT) {
-            return true;
-        } else {
-            return false;
-        }
+        return fuzzyEquals(getPotentiometerPosition(), TrolleyConstants.AMP_SETPOINT);
     }
 
     public double getPotentiometerPosition()
@@ -99,13 +105,30 @@ public class Trolley extends SubsystemBase {
         return potentiometer.get() * -100 + 7;
     }
 
-    
-    public boolean getLimitSwitch() {
-        if (limitSwitch.get() == true) {
+    public boolean isOkToMoveTrolleyOut()
+    {
+        if (isTrolleyAtMaxOutLimitSwitch()) {
             return false;
-          }else{
-            return true;
-          }
+        }
+
+        return true;
+    }
+
+    public boolean isOkToMoveTrolleyIn()
+    {
+        if (isTrolleyAtMinInLimitSwitch()) {
+            return false;
+        }
+
+        return true;
+    }
+    
+    public boolean isTrolleyAtMaxOutLimitSwitch() {
+        return !maxOutLimitSwitch.get();
+    }
+
+    public boolean isTrolleyAtMinInLimitSwitch() {
+        return !minInLimitSwitch.get();
     }
 
     // This function returns whether the trolley is "past the frame perimeter".
@@ -140,7 +163,8 @@ public class Trolley extends SubsystemBase {
 
     @Override
     public void periodic(){
-        SmartDashboard.putBoolean("TrolleyLimitSwitch", getLimitSwitch());
+        SmartDashboard.putBoolean("TrolleyMaxOutLimit", isTrolleyAtMaxOutLimitSwitch());
+        SmartDashboard.putBoolean("TrolleyMinInLimit", isTrolleyAtMinInLimitSwitch());
         SmartDashboard.putNumber("TrolleyEncoder" , getPotentiometerPosition());
         SmartDashboard.putBoolean("TrackHomePosition", atHomePositionTrack());
         SmartDashboard.putBoolean("TrackIntakePosition", atIntakePositionTrack());

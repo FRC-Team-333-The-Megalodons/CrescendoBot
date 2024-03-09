@@ -38,7 +38,8 @@ public class Constants {
     }
     public static final class TrolleyConstants {
       public static final int TROLLEY_MOTOR_ID = 5;
-      public static final int TROLLEY_BACK_LIMIT_SWITCH_ID = 7;
+      public static final int TROLLEY_OUT_LIMIT_SWITCH_ID = 7;
+      public static final int TROLLEY_IN_LIMIT_SWITCH_ID = 2;
       public static final int TROLLEY_ENCODER_ID = 3;
       public static final double HOME_SETPOINT = 0;
       public static final double INTAKE_SETPOINT = 85;
