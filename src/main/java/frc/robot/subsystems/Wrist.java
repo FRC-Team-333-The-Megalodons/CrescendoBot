@@ -13,6 +13,7 @@ import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.TrolleyConstants;
@@ -21,7 +22,7 @@ import frc.robot.Constants.WristConstants;
 public class Wrist extends SubsystemBase {
     private CANSparkMax wristMotor;
     private SparkPIDController wristPIDController;
-    private RelativeEncoder wristEncoder;
+    private AbsoluteEncoder wristEncoder;
     private Trolley m_trolleyRef;
     private Pivot m_pivotRef;
 
@@ -29,7 +30,7 @@ public class Wrist extends SubsystemBase {
         wristMotor = new CANSparkMax(WristConstants.WRIST_MOTOR_ID, MotorType.kBrushless);
         wristMotor.setIdleMode(IdleMode.kBrake);
         wristPIDController = wristMotor.getPIDController();
-        wristEncoder = wristMotor.getEncoder();
+        wristEncoder = new DutyCycleEncoder();
         wristPIDController.setP(0.05);
         wristPIDController.setI(0);
         wristPIDController.setD(0);

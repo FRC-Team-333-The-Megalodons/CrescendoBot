@@ -13,6 +13,7 @@ public class Constants {
     }
     public static final class WristConstants {
         public static final int WRIST_MOTOR_ID = 4;
+        public static final int WRIST_THROUGHBORE_ENCODER = 3;
         public static final double HOME_SETPOINT = 0.0;
         public static final double INTAKE_SETPOINT = 0.374;
         public static final double SHOOTING_SETPOINT = 0.164;
@@ -20,7 +21,7 @@ public class Constants {
         public static final double kP = 0.3;
         public static final double kI = 0.0;
         public static final double kD = 0.0;
-        public static final double MIN_INPUT = -1.0;
+        public static final double MMAX_UP = -0.976191282272339;
         public static final double MAX_INPUT = 1.0;
 
         public static final double NEW_INTAKE_POS = 0.664; //6897
