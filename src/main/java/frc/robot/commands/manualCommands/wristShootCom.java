@@ -26,7 +26,7 @@ private final Wrist m_Wrist;
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_Wrist.wristPIDController(WristConstants.NEW_SHOOTING_POS);
+    m_Wrist.wristController(WristConstants.NEW_SHOOTING_POS);
   }
 
   // Called once the command ends or is interrupted.

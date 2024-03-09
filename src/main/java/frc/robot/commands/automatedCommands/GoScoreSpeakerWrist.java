@@ -24,7 +24,7 @@ public class GoScoreSpeakerWrist extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_Wrist.wristPIDController(0);
+    m_Wrist.wristController(0);
   }
 
   // Called once the command ends or is interrupted.
