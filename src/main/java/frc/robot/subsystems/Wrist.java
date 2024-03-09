@@ -15,12 +15,15 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.TrolleyConstants;
 import frc.robot.Constants.WristConstants;
 /** Add your docs here. */
 public class Wrist extends SubsystemBase {
     private CANSparkMax wristMotor;
     private SparkPIDController wristPIDController;
     private RelativeEncoder wristEncoder;
+    private Trolley m_trolleyRef;
+    private Pivot m_pivotRef;
 
     public Wrist() {
         wristMotor = new CANSparkMax(WristConstants.WRIST_MOTOR_ID, MotorType.kBrushless);
@@ -31,6 +34,15 @@ public class Wrist extends SubsystemBase {
         wristPIDController.setI(0);
         wristPIDController.setD(0);
         wristPIDController.setFeedbackDevice(wristEncoder);
+    }
+
+    public void setTrollyRef(Trolley trolleyRef)
+    {
+        m_trolleyRef = trolleyRef;
+    }
+    public void setPivotRef(Pivot pivotRef)
+    {
+        m_pivotRef = pivotRef;
     }
     public void wrist(double value) {
         wristMotor.set(value);
@@ -78,9 +90,23 @@ public class Wrist extends SubsystemBase {
         SmartDashboard.putBoolean("WristAtIntakePosition", atIntakePositionWrist());
         SmartDashboard.putBoolean("WristAtHomePosition", atHomePositionWrist());
     }
+
+    public boolean isWristAtMaxDown() { 
+        // This considers the elevator state.
+        /*
+        if (m_trolleyRef.trolleyEncoder.getAbsolutePosition() >= TrolleyConstants.PIVOT_POS_LOWEST_POINT_WRIST_CAN_MOVE) {
+        return getPosition() <= WristConstants.WRIST_POS_LOWER_LIMIT_WHILE_ELEVATOR_UP;
+        }
+
+        if (m_trolleyRef.trolleyEncoder.getAbsolutePosition() >= TrolleyConstants.ELEVATOR_POS_LOWEST_POINT_ELEVATOR_CAN_GO_WHILE_WRIST_DOWN &&
+            m_trolleyRef.trolleyEncoder.getAbsolutePosition() <= TrolleyConstants.ELEVATOR_POS_LOWEST_POINT_WRIST_CAN_MOVE)
+        {
+        return getPosition() <= WristConstants.WRIST_POS_LOWER_LIMIT_WHILE_ELEVATOR_DOWN;
+        }
+        */
+        return false;
+    }
 }
-
-
 
 // FOR THE SMARTDASHBOARD TEST
 //    public boolean atShooringPositonWrist() {

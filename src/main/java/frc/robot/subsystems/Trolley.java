@@ -21,6 +21,8 @@ public class Trolley extends SubsystemBase {
     private DigitalInput limitSwitch;
     private SparkPIDController trolleyController;
     DutyCycleEncoder trolleyEncoder;
+    private Pivot m_pivotRef;
+    private Wrist m_wristRef;
 
     public Trolley() {
         trolleyMotor = new CANSparkFlex(TrolleyConstants.TROLLEY_MOTOR_ID, MotorType.kBrushless);
@@ -39,6 +41,14 @@ public class Trolley extends SubsystemBase {
         trolleyEncoder = new DutyCycleEncoder(TrolleyConstants.TROLLEY_ENCODER_ID);
         trolleyEncoder.setDistancePerRotation(900);
         trolleyEncoder.reset();
+    }
+    public void setPivotRef(Pivot pivotRef)
+    {
+        m_pivotRef = pivotRef;
+    }
+    public void setWristRef(Wrist wristRef)
+    {
+        m_wristRef = wristRef;
     }
     public void trolley(double value) {
         trolleyMotor.set(value);
@@ -78,6 +88,15 @@ public class Trolley extends SubsystemBase {
           }else{
             return true;
           }
+    }
+
+    public boolean isTrolleyAtMaxForward() { 
+        // TODO
+        return false;
+    }
+    public boolean isTrolleyAtMaxBack() {
+        // TODO
+        return false;
     }
 
     @Override

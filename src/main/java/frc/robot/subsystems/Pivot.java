@@ -21,6 +21,8 @@ public class Pivot extends SubsystemBase {
     CANSparkFlex pivotMotorLeft;
     DutyCycleEncoder pivotEncoder;
     PIDController PivotPidController;
+    private Trolley m_trolleyRef;
+    private Wrist m_wristRef;
 
     public Pivot(){
        pivotMotorRight = new CANSparkFlex(PivotConstants.PIVOT_MOTOR1_ID, MotorType.kBrushless);
@@ -33,6 +35,14 @@ public class Pivot extends SubsystemBase {
         pivotEncoder = new DutyCycleEncoder(PivotConstants.PIVOT_ENCODER_ID);
         pivotEncoder.setDistancePerRotation(900);
         pivotEncoder.reset();
+    }
+    public void setTrolleyRef(Trolley trolleyRef)
+    {
+        m_trolleyRef = trolleyRef;
+    }
+    public void setWristRef(Wrist wristRef)
+    {
+        m_wristRef = wristRef;
     }
     public void pivot(double value) {
         pivotMotorRight.set(value);
@@ -78,6 +88,18 @@ public class Pivot extends SubsystemBase {
       public void resetPivotEncoderPivot() { 
         pivotMotorRight.getEncoder().setPosition(0); 
       } 
+
+    public boolean isPivotAtMaxUp()
+    {
+        // TODO
+        return false;
+    }
+
+    public boolean isPivotAtMaxDown()
+    {
+        // TODO
+        return false;
+    }
 
     //   public double getPosition() {
     //     return pivotEncoder.getAbsolutePosition();
