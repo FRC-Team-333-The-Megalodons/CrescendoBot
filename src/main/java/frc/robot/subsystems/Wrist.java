@@ -12,6 +12,8 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.SparkAbsoluteEncoder.Type;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -30,7 +32,7 @@ public class Wrist extends SubsystemBase {
         wristMotor = new CANSparkMax(WristConstants.WRIST_MOTOR_ID, MotorType.kBrushless);
         wristMotor.setIdleMode(IdleMode.kBrake);
         wristPIDController = wristMotor.getPIDController();
-        wristEncoder = new DutyCycleEncoder();
+        wristEncoder = wristMotor.getAbsoluteEncoder(Type.kDutyCycle);
         wristPIDController.setP(0.05);
         wristPIDController.setI(0);
         wristPIDController.setD(0);
@@ -62,9 +64,6 @@ public class Wrist extends SubsystemBase {
     }
     public boolean atSetpoint(double min, double max){
         return min<=wristEncoder.getPosition() && max>=wristEncoder.getPosition();
-    }
-    public void zero(){
-        wristEncoder.setPosition(0.0);
     }
 
     // SMART DASHBOARD 
