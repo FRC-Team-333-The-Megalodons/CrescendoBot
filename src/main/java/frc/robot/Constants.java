@@ -49,9 +49,9 @@ public class Constants {
       public static final double kD = 0.0;
       public static final double MIN_INPUT = -1.0;
       public static final double MAX_INPUT = 1.0;
-      public static final double TROLLEY_MIN_IN = 0.71; // Flutters up to 0.73
+      public static final double TROLLEY_MIN_IN = 0.70; // Flutters up to 0.73
       public static final double TROLLEY_SHOOTING_POSITION = 1.10; // Also the farthest back it can be when the wrist is up. Flutters up to 1.2.
-      public static final double TROLLEY_MAX_OUT = 1.55; // Flutters between 1.54 & 1.57
+      public static final double TROLLEY_MAX_OUT = 1.53 7; // Flutters between 1.54 & 1.57
       public static final double WRIST_POS_LOWER_LIMIT_WHILE_TROLLEY_DOWN = 0.7024;
       public static final double TROLLEY_POS_LOWEST_POINT_WRIST_CAN_MOVE = 4.185;  
       public static final double TROLLEY_INTAKE_POSITION = 1.53; // almost the same as max out                                               
