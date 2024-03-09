@@ -36,7 +36,7 @@ public class RobotContainer {
  // private final Intake m_Intake = new Intake();
   // private final Shooter m_Shooter = new Shooter(); 
   private final Pivot m_Pivot = new Pivot();
-  private final Trolley m_Track = new Trolley();
+  private final Trolley m_Trolley = new Trolley();
   private final Wrist m_Wrist = new Wrist();
   private final CommandPS5Controller joy = new CommandPS5Controller(0);
   // private final Indexer m_Indexer = new Indexer();
@@ -44,6 +44,13 @@ public class RobotContainer {
   
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    // Set up references between the primary components
+    m_Pivot.setTrolleyRef(m_Trolley);
+    m_Pivot.setWristRef(m_Wrist);
+    m_Trolley.setPivotRef(m_Pivot);
+    m_Trolley.setWristRef(m_Wrist);
+    m_Wrist.setPivotRef(m_Pivot);
+    m_Wrist.setTrollyRef(m_Trolley);
     // Configure the trigger bindings
   //  m_Intake.setDefaultCommand(new RunCommand(() -> m_Intake.intakeStop(), m_Intake));
   //  m_Shooter.setDefaultCommand(new RunCommand(() -> m_Shooter.fireStop(), m_Shooter));
@@ -79,11 +86,11 @@ public class RobotContainer {
     // joy.circle().whileTrue(new RunFire(m_Shooter, -0.3, m_Indexer, -0.3));       //  CIRCLE shoot
     // joy.circle().whileFalse(new RunFire(m_Shooter, 0, m_Indexer, 0));
    
-    joy.R3().whileTrue(new RunTrack(m_Track, 0.3));    // R3       track up
-    joy.R3().whileFalse(new RunTrack(m_Track, 0));
+    joy.R3().whileTrue(new RunTrack(m_Trolley, 0.3));    // R3       track up
+    joy.R3().whileFalse(new RunTrack(m_Trolley, 0));
 
-    joy.L3().whileTrue(new RunTrack(m_Track, -0.3)); // L3       track down
-    joy.L3().whileFalse(new RunTrack(m_Track, 0));
+    joy.L3().whileTrue(new RunTrack(m_Trolley, -0.3)); // L3       track down
+    joy.L3().whileFalse(new RunTrack(m_Trolley, 0));
 
     joy.cross().whileTrue(new RunWrist(m_Wrist, 0.3));    // CROSS    wrist  up
     joy.cross().whileFalse(new RunWrist(m_Wrist, 0));
