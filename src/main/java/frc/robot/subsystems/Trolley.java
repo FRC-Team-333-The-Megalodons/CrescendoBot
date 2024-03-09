@@ -14,6 +14,8 @@ import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -23,24 +25,22 @@ import frc.robot.Constants.TrolleyConstants;
 public class Trolley extends SubsystemBase {
 
   private CANSparkFlex trolleyMotor;
-  private DigitalInput limitSwitch;
-  private DutyCycleEncoder trolleyEncoder;
+  private DigitalInput maxOutLimitSwitch, minInLimitSwitch;
 
   private SparkPIDController trolleyController;
 
   private Pivot pivotRef; // Needed to check limits.
-
-  /** Creates a new Trolley. */
-  public Trolley(Pivot _pivotRef) {
-    this();
-    this.setPivotRef(_pivotRef);
-  }
+  private Wrist wristRef;
   
+  private AnalogInput potInput;
+  private AnalogPotentiometer potentiometer;
+
   public Trolley()
   {
-    trolleyMotor = new CANSparkFlex(TrolleyConstants.MOTOR_ID, MotorType.kBrushless);
-    trolleyEncoder = new DutyCycleEncoder(TrolleyConstants.ENCODER_ID);
-    limitSwitch = new DigitalInput(TrolleyConstants.LIMIT_SWITCH_ID);
+    trolleyMotor = new CANSparkFlex(TrolleyConstants.TROLLEY_MOTOR_ID, MotorType.kBrushless);
+    maxOutLimitSwitch = new DigitalInput(TrolleyConstants.TROLLEY_OUT_LIMIT_SWITCH_ID);
+    minInLimitSwitch = new DigitalInput(TrolleyConstants.TROLLEY_IN_LIMIT_SWITCH_ID);
+
 
     trolleyMotor.restoreFactoryDefaults();
 
@@ -55,11 +55,22 @@ public class Trolley extends SubsystemBase {
     trolleyMotor.setIdleMode(IdleMode.kBrake);
 
     trolleyMotor.burnFlash();
+
+    
+    potInput = new AnalogInput(TrolleyConstants.TROLLEY_POTENTIOMETER_ID);
+    potInput.setAverageBits(2); // enable 2-bit averaging to smooth it out
+    potentiometer = new AnalogPotentiometer(potInput);
+
   }
 
   public void setPivotRef(Pivot _pivotRef)
   {
     pivotRef = _pivotRef;
+  }
+
+  public void setWristRef(Wrist _wristRef)
+  {
+    wristRef = _wristRef;
   }
 
   /*
@@ -68,18 +79,19 @@ public class Trolley extends SubsystemBase {
   }
   */
 
-  public double getPosition() {
-    return trolleyEncoder.get();
-    // return trolleyEncoder.getAbsolutePosition();
-    //return trolleyMotor.getEncoder().getPosition();
-  }
-
   public void runTrolley(double speed) {
-    // if (mustStopDueToLimit(speed)) {
-    //   stopTrolley();
-    //   return;
-    // }
-  
+    // Negative number means moving trolley in; positive number means moving trolley out.
+    if (speed > 0) {
+        if (isTrolleyAtMaxOutLimitSwitch()) {
+            stopTrolley();
+            return;
+        }
+    } else if (speed < 0) {
+        if (isTrolleyAtMinInLimitSwitch()) {
+            stopTrolley();
+            return;
+        }
+    }
     trolleyMotor.set(speed);
   }
 
@@ -99,46 +111,74 @@ public class Trolley extends SubsystemBase {
 
   public boolean atSetpoint(double setpoint) {
     // If our encoder is at a premeditated setpoint, return true, otherwise return false
-    return (getPosition() == setpoint);
+    return (getPotentiometerPosition() == setpoint);
   }
 
-  public boolean getLimitSwitch(){
-    return !limitSwitch.get();
+  public boolean fuzzyEquals(double a, double b)
+  {
+      final double epsilon = 0.01;
+      return Math.abs(a-b) < epsilon;
   }
 
-  /*
-  public void zeroPosition(){
-    if (getLimitSwitch() == true) {
-      //stopTrolley();
-      resetEncoder();
+  public double getPotentiometerPosition()
+    {
+        // We flip the sign, add a constant, and multiply by 100 to
+        //  make this number more "intuitive" / legible.
+        return potentiometer.get() * -100 + 7;
     }
-  }
-  */
 
-  private boolean mustStopDueToLimit(double speed)
-  {
-    return false;
-    // // TODO: Is positive Front or Back? This code assumes value > 0 means "go Up", might need to be flipped if not so.
-    // return ((speed > 0 && getPosition() >= getFrontLimitFromState()) ||
-    //         (speed < 0 && getPosition() <= getBackLimitFromState()));
-  }
+    public boolean isOkToMoveTrolleyOut()
+    {
+        if (isTrolleyAtMaxOutLimitSwitch()) {
+            return false;
+        }
 
-  private double getBackLimitFromState()
-  {
-    // TODO
-    return TrolleyConstants.DOWN_LIMIT_POS;
-  }
+        return true;
+    }
 
-  private double getFrontLimitFromState()
-  {
-    return TrolleyConstants.HOME_SETPOINT_POS;
-  }
+    public boolean isOkToMoveTrolleyIn()
+    {
+        if (isTrolleyAtMinInLimitSwitch()) {
+            return false;
+        }
+
+        return true;
+    }
+    
+    public boolean isTrolleyAtMaxOutLimitSwitch() {
+        return !maxOutLimitSwitch.get();
+    }
+
+    public boolean isTrolleyAtMinInLimitSwitch() {
+        return !minInLimitSwitch.get();
+    }
+
+    // This function returns whether the trolley is "past the frame perimeter".
+    // This could technically vary based on where the wrist is, but for now we'll just use a single value.
+    public boolean isTrolleyOut() 
+    {
+        return getPotentiometerPosition() >= TrolleyConstants.TROLLEY_IN_OUT_THRESHOLD;
+    }
+    public boolean isTrolleyIn()
+    {
+        return !isTrolleyOut();
+    }
+
+    public boolean isTrolleyTooFarInToPivotVertical()
+    {
+        return getPotentiometerPosition() < TrolleyConstants.TROLLEY_FURTHEST_IN_WHERE_PIVOT_CAN_MOVE_ALL_THE_WAY_UP;
+    }
+
+    public boolean isTrolleyTooFarInToPivotUpPastBumper()
+    {
+        return getPotentiometerPosition() < TrolleyConstants.TROLLEY_FURTHEST_IN_WHERE_PIVOT_CAN_CLEAR_BACK_BUMPER;
+    }
 
   @Override
   public void periodic() {
-    //zeroPosition();
-    SmartDashboard.putNumber("Trolley Pos", getPosition());
-    SmartDashboard.putBoolean("LimitSwitch", getLimitSwitch());
-    SmartDashboard.putBoolean("At Setpoint?", atSetpoint(getPosition()));
+        SmartDashboard.putBoolean("TrolleyMaxOutLimit", isTrolleyAtMaxOutLimitSwitch());
+        SmartDashboard.putBoolean("TrolleyMinInLimit", isTrolleyAtMinInLimitSwitch());
+        SmartDashboard.putNumber("TrolleyEncoder" , getPotentiometerPosition());
+        SmartDashboard.putBoolean("TrolleyAtSetpoint", atSetpoint(getPotentiometerPosition()));
   }
 }

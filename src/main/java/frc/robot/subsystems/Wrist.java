@@ -20,22 +20,21 @@ import frc.robot.Constants.WristConstants;
 public class Wrist extends SubsystemBase {
 
   private CANSparkMax wristMotor;
-  private AbsoluteEncoder wristEncoder;
-
   private SparkPIDController wristController;
-
+  private AbsoluteEncoder wristEncoder;
   private Pivot pivotRef;
+  private Trolley trolleyRef;
 
   /** Creates a new Wrist. */
-  public Wrist(Pivot _pivotRef) {
-    pivotRef = _pivotRef;
+  public Wrist() {
     wristMotor = new CANSparkMax(WristConstants.MOTOR_ID, MotorType.kBrushless);
 
     wristMotor.restoreFactoryDefaults();
 
     wristEncoder = wristMotor.getAbsoluteEncoder(Type.kDutyCycle);
-    // wristEncoder.setZeroOffset(WristConstants.ZERO_OFFSET);
-    wristEncoder.setInverted(true);
+    //wristEncoder.setInverted(true);
+    //wristEncoder = wristMotor.getAlternateEncoder(kCPR);
+    wristEncoder.setZeroOffset(0.15);
 
     wristController = wristMotor.getPIDController();
     wristController.setFeedbackDevice(wristEncoder);
@@ -48,6 +47,16 @@ public class Wrist extends SubsystemBase {
     wristMotor.setIdleMode(IdleMode.kBrake);
 
     wristMotor.burnFlash();
+  }
+
+  public void setPivotRef(Pivot _pivotRef)
+  {
+    pivotRef = _pivotRef;
+  }
+
+  public void setTrolleyRef(Trolley _trolleyRef)
+  {
+    trolleyRef = _trolleyRef;
   }
 
   public double getPosition() {
@@ -79,27 +88,25 @@ public class Wrist extends SubsystemBase {
     wristController.setReference(setpoint, ControlType.kPosition);
   }
 
-  private boolean mustStopDueToLimit(double speed)
+  // private double getDownLimitFromState()
+  // {
+  //   if (pivotRef.getPosition() > PivotConstants.HOME_SETPOINT_POS) {
+  //     // This intends to say, "If the Pivot is up (i.e. the wrist is down), then don't rotate the wrist down past the point of intake, else it'll smack the bumper/interior."
+  //     return WristConstants.INTAKE_SETPOINT_POS;
+  //   }
+  //   return WristConstants.DOWN_LIMIT_POS;
+  // }
+
+  // private double getUpLimitFromState()
+  // {
+  //   //  This is always the hard-stop (i.e. flush) limit
+  //   return WristConstants.UP_LIMIT_POS;
+  // }
+
+  private boolean isWristAtMaxDown()
   {
+    // TODO
     return false;
-    // // TODO: Is positive Up or Down? This code assumes value > 0 means "go Up", might need to be flipped if not so.
-    // return ((speed > 0 && getPosition() >= getUpLimitFromState()) ||
-    //         (speed < 0 && getPosition() <= getDownLimitFromState()));
-  }
-
-  private double getDownLimitFromState()
-  {
-    if (pivotRef.getPosition() > PivotConstants.HOME_SETPOINT_POS) {
-      // This intends to say, "If the Pivot is up (i.e. the wrist is down), then don't rotate the wrist down past the point of intake, else it'll smack the bumper/interior."
-      return WristConstants.INTAKE_SETPOINT_POS;
-    }
-    return WristConstants.DOWN_LIMIT_POS;
-  }
-
-  private double getUpLimitFromState()
-  {
-    //  This is always the hard-stop (i.e. flush) limit
-    return WristConstants.UP_LIMIT_POS;
   }
 
   @Override

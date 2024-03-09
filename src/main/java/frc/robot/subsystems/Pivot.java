@@ -34,9 +34,9 @@ public class Pivot extends SubsystemBase {
   private final double goalRangeMeters = Units.feetToMeters(0);
 
   private Trolley trolleyRef; 
+  private Wrist wristRef;
   /** Creates a new Pivot. */
-  public Pivot(Trolley _trolleyRef) {
-    trolleyRef = _trolleyRef;
+  public Pivot() {
     pivotMotorLeader = new CANSparkFlex(PivotConstants.MOTOR1_ID, MotorType.kBrushless);
     pivotMotorFollower = new CANSparkFlex(PivotConstants.MOTOR2_ID, MotorType.kBrushless);
 
@@ -46,12 +46,18 @@ public class Pivot extends SubsystemBase {
     pivotMotorLeader.setIdleMode(IdleMode.kBrake);
     pivotMotorFollower.setIdleMode(IdleMode.kBrake);
 
+    
+    pivotMotorFollower.follow(pivotMotorLeader);
+
     pivotMotorLeader.burnFlash();
     pivotMotorFollower.burnFlash();
 
-    pivotEncoder = new DutyCycleEncoder(PivotConstants.ENCODER_ID);
+
+    pivotEncoder = new DutyCycleEncoder(PivotConstants.PIVOT_ENCODER_ID);
     // pivotEncoder.setPositionOffset(PivotConstants.ZERO_OFFSET);
-    pivotEncoder.setDutyCycleRange(1.0/1024.0, 1023.0/1024.0);
+    //pivotEncoder.setDutyCycleRange(1.0/1024.0, 1023.0/1024.0);
+    pivotEncoder.setDistancePerRotation(900);
+    pivotEncoder.reset();
 
     pivotController = new PIDController(PivotConstants.kP, PivotConstants.kI, PivotConstants.kD);
     // pivotController.enableContinuousInput(0, 1);
@@ -59,18 +65,30 @@ public class Pivot extends SubsystemBase {
     // camera = new PhotonCamera("camera");
   }
 
-  public double getPosition() {
-    return pivotEncoder.getAbsolutePosition();
+  public void setTrolleyRef(Trolley _trolleyRef)
+  {
+    trolleyRef = _trolleyRef;
+  }
+  public void setWristRef(Wrist _wristRef)
+  {
+    wristRef = _wristRef;
   }
 
   public void runPivot(double speed) {
-    // if (mustStopDueToLimit(speed)) {
-    //   stopPivot();
-    //   return;
-    // }
 
+      // Negative value means "up". Positive value means "down".
+      if (speed < 0) {
+          if (!isOkToMovePivotUp()) {
+              stopPivot();
+              return;
+          }
+      } else if (speed > 0) {
+          if (!isOkToMovePivotDown()) {
+             stopPivot();
+             return;
+          }
+      }
     pivotMotorLeader.set(speed);
-    pivotMotorFollower.follow(pivotMotorLeader);
   }
 
   public void stopPivot() {
@@ -78,8 +96,60 @@ public class Pivot extends SubsystemBase {
     pivotMotorFollower.set(0.0);
   }
 
+  
+  public boolean fuzzyEquals(double a, double b)
+  {
+      final double epsilon = 0.001;
+      return Math.abs(a-b) < epsilon;
+  }
+
+  public boolean isOkToMovePivotUp()
+  {
+      // For now, just return true here because my checks aren't working
+      return true;
+      /*
+      if (m_trolleyRef.isTrolleyTooFarInToPivotUpPastBumper())
+      {
+          return getPivotPosition() > PivotConstants.PIVOT_UP_FAR_ENOUGH_THAT_TROLLEY_COULD_HIT_BACK_BUMPER;
+      }
+      if (m_trolleyRef.isTrolleyTooFarInToPivotVertical())
+      {
+          return getPivotPosition() > PivotConstants.PIVOT_UP_FAR_ENOUGH_THAT_TROLLEY_COULD_HIT_UNDERBELLY;
+      }
+      return true;
+      */
+  }
+
+  public boolean isOkToMovePivotDown()
+  {
+      if (trolleyRef.isTrolleyOut())
+      {
+          // If the Trolley is out, then we can only move down if we're above the "trolley can move safely" setpoint.
+          return getPivotPosition() > PivotConstants.PIVOT_FURTHEST_DOWN_WHERE_TROLLEY_CAN_MOVE;
+      }
+      return true;
+  }
+
+  public boolean isPivotAtMaxUp()
+  {
+      // TODO
+      return false;
+  }
+
+  public boolean isPivotAtMaxDown()
+  {
+      // TODO
+      return false;
+  }
+
+  public double getPivotPosition()
+  {
+      return (pivotEncoder.getAbsolutePosition() * -1) + 1.0;
+  }
+
+
   public void runPivotToTargetAngle(double angle) {
-    double speed = pivotController.calculate(getPosition(), angle);
+    double speed = pivotController.calculate(getPivotPosition(), angle);
     runPivot(speed);
   }
 
@@ -101,33 +171,31 @@ public class Pivot extends SubsystemBase {
     //         (speed < 0 && getPosition() <= getDownLimitFromState()));
   }
 
-  // Note: DOWN means the shooter is down, and the Intake is up.
-  private double getDownLimitFromState()
-  {
-    if (trolleyRef.getPosition() > TrolleyConstants.INTAKE_SETPOINT_POS) {
-      // This intends to say "if the trolley position is towards the front, don't let us move the Pivot down"
-      return PivotConstants.HOME_SETPOINT_POS; 
-    }
-    return PivotConstants.AMP_SETPOINT_POS;
-  }
+  // // Note: DOWN means the shooter is down, and the Intake is up.
+  // private double getDownLimitFromState()
+  // {
+  //   if (trolleyRef.getPivotPosition() > TrolleyConstants.INTAKE_SETPOINT_POS) {
+  //     // This intends to say "if the trolley position is towards the front, don't let us move the Pivot down"
+  //     return PivotConstants.HOME_SETPOINT_POS; 
+  //   }
+  //   return PivotConstants.AMP_SETPOINT_POS;
+  // }
 
-  // Note: UP means the shooter is up, and the Intake is down.
-  private double getUpLimitFromState()
-  {
-    if (trolleyRef.getPosition() < TrolleyConstants.HOME_SETPOINT_POS) {
-      // This intends to say "if the trolley position is towards the back, don't let us move the Pivot up"
-      return PivotConstants.HOME_SETPOINT_POS;
-    }
+  // // Note: UP means the shooter is up, and the Intake is down.
+  // private double getUpLimitFromState()
+  // {
+  //   if (trolleyRef.getPosition() < TrolleyConstants.HOME_SETPOINT_POS) {
+  //     // This intends to say "if the trolley position is towards the back, don't let us move the Pivot up"
+  //     return PivotConstants.HOME_SETPOINT_POS;
+  //   }
 
-    return PivotConstants.SHOOTING_SETPOINT_POS;
-  }
+  //   return PivotConstants.SHOOTING_SETPOINT_POS;
+  // }
 
   @Override
   public void periodic() {
     final String PREFIX = "Pivot ";
-    SmartDashboard.putNumber(PREFIX+"Position", getPosition());
+    SmartDashboard.putNumber(PREFIX+"Position", getPivotPosition());
     SmartDashboard.putBoolean(PREFIX+"Setpoint", pivotController.atSetpoint());
-    SmartDashboard.putNumber(PREFIX+"Up Limit", getUpLimitFromState());
-    SmartDashboard.putNumber(PREFIX+"Down Limit", getDownLimitFromState());
   }
 }

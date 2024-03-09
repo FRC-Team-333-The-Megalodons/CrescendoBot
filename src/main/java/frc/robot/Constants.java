@@ -56,13 +56,19 @@ public final class Constants
     public static final double kFF = 0.0;
     public static final double MIN_INPUT = -0.5;
     public static final double MAX_INPUT = 0.5;
+    // Below values are from Lil Miss, measured on 3/9/24
+    public static final double WRIST_MIN_DOWN = 0.14; // Also for climbing.
+    public static final double WRIST_MAX_UP = 0.82; // Also for shooting.
+    public static final double WRIST_FURTHEST_DOWN_WHERE_TROLLEY_CAN_MOVE_FREELY = 0.46;
+    public static final double WRIST_INTAKE_POSITION = 0.563;
   }
 
   public static final class TrolleyConstants
   {
-    public static final int MOTOR_ID = 5;
-    public static final int LIMIT_SWITCH_ID = 7;
-    public static final int ENCODER_ID = 3;
+    public static final int TROLLEY_MOTOR_ID = 5;
+    public static final int TROLLEY_OUT_LIMIT_SWITCH_ID = 7;
+    public static final int TROLLEY_IN_LIMIT_SWITCH_ID = 2;
+    public static final int TROLLEY_POTENTIOMETER_ID = 3;
     public static final double HOME_SETPOINT_POS = 0.0;
     public static final double INTAKE_SETPOINT_POS = 85;
     public static final double AMP_SETPOINT_POS = 69;
@@ -74,13 +80,23 @@ public final class Constants
     public static final double kFF = 0.0;
     public static final double MIN_INPUT = -0.3;
     public static final double MAX_INPUT = 0.3;
+    // Below values are from Lil Miss, measured on 3/9/24
+    public static final double TROLLEY_MIN_IN = 0.70; // Flutters up to 0.73
+    public static final double TROLLEY_SHOOTING_POSITION = 1.10; // Also the farthest back it can be when the wrist is up. Flutters up to 1.2.
+    public static final double TROLLEY_MAX_OUT = 1.53 7; // Flutters between 1.54 & 1.57
+    public static final double WRIST_POS_LOWER_LIMIT_WHILE_TROLLEY_DOWN = 0.7024;
+    public static final double TROLLEY_POS_LOWEST_POINT_WRIST_CAN_MOVE = 4.185;  
+    public static final double TROLLEY_INTAKE_POSITION = 1.53; // almost the same as max out                                               
+    public static final double TROLLEY_IN_OUT_THRESHOLD = 1.16; // Can use this to decide if it's in or out
+    public static final double TROLLEY_FURTHEST_IN_WHERE_PIVOT_CAN_MOVE_ALL_THE_WAY_UP = 1.33;
+    public static final double TROLLEY_FURTHEST_IN_WHERE_PIVOT_CAN_CLEAR_BACK_BUMPER = 1.06;
   }
 
   public static final class PivotConstants
-  {
+  { 
     public static final int MOTOR1_ID = 6; 
     public static final int MOTOR2_ID = 7; 
-    public static final int ENCODER_ID = 9; 
+    public static final int PIVOT_ENCODER_ID = 9; 
     public static final double ZERO_OFFSET = 0.65362201634055;
     public static final double HOME_SETPOINT_POS = 0.634;
     public static final double INTAKE_SETPOINT_POS = 0.364;
@@ -98,6 +114,15 @@ public final class Constants
     public static final double kFF = 0.0;
     public static final double MIN_INPUT = -0.1;
     public static final double MAX_INPUT = 0.1;
+    // BBelow values are from Lil Miss, measured on 3/9/24
+    public static final double PIVOT_MIN_DOWN = 0.245; // This is the lowest point the "head" can be down (the head is the intake)
+    public static final double PIVOT_BALANCED_FLAT = 0.405;
+    public static final double PIVOT_CLIMB_POSITION = 0.669;
+    public static final double PIVOT_MAX_UP = 0.70; // This is also the Amp scoring position.
+    public static final double PIVOT_FURTHEST_DOWN_WHERE_TROLLEY_CAN_MOVE = 0.41;
+    public static final double PIVOT_INTAKE_POSITION = 0.37;
+    public static final double PIVOT_UP_FAR_ENOUGH_THAT_TROLLEY_COULD_HIT_BACK_BUMPER = 0.44;
+    public static final double PIVOT_UP_FAR_ENOUGH_THAT_TROLLEY_COULD_HIT_UNDERBELLY = 0.48;
   }
 
   public static final class IndexerConstants
