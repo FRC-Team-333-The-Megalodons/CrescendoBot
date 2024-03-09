@@ -108,11 +108,32 @@ public class Trolley extends SubsystemBase {
           }
     }
 
-    public boolean isTrolleyAtMaxForward() { 
+    // This function returns whether the trolley is "past the frame perimeter".
+    // This could technically vary based on where the wrist is, but for now we'll just use a single value.
+    public boolean isTrolleyOut() 
+    {
+        return getPotentiometerPosition() >= TrolleyConstants.TROLLEY_IN_OUT_THRESHOLD;
+    }
+    public boolean isTrolleyIn()
+    {
+        return !isTrolleyOut();
+    }
+
+    public boolean isTrolleyTooFarInToPivotVertical()
+    {
+        return getPotentiometerPosition() < TrolleyConstants.TROLLEY_FURTHEST_IN_WHERE_PIVOT_CAN_MOVE_ALL_THE_WAY_UP;
+    }
+
+    public boolean isTrolleyTooFarInToPivotUpPastBumper()
+    {
+        return getPotentiometerPosition() < TrolleyConstants.TROLLEY_FURTHEST_IN_WHERE_PIVOT_CAN_CLEAR_BACK_BUMPER;
+    }
+
+    public boolean isTrolleyAtMaxOut() { 
         // TODO
         return false;
     }
-    public boolean isTrolleyAtMaxBack() {
+    public boolean isTrolleyAtMinIn() {
         // TODO
         return false;
     }

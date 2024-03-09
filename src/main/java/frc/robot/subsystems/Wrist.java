@@ -6,6 +6,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.AbsoluteEncoder;
+import com.revrobotics.AlternateEncoderType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.ControlType;
@@ -26,7 +27,8 @@ import frc.robot.Constants.WristConstants;
 public class Wrist extends SubsystemBase {
     private CANSparkMax wristMotor;
     private SparkPIDController wristPIDController;
-    private RelativeEncoder wristEncoder;
+    //private RelativeEncoder wristEncoder;
+    private AbsoluteEncoder wristEncoder;
     private Trolley m_trolleyRef;
     private Pivot m_pivotRef;
 
@@ -37,7 +39,9 @@ public class Wrist extends SubsystemBase {
 
         wristMotor.setIdleMode(IdleMode.kBrake);
         wristPIDController = wristMotor.getPIDController();
-        wristEncoder = wristMotor.getAlternateEncoder(kCPR);
+        //wristEncoder = wristMotor.getAlternateEncoder(kCPR);
+        wristEncoder = wristMotor.getAbsoluteEncoder(Type.kDutyCycle);
+        wristEncoder.setZeroOffset(0.15);
         wristPIDController.setP(0.05);
         wristPIDController.setI(0);
         wristPIDController.setD(0);

@@ -29,6 +29,7 @@ public class Pivot extends SubsystemBase {
        pivotMotorRight.setIdleMode(IdleMode.kBrake);
        pivotMotorLeft = new CANSparkFlex(PivotConstants.PIVOT_MOTOR2_ID, MotorType.kBrushless);
        pivotMotorLeft.setIdleMode(IdleMode.kBrake);
+       pivotMotorLeft.follow(pivotMotorRight);
        PivotPidController = new PIDController(PivotConstants.kP, PivotConstants.kI, PivotConstants.kD);
        PivotPidController.enableContinuousInput(PivotConstants.MIN_INPUT, PivotConstants.MAX_INPUT);
     
@@ -45,49 +46,72 @@ public class Pivot extends SubsystemBase {
         m_wristRef = wristRef;
     }
     public void pivot(double value) {
+        // Negative value means "up". Positive value means "down".
+        if (value < 0) {
+            if (!isOkToMovePivotUp()) {
+                pivotStop();
+                return;
+            }
+        } else if (value > 0) {
+            if (!isOkToMovePivotDown()) {
+                pivotStop();
+                return;
+            }
+        }
         pivotMotorRight.set(value);
-        pivotMotorLeft.follow(pivotMotorRight);
     }
     public void pivotStop() {
         pivotMotorRight.set(0);
-        pivotMotorLeft.follow(pivotMotorRight);
+    }
+
+    public boolean fuzzyEquals(double a, double b)
+    {
+        final double epsilon = 0.001;
+        return Math.abs(a-b) < epsilon;
     }
 
      public boolean atIntakePositionPivot() {
-        if (pivotEncoder.getAbsolutePosition() == PivotConstants.INTAKE_SETPOINT) { // intake encoder position 
-          return true;
-        } else {
-            return false;
-        }
+        return fuzzyEquals(getPivotPosition(), PivotConstants.INTAKE_SETPOINT);
       }
 
     public boolean atSpeakerPositionPivot() {
-        if (pivotEncoder.getAbsolutePosition() == PivotConstants.SPEAKER_SERPOINT) {
-            return true;
-        } else {
-            return false;
-        }
+        return fuzzyEquals(getPivotPosition(), PivotConstants.SPEAKER_SERPOINT);
     }
 
     public boolean atHomePositionPivot() {
-        if (pivotEncoder.getAbsolutePosition() == PivotConstants.HOME_SETPOINT) {
-            return true;
-        } else {
-            return false;
-        }
+        return fuzzyEquals(getPivotPosition(), PivotConstants.HOME_SETPOINT);
     }
 
     public boolean atAMPPositionPivot() {
-        if (pivotEncoder.getAbsolutePosition() == PivotConstants.AMP_SETPOINT) {
-            return true;
-        } else {
-            return false;
-        }
+        return fuzzyEquals(getPivotPosition(), PivotConstants.AMP_SETPOINT);
     }
     
       public void resetPivotEncoderPivot() { 
         pivotMotorRight.getEncoder().setPosition(0); 
       } 
+
+    public boolean isOkToMovePivotUp()
+    {
+        if (m_trolleyRef.isTrolleyTooFarInToPivotUpPastBumper())
+        {
+            return getPivotPosition() > PivotConstants.PIVOT_UP_FAR_ENOUGH_THAT_TROLLEY_COULD_HIT_BACK_BUMPER;
+        }
+        if (m_trolleyRef.isTrolleyTooFarInToPivotVertical())
+        {
+            return getPivotPosition() > PivotConstants.PIVOT_UP_FAR_ENOUGH_THAT_TROLLEY_COULD_HIT_UNDERBELLY;
+        }
+        return true;
+    }
+
+    public boolean isOkToMovePivotDown()
+    {
+        if (m_trolleyRef.isTrolleyOut())
+        {
+            // If the Trolley is out, then we can only move down if we're above the "trolley can move safely" setpoint.
+            return getPivotPosition() > PivotConstants.PIVOT_FURTHEST_DOWN_WHERE_TROLLEY_CAN_MOVE;
+        }
+        return true;
+    }
 
     public boolean isPivotAtMaxUp()
     {

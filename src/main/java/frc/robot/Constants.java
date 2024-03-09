@@ -27,7 +27,10 @@ public class Constants {
         public static final double NEW_SHOOTING_POS = 0.3267;
         public static final double WRIST_POS_LOWER_LIMIT_WHILE_ELEVATOR_UP = 0;
         public static final double WRIST_POS_LOWER_LIMIT_WHILE_ELEVATOR_DOWN = 0;
-
+        public static final double WRIST_MIN_DOWN = 0.14; // Also for climbing.
+        public static final double WRIST_MAX_UP = 0.82; // Also for shooting.
+        public static final double WRIST_FURTHEST_DOWN_WHERE_TROLLEY_CAN_MOVE_FREELY = 0.46;
+        public static final double WRIST_INTAKE_POSITION = 0.563;
         /*
          * wrist intake position 0.6897
          * swrist shooting position 0.3267
@@ -45,29 +48,37 @@ public class Constants {
       public static final double kD = 0.0;
       public static final double MIN_INPUT = -1.0;
       public static final double MAX_INPUT = 1.0;
-      public static final double TROLLEY_MIN_BACK = 0.71; // Flutters up to 0.73
-      public static final double TROLLY_SHOOTING_POSITION = 1.10; // Also the farthest back it can be when the wrist is up. Flutters up to 1.2.
-      public static final double TROLLEY_MAX_FRONT = 1.55; // Flutters between 1.54 & 1.57
+      public static final double TROLLEY_MIN_IN = 0.71; // Flutters up to 0.73
+      public static final double TROLLEY_SHOOTING_POSITION = 1.10; // Also the farthest back it can be when the wrist is up. Flutters up to 1.2.
+      public static final double TROLLEY_MAX_OUT = 1.55; // Flutters between 1.54 & 1.57
       public static final double WRIST_POS_LOWER_LIMIT_WHILE_TROLLEY_DOWN = 0.7024;
-      public static final double TROLLEY_POS_LOWEST_POINT_WRIST_CAN_MOVE = 4.185;                                                 
+      public static final double TROLLEY_POS_LOWEST_POINT_WRIST_CAN_MOVE = 4.185;  
+      public static final double TROLLEY_INTAKE_POSITION = 1.53; // almost the same as max out                                               
+      public static final double TROLLEY_IN_OUT_THRESHOLD = 1.16; // Can use this to decide if it's in or out
+      public static final double TROLLEY_FURTHEST_IN_WHERE_PIVOT_CAN_MOVE_ALL_THE_WAY_UP = 1.33;
+      public static final double TROLLEY_FURTHEST_IN_WHERE_PIVOT_CAN_CLEAR_BACK_BUMPER = 1.06;
     }
     public static final class PivotConstants {
-    public static final int PIVOT_MOTOR1_ID = 6;
-    public static final int PIVOT_MOTOR2_ID = 7; 
-    public static final int PIVOT_ENCODER_ID = 9; 
-    public static final double HOME_SETPOINT = 0.0;
-    public static final double INTAKE_SETPOINT = 0.0;
-    public static final double SPEAKER_SERPOINT = 0.0;
-    public static final double AMP_SETPOINT = 0.0;
-    public static final double kP = 0.1;
-    public static final double kI = 0.0;
-    public static final double kD = 0.0;
-    public static final double MIN_INPUT = -1.0;
-    public static final double MAX_INPUT = 1.0;
-    public static final double PIVOT_MIN_DOWN = 0.245; // This is the lowest point the "head" can be down (the head is the intake)
-    public static final double PIVOT_BALANCED_FLAT = 0.405;
-    public static final double PIVOT_CLIMB_POSITION = 0.669;
-    public static final double PIVOT_MAX_UP = 0.70; // This is also the Amp scoring position.
+        public static final int PIVOT_MOTOR1_ID = 6;
+        public static final int PIVOT_MOTOR2_ID = 7; 
+        public static final int PIVOT_ENCODER_ID = 9; 
+        public static final double HOME_SETPOINT = 0.0;
+        public static final double INTAKE_SETPOINT = 0.0;
+        public static final double SPEAKER_SERPOINT = 0.0;
+        public static final double AMP_SETPOINT = 0.0;
+        public static final double kP = 0.1;
+        public static final double kI = 0.0;
+        public static final double kD = 0.0;
+        public static final double MIN_INPUT = -1.0;
+        public static final double MAX_INPUT = 1.0;
+        public static final double PIVOT_MIN_DOWN = 0.245; // This is the lowest point the "head" can be down (the head is the intake)
+        public static final double PIVOT_BALANCED_FLAT = 0.405;
+        public static final double PIVOT_CLIMB_POSITION = 0.669;
+        public static final double PIVOT_MAX_UP = 0.70; // This is also the Amp scoring position.
+        public static final double PIVOT_FURTHEST_DOWN_WHERE_TROLLEY_CAN_MOVE = 0.41;
+        public static final double PIVOT_INTAKE_POSITION = 0.37;
+        public static final double PIVOT_UP_FAR_ENOUGH_THAT_TROLLEY_COULD_HIT_BACK_BUMPER = 0.44;
+        public static final double PIVOT_UP_FAR_ENOUGH_THAT_TROLLEY_COULD_HIT_UNDERBELLY = 0.48;
     }
     public static final class ShooterConstants {
         public static final int FIRE_TOP_MOTOR_ID = 8;
