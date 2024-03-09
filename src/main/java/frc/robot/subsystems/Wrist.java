@@ -14,7 +14,6 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.Constants;
 import frc.robot.subsystems.Trolley;
 import frc.robot.Constants.TrolleyConstants;
 import frc.robot.Constants.WristConstants;
@@ -31,7 +30,6 @@ public class Wrist extends SubsystemBase {
         wristPIDController = new PIDController(WristConstants.kP, WristConstants.kI, WristConstants.kD);
         wristEncoder = wristMotor.getAbsoluteEncoder(com.revrobotics.SparkAbsoluteEncoder.Type.kDutyCycle);
         wristPIDController.enableContinuousInput(WristConstants.MIN_INPUT, WristConstants.MAX_INPUT);
-        wristEncoder = wristMotor.getAbsoluteEncoder(com.revrobotics.SparkAbsoluteEncoder.Type.kDutyCycle);
     }
     public void wrist(double value) {
         wristMotor.set(value);
@@ -65,24 +63,27 @@ public class Wrist extends SubsystemBase {
     return getPosition() >= WristConstants.MAX_INPUT;
   }
 
-  public  boolean isWristAtMaxDown() { 
-    // This considers the elevator state.
-    if (m_Trolley.trolleyEncoder.getAbsolutePosition() >= TrolleyConstants.PIVOT_POS_LOWEST_POINT_WRIST_CAN_MOVE) {
-    return getPosition() <= WristConstants.WRIST_POS_LOWER_LIMIT_WHILE_ELEVATOR_UP;
-    }
+  // public  boolean isWristAtMaxDown() { 
+  //   // This considers the elevator state.
+  //   if (m_Trolley.trolleyEncoder.getAbsolutePosition() >= TrolleyConstants.PIVOT_POS_LOWEST_POINT_WRIST_CAN_MOVE) {
+  //   return getPosition() <= WristConstants.WRIST_POS_LOWER_LIMIT_WHILE_ELEVATOR_UP;
+  //   }
 
-    if (m_Trolley.trolleyEncoder.getAbsolutePosition() >= TrolleyConstants.ELEVATOR_POS_LOWEST_POINT_ELEVATOR_CAN_GO_WHILE_WRIST_DOWN &&
-        m_Trolley.trolleyEncoder.getAbsolutePosition() <= TrolleyConstants.ELEVATOR_POS_LOWEST_POINT_WRIST_CAN_MOVE)
-    {
-      return getPosition() <= WristConstants.WRIST_POS_LOWER_LIMIT_WHILE_ELEVATOR_DOWN;
-    }
-    return false;
-  }
+  //   if (m_Trolley.trolleyEncoder.getAbsolutePosition() >= TrolleyConstants.ELEVATOR_POS_LOWEST_POINT_ELEVATOR_CAN_GO_WHILE_WRIST_DOWN &&
+  //       m_Trolley.trolleyEncoder.getAbsolutePosition() <= TrolleyConstants.ELEVATOR_POS_LOWEST_POINT_WRIST_CAN_MOVE)
+  //   {
+  //     return getPosition() <= WristConstants.WRIST_POS_LOWER_LIMIT_WHILE_ELEVATOR_DOWN;
+  //   }
+  //   return false;
+  // }
 
 
     // PID CONTROLLER (ENCODER POSITION SET IN THE COMMANDS OR ROBOT CONTAINER)
      public void wristPIDController(double position ){
         wristMotor.set(wristPIDController.calculate(getPosition(),position));
+    }
+    public boolean isDone(){
+        wrist
     }
 
     // SMART DASHBOARD
