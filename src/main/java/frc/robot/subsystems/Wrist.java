@@ -7,7 +7,9 @@ package frc.robot.subsystems;
 
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANEncoder;
 import com.revrobotics.ControlType;
+import com.revrobotics.EncoderType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.IdleMode;
@@ -24,15 +26,18 @@ import frc.robot.Constants.WristConstants;
 public class Wrist extends SubsystemBase {
     private CANSparkMax wristMotor;
     private SparkPIDController wristPIDController;
-    private AbsoluteEncoder wristEncoder;
+    private RelativeEncoder wristEncoder;
     private Trolley m_trolleyRef;
     private Pivot m_pivotRef;
 
+    private static int kCPR = 8192; // Constant for Counts Per Revolution (CPR) from REV's website for REV Through Bore 
+
     public Wrist() {
         wristMotor = new CANSparkMax(WristConstants.WRIST_MOTOR_ID, MotorType.kBrushless);
+
         wristMotor.setIdleMode(IdleMode.kBrake);
         wristPIDController = wristMotor.getPIDController();
-        wristEncoder = wristMotor.getAbsoluteEncoder(Type.kDutyCycle);
+        wristEncoder = wristMotor.getAlternateEncoder(kCPR);
         wristPIDController.setP(0.05);
         wristPIDController.setI(0);
         wristPIDController.setD(0);
