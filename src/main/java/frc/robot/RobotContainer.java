@@ -61,8 +61,8 @@ public class RobotContainer
 
   private final Intake intake = new Intake();
   private final Trolley trolley = new Trolley();
-  private final Pivot pivot = new Pivot(trolley);
-  private final Wrist wrist = new Wrist(pivot);
+  private final Pivot pivot = new Pivot();
+  private final Wrist wrist = new Wrist();
   private final Indexer indexer = new Indexer();
   private final Shooter shooter = new Shooter();
   private final LEDStrip leds = new LEDStrip();
@@ -79,6 +79,11 @@ public class RobotContainer
   public RobotContainer()
   {
     trolley.setPivotRef(pivot);
+    trolley.setWristRef(wrist);
+    wrist.setPivotRef(pivot);
+    wrist.setTrolleyRef(trolley);
+    pivot.setTrolleyRef(trolley);
+    pivot.setWristRef(wrist);
     // Configure the trigger bindings
     configureBindings();
     AbsoluteDriveAdv closedAbsoluteDriveAdv = new AbsoluteDriveAdv(drivebase,
