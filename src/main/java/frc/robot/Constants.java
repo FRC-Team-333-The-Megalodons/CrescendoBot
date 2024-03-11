@@ -23,8 +23,8 @@ public class Constants {
         public static final double MMAX_UP = -0.976191282272339;
         public static final double MAX_INPUT = 1.0;
 
-        public static final double NEW_INTAKE_POS = 0.664; //6897
-        public static final double NEW_SHOOTING_POS = 0.3267;
+        public static final double INTAKE_POS = 0.664; //6897
+        public static final double SHOOTING_POS = 0.3267;
         public static final double WRIST_POS_LOWER_LIMIT_WHILE_ELEVATOR_UP = 0;
         public static final double WRIST_POS_LOWER_LIMIT_WHILE_ELEVATOR_DOWN = 0;
         public static final double WRIST_MIN_DOWN = 0.14; // Also for climbing.
@@ -51,7 +51,7 @@ public class Constants {
       public static final double MAX_INPUT = 1.0;
       public static final double TROLLEY_MIN_IN = 0.70; // Flutters up to 0.73
       public static final double TROLLEY_SHOOTING_POSITION = 1.10; // Also the farthest back it can be when the wrist is up. Flutters up to 1.2.
-      public static final double TROLLEY_MAX_OUT = 1.53 7; // Flutters between 1.54 & 1.57
+      public static final double TROLLEY_MAX_OUT = 1.537; // Flutters between 1.54 & 1.57
       public static final double WRIST_POS_LOWER_LIMIT_WHILE_TROLLEY_DOWN = 0.7024;
       public static final double TROLLEY_POS_LOWEST_POINT_WRIST_CAN_MOVE = 4.185;  
       public static final double TROLLEY_INTAKE_POSITION = 1.53; // almost the same as max out                                               

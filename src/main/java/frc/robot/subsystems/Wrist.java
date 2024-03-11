@@ -77,7 +77,7 @@ public class Wrist extends SubsystemBase {
 
     // SMART DASHBOARD 
        public boolean atIntakePositionWrist() {
-        if (wristEncoder.getPosition() == WristConstants.NEW_INTAKE_POS) { 
+        if (wristEncoder.getPosition() == WristConstants.INTAKE_POS) { 
           return true;
         } else {
             return false;

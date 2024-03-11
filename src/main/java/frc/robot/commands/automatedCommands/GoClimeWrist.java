@@ -5,6 +5,7 @@
 package frc.robot.commands.automatedCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.WristConstants;
 import frc.robot.subsystems.Wrist;
 
 public class GoClimeWrist extends Command {
