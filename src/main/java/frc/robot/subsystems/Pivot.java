@@ -54,40 +54,35 @@ public class Pivot extends SubsystemBase {
 
 
     pivotEncoder = new DutyCycleEncoder(PivotConstants.PIVOT_ENCODER_ID);
-    // pivotEncoder.setPositionOffset(PivotConstants.ZERO_OFFSET);
-    //pivotEncoder.setDutyCycleRange(1.0/1024.0, 1023.0/1024.0);
     pivotEncoder.setDistancePerRotation(900);
     pivotEncoder.reset();
 
     pivotController = new PIDController(PivotConstants.kP, PivotConstants.kI, PivotConstants.kD);
-    // pivotController.enableContinuousInput(0, 1);
 
     // camera = new PhotonCamera("camera");
   }
 
-  public void setTrolleyRef(Trolley _trolleyRef)
-  {
+  public void setTrolleyRef(Trolley _trolleyRef) {
     trolleyRef = _trolleyRef;
   }
-  public void setWristRef(Wrist _wristRef)
-  {
+
+  public void setWristRef(Wrist _wristRef){
     wristRef = _wristRef;
   }
 
   public void runPivot(double speed) {
-
-      // Negative value means "up". Positive value means "down".
-      if (speed < 0) {
-          if (!isOkToMovePivotUp()) {
-              stopPivot();
-              return;
-          }
-      } else if (speed > 0) {
-          if (!isOkToMovePivotDown()) {
-             stopPivot();
-             return;
-          }
-      }
+    // Negative value means "up". Positive value means "down".
+    if (speed < 0) {
+        if (!isOkToMovePivotUp()) {
+            stopPivot();
+            return;
+        }
+    } else if (speed > 0) {
+        if (!isOkToMovePivotDown()) {
+            stopPivot();
+            return;
+        }
+    }
     pivotMotorLeader.set(speed);
   }
 
@@ -97,54 +92,47 @@ public class Pivot extends SubsystemBase {
   }
 
   
-  public boolean fuzzyEquals(double a, double b)
-  {
-      final double epsilon = 0.001;
-      return Math.abs(a-b) < epsilon;
+  public boolean fuzzyEquals(double a, double b) {
+    final double epsilon = 0.001;
+    return Math.abs(a-b) < epsilon;
   }
 
-  public boolean isOkToMovePivotUp()
-  {
-      // For now, just return true here because my checks aren't working
-      return true;
-      /*
-      if (m_trolleyRef.isTrolleyTooFarInToPivotUpPastBumper())
-      {
-          return getPivotPosition() > PivotConstants.PIVOT_UP_FAR_ENOUGH_THAT_TROLLEY_COULD_HIT_BACK_BUMPER;
-      }
-      if (m_trolleyRef.isTrolleyTooFarInToPivotVertical())
-      {
-          return getPivotPosition() > PivotConstants.PIVOT_UP_FAR_ENOUGH_THAT_TROLLEY_COULD_HIT_UNDERBELLY;
-      }
-      return true;
-      */
+  public boolean isOkToMovePivotUp() {
+    // For now, just return true here because my checks aren't working
+    return true;
+    /*
+    if (m_trolleyRef.isTrolleyTooFarInToPivotUpPastBumper())
+    {
+        return getPivotPosition() > PivotConstants.PIVOT_UP_FAR_ENOUGH_THAT_TROLLEY_COULD_HIT_BACK_BUMPER;
+    }
+    if (m_trolleyRef.isTrolleyTooFarInToPivotVertical())
+    {
+        return getPivotPosition() > PivotConstants.PIVOT_UP_FAR_ENOUGH_THAT_TROLLEY_COULD_HIT_UNDERBELLY;
+    }
+    return true;
+    */
   }
 
-  public boolean isOkToMovePivotDown()
-  {
-      if (trolleyRef.isTrolleyOut())
-      {
-          // If the Trolley is out, then we can only move down if we're above the "trolley can move safely" setpoint.
-          return getPivotPosition() > PivotConstants.PIVOT_FURTHEST_DOWN_WHERE_TROLLEY_CAN_MOVE;
-      }
-      return true;
+  public boolean isOkToMovePivotDown() {
+    if (trolleyRef.isTrolleyOut()) {
+      // If the Trolley is out, then we can only move down if we're above the "trolley can move safely" setpoint.
+      return getPivotPosition() > PivotConstants.PIVOT_FURTHEST_DOWN_WHERE_TROLLEY_CAN_MOVE;
+    }
+    return true;
   }
 
-  public boolean isPivotAtMaxUp()
-  {
-      // TODO
-      return false;
+  public boolean isPivotAtMaxUp() {
+    // TODO
+    return false;
   }
 
-  public boolean isPivotAtMaxDown()
-  {
-      // TODO
-      return false;
+  public boolean isPivotAtMaxDown() {
+    // TODO
+    return false;
   }
 
-  public double getPivotPosition()
-  {
-      return (pivotEncoder.getAbsolutePosition() * -1) + 1.0;
+  public double getPivotPosition() {
+    return (pivotEncoder.getAbsolutePosition() * -1) + 1.0;
   }
 
 

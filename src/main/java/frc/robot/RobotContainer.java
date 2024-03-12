@@ -149,7 +149,7 @@ public class RobotContainer
 
     if (manualMode) {
       // opRoller.circle().whileTrue(new RunIntake(intake, 0.5).until(intake::hasNote));
-      opRoller.circle().whileTrue((new RunIntake(intake, 0.5).until(intake::hasNote)).andThen(new RunCommand(() -> leds.blinkingColor(255,0,255), leds).withTimeout(1)));
+      opRoller.circle().whileTrue(((new RunIntake(intake, 0.5).alongWith(new RunCommand(() -> leds.redLED(), leds))).until(intake::hasNote)).andThen(new RunCommand(() -> leds.blinkingColor(0,255,0), leds).withTimeout(1)));
       opRoller.cross().whileTrue(new RunIntake(intake, 0.75));
       opRoller.triangle().whileTrue(new RunIntake(intake, -0.5));
 
