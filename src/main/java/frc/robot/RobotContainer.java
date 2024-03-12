@@ -27,8 +27,8 @@ import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.TrolleyConstants;
 import frc.robot.Constants.WristConstants;
 import frc.robot.commands.advanced.AutoIndexer;
-import frc.robot.commands.advanced.AutoIntake;
 import frc.robot.commands.advanced.AutoShooter;
+import frc.robot.commands.advanced.AutoTrolley;
 import frc.robot.commands.advanced.AutoWrist;
 import frc.robot.commands.basic.RunIndexer;
 import frc.robot.commands.basic.RunIntake;
@@ -36,6 +36,8 @@ import frc.robot.commands.basic.RunPivot;
 import frc.robot.commands.basic.RunShooter;
 import frc.robot.commands.basic.RunTrolley;
 import frc.robot.commands.basic.RunWrist;
+import frc.robot.commands.sequences.AutoIntake;
+import frc.robot.commands.sequences.GoHome;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
@@ -146,8 +148,9 @@ public class RobotContainer
     boolean manualMode = true;
 
     if (manualMode) {
-      opRoller.circle().whileTrue(new RunIntake(intake, 0.5).until(intake::hasNote));
-      opRoller.cross().whileTrue(new RunIntake(intake, 1.0));
+      // opRoller.circle().whileTrue(new RunIntake(intake, 0.5).until(intake::hasNote));
+      opRoller.circle().whileTrue((new RunIntake(intake, 0.5).until(intake::hasNote)).andThen(new RunCommand(() -> leds.blinkingColor(255,0,255), leds).withTimeout(1)));
+      opRoller.cross().whileTrue(new RunIntake(intake, 0.75));
       opRoller.triangle().whileTrue(new RunIntake(intake, -0.5));
 
       opRoller.touchpad().whileTrue(new RunCommand(() -> leds.blinkingColor(255,0,255), leds));
@@ -157,24 +160,30 @@ public class RobotContainer
       opRoller.L3().whileTrue(new AutoWrist(wrist, WristConstants.INTAKE_SETPOINT_POS));
       opRoller.R3().whileTrue(new AutoWrist(wrist, WristConstants.SHOOTING_SETPOINT_POS));
 
-      opRoller.povUp().whileTrue(new RunTrolley(trolley, 1.0));
-      opRoller.povDown().whileTrue(new RunTrolley(trolley, -1.0));
+      opRoller.povUp().whileTrue(new RunTrolley(trolley, 1.0).until(trolley::isTrolleyAtMaxOutLimitSwitch));
+      opRoller.povDown().whileTrue(new RunTrolley(trolley, -1.0).until(trolley::isTrolleyAtMinInLimitSwitch));
 
       opRoller.R2().whileTrue(new RunPivot(pivot, 0.2));
       opRoller.L2().whileTrue(new RunPivot(pivot, -0.2));
 
       // opRoller.square().whileTrue(new RunShooter(shooter, 0.9).alongWith(new RunIndexer(indexer, 1.0)));
-      // opRoller.square().whileTrue(new AutoShooter(shooter, ShooterConstants.SHOT_RPM).alongWith(new AutoIndexer(indexer, IndexerConstants.SHOT_RPM)));
+      opRoller.square().whileTrue(new AutoShooter(shooter, ShooterConstants.SHOT_RPM).alongWith(new AutoIndexer(indexer, IndexerConstants.SHOT_RPM)));
       // opRoller.square().whileTrue(new AutoShooter(shooter, ShooterConstants.SHOT_RPM));
-      opRoller.square().whileTrue(new AutoIndexer(indexer, IndexerConstants.SHOT_RPM));
+      // opRoller.square().whileTrue(new AutoIndexer(indexer, IndexerConstants.SHOT_RPM));
+
+      opRoller.povLeft().whileTrue(new GoHome(pivot, trolley, wrist));
+      opRoller.povRight().whileTrue(new AutoIntake(intake, wrist, trolley, leds));
     } else {
-      opRoller.circle().whileTrue(new RunIntake(intake, 0.5).until(intake::hasNote));
+      opRoller.circle().whileTrue(new AutoIntake(intake, wrist, trolley, leds));
 
       opRoller.L1().whileTrue(new AutoWrist(wrist, WristConstants.INTAKE_SETPOINT_POS));
       opRoller.R1().whileTrue(new AutoWrist(wrist, WristConstants.SHOOTING_SETPOINT_POS));
 
-      // opRoller.povUp().whileTrue(new RunCommand(() -> trolley.setPosition(TrolleyConstants.INTAKE_SETPOINT), trolley));
-      opRoller.square().whileTrue(new RunCommand(() -> shooter.setSpeed(ShooterConstants.SHOT_RPM), shooter).alongWith(new RunCommand(() -> indexer.setSpeed(IndexerConstants.SHOT_RPM), indexer)));
+      opRoller.povUp().whileTrue(new RunTrolley(trolley, 1.0).until(trolley::isTrolleyAtMaxOutLimitSwitch));
+      opRoller.povDown().whileTrue(new RunTrolley(trolley, -1.0).until(trolley::isTrolleyAtMinInLimitSwitch));
+
+      opRoller.square().whileTrue(new RunCommand(() -> shooter.setSpeed(ShooterConstants.SHOT_RPM), shooter)
+        .alongWith(new RunCommand(() -> indexer.setSpeed(IndexerConstants.SHOT_RPM), indexer)));
     }
 
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`

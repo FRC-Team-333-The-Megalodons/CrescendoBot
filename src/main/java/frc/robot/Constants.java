@@ -7,7 +7,6 @@ package frc.robot;
 
 import com.pathplanner.lib.util.PIDConstants;
 
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import swervelib.math.Matter;
@@ -45,8 +44,8 @@ public final class Constants
   {
     public static final int MOTOR_ID = 4;
     public static final double ZERO_OFFSET = 0.67;
-    public static final double INTAKE_SETPOINT_POS = 0.278036594390869;
-    public static final double SHOOTING_SETPOINT_POS = 0.485868990421295;
+    public static final double INTAKE_SETPOINT_POS = 0.162235856056213;
+    public static final double SHOOTING_SETPOINT_POS = 0.364192873239517;
     public static final double AMP_SETPOINT_POS = 0.488;
     public static final double UP_LIMIT_POS = 0.7; // TODO: This is a guess!!
     public static final double DOWN_LIMIT_POS = 0.03; // TODO: This is a guess!!
@@ -70,7 +69,7 @@ public final class Constants
     public static final int TROLLEY_IN_LIMIT_SWITCH_ID = 2;
     public static final int TROLLEY_POTENTIOMETER_ID = 3;
     public static final double HOME_SETPOINT_POS = 0.0;
-    public static final double INTAKE_SETPOINT_POS = 85;
+    public static final double INTAKE_SETPOINT_POS = 107.47097778320312;
     public static final double AMP_SETPOINT_POS = 69;
     public static final double UP_LIMIT_POS = 90; // TODO: This is a guess!!
     public static final double DOWN_LIMIT_POS = -20; // TODO: This is a guess!!
@@ -80,7 +79,7 @@ public final class Constants
     public static final double kFF = 0.0;
     public static final double MIN_INPUT = -0.3;
     public static final double MAX_INPUT = 0.3;
-    // Below values are from Lil Miss, measured on 3/9/24
+    // Below values measured on 3/9/24
     public static final double TROLLEY_MIN_IN = 0.70; // Flutters up to 0.73
     public static final double TROLLEY_SHOOTING_POSITION = 1.10; // Also the farthest back it can be when the wrist is up. Flutters up to 1.2.
     public static final double TROLLEY_MAX_OUT = 1.53; // Flutters between 1.53 & 1.57
@@ -98,7 +97,7 @@ public final class Constants
     public static final int MOTOR2_ID = 7; 
     public static final int PIVOT_ENCODER_ID = 9; 
     public static final double ZERO_OFFSET = 0.65362201634055;
-    public static final double HOME_SETPOINT_POS = 0.634;
+    public static final double HOME_SETPOINT_POS = 0.357370495796204;
     public static final double INTAKE_SETPOINT_POS = 0.364;
     public static final double SUBWOFFER_SETPOINT_POS = -0.5;
     public static final double PODIUM_SETPOINT_POS = 0.0;
@@ -107,14 +106,13 @@ public final class Constants
     public static final double AMP_SETPOINT_POS = 0.595;
     public static final double UP_LIMIT_POS = 0.8; // TODO: This is a guess!!
     public static final double DOWN_LIMIT_POS = -0.6; // TODO: This is a guess!!
-    // public static final double PIVOT_CONVERSION_FACTOR = Rotation2d.fromRotations().getDegrees(); // radians
     public static final double kP = 0.5;
     public static final double kI = 0.0;
     public static final double kD = 0.0;
     public static final double kFF = 0.0;
     public static final double MIN_INPUT = -0.1;
     public static final double MAX_INPUT = 0.1;
-    // BBelow values are from Lil Miss, measured on 3/9/24
+    // Below values measured on 3/9/24
     public static final double PIVOT_MIN_DOWN = 0.245; // This is the lowest point the "head" can be down (the head is the intake)
     public static final double PIVOT_BALANCED_FLAT = 0.405;
     public static final double PIVOT_CLIMB_POSITION = 0.669;
@@ -130,7 +128,7 @@ public final class Constants
     public static final int MOTOR_ID = 15;
     public static final double SHOT_RPM = 6000;
     public static final double IDLE_RPM = 1000;
-    public static final double kP = 0.00004;
+    public static final double kP = 0.0004;
     public static final double kI = 0.0;
     public static final double kD = 0.0;
     public static final double kFF = 0.0;
