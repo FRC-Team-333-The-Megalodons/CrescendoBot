@@ -22,7 +22,7 @@ public class AutoIntake extends SequentialCommandGroup {
       new RunTrolley(trolley, 1.0).until(trolley::isTrolleyAtMaxOutLimitSwitch),
       new AutoWrist(wrist, WristConstants.INTAKE_SETPOINT_POS).withTimeout(0.5),
       new RunIntake(intake, 0.5).until(intake::hasNote),
-      new RunCommand(() -> leds.blinkingColor(255,0,255), leds).withTimeout(1)
+      new RunCommand(() -> leds.setBlinkLED(255,0,255), leds).withTimeout(0.5)
     );
   }
 }

@@ -25,7 +25,7 @@ public class LEDStrip extends SubsystemBase {
     } m_led.setData(m_ledBuffer);
   }
 
-  public void blinkingColor(int r, int g, int b) {
+  public void setBlinkLED(int r, int g, int b) {
     int length = m_ledBuffer.getLength();
 
     for (int i = 0; i<length; i++) {
@@ -34,7 +34,7 @@ public class LEDStrip extends SubsystemBase {
     m_led.setData(m_ledBuffer);
 
     try {
-      Thread.sleep(100);
+      Thread.sleep(200);
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
@@ -45,7 +45,7 @@ public class LEDStrip extends SubsystemBase {
     m_led.setData(m_ledBuffer);
 
     try {
-      Thread.sleep(100);
+      Thread.sleep(200);
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
