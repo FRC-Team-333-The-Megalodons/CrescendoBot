@@ -6,6 +6,7 @@ package frc.robot.commands.sequences;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.PivotConstants;
+import frc.robot.Constants.TrolleyConstants;
 import frc.robot.Constants.WristConstants;
 import frc.robot.commands.advanced.AutoPivot;
 import frc.robot.commands.advanced.AutoWrist;
@@ -20,7 +21,7 @@ public class GoHome extends SequentialCommandGroup {
     addCommands(
       new AutoPivot(pivot, PivotConstants.HOME_SETPOINT_POS).withTimeout(0.5),
       new AutoWrist(wrist, WristConstants.SHOOTING_SETPOINT_POS).withTimeout(0.5),
-      new RunTrolley(trolley, -1.0).until(trolley::isTrolleyAtMinInLimitSwitch)
+      new RunTrolley(trolley, TrolleyConstants.TROLLEY_REVERSE_SPEED).until(trolley::isTrolleyAtMinInLimitSwitch)
     );
   }
 }

@@ -6,7 +6,9 @@ package frc.robot.commands.sequences;
 
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Constants.IntakeConstatnts;
 import frc.robot.Constants.PivotConstants;
+import frc.robot.Constants.TrolleyConstants;
 import frc.robot.Constants.WristConstants;
 import frc.robot.commands.advanced.AutoPivot;
 import frc.robot.commands.advanced.AutoWrist;
@@ -22,10 +24,10 @@ public class AutoIntake extends SequentialCommandGroup {
   /** Creates a new AutoIntake. */
   public AutoIntake(Intake intake, Wrist wrist, Trolley trolley, Pivot pivot, LEDStrip leds) {
     addCommands(
-      new RunTrolley(trolley, 1.0).until(trolley::isTrolleyAtMaxOutLimitSwitch),
+      new RunTrolley(trolley, TrolleyConstants.TROLLEY_FORWARD_SPEED).until(trolley::isTrolleyAtMaxOutLimitSwitch),
       new AutoWrist(wrist, WristConstants.INTAKE_SETPOINT_POS).withTimeout(0.5),
       new AutoPivot(pivot, PivotConstants.INTAKE_SETPOINT_POS).withTimeout(1),
-      new RunIntake(intake, 0.5).until(intake::hasNote),
+      new RunIntake(intake, IntakeConstatnts.INTAKE_SPEED).until(intake::hasNote),
       new RunCommand(() -> leds.setBlinkLED(255,0,255), leds).withTimeout(0.5)
     );
   }

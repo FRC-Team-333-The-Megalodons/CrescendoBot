@@ -31,6 +31,7 @@ public final class Constants
     public static final int MOTOR_ID = 3;
     public static final int LEFT_SENSOR_ID = 0;
     public static final int RIGHT_SENSOR_ID = 1;
+    public static final double INTAKE_SPEED = 0.5;
     public static final double NOTE_SETPOINT = 0.0;
     public static final double kP = 5.0;
     public static final double kI = 0.0;
@@ -68,6 +69,8 @@ public final class Constants
     public static final int TROLLEY_OUT_LIMIT_SWITCH_ID = 7;
     public static final int TROLLEY_IN_LIMIT_SWITCH_ID = 2;
     public static final int TROLLEY_POTENTIOMETER_ID = 3;
+    public static final double TROLLEY_FORWARD_SPEED = 1.0;
+    public static final double TROLLEY_REVERSE_SPEED = -1.0;
     public static final double HOME_SETPOINT_POS = 0.0;
     public static final double INTAKE_SETPOINT_POS = 107.47097778320312;
     public static final double AMP_SETPOINT_POS = 69;
@@ -96,13 +99,13 @@ public final class Constants
     public static final int MOTOR1_ID = 6; 
     public static final int MOTOR2_ID = 7; 
     public static final int PIVOT_ENCODER_ID = 9; 
+    public static final double PIVOT_SPEED = 0.2;
     public static final double ZERO_OFFSET = 0.65362201634055;
     public static final double HOME_SETPOINT_POS = 0.558592213964805;
     public static final double INTAKE_SETPOINT_POS = 0.620574640514366;
     public static final double SUBWOFFER_SETPOINT_POS = 0.700878617521965;
     public static final double PODIUM_SETPOINT_POS = 0.0;
     public static final double WING_SETPOINT_POS = 0.0;
-    public static final double SHOOTING_SETPOINT_POS = 0.8; // TODO: This is a guess!!
     public static final double AMP_SETPOINT_POS = 0.375752884393822;
     public static final double UP_LIMIT_POS = 0.8; // TODO: This is a guess!!
     public static final double DOWN_LIMIT_POS = -0.6; // TODO: This is a guess!!
