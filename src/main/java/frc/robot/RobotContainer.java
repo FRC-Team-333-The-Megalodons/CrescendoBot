@@ -27,6 +27,7 @@ import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.TrolleyConstants;
 import frc.robot.Constants.WristConstants;
 import frc.robot.commands.advanced.AutoIndexer;
+import frc.robot.commands.advanced.AutoPivot;
 import frc.robot.commands.advanced.AutoShooter;
 import frc.robot.commands.advanced.AutoTrolley;
 import frc.robot.commands.advanced.AutoWrist;
@@ -165,6 +166,8 @@ public class RobotContainer
 
       opRoller.R2().whileTrue(new RunPivot(pivot, 0.2));
       opRoller.L2().whileTrue(new RunPivot(pivot, -0.2));
+      opRoller.create().whileTrue(new AutoPivot(pivot, PivotConstants.HOME_SETPOINT_POS));
+      opRoller.options().whileTrue(new AutoPivot(pivot, PivotConstants.SUBWOFFER_SETPOINT_POS));
 
       // opRoller.square().whileTrue(new RunShooter(shooter, 0.9).alongWith(new RunIndexer(indexer, 1.0)));
       opRoller.square().whileTrue(new AutoShooter(shooter, ShooterConstants.SHOT_RPM).alongWith(new AutoIndexer(indexer, IndexerConstants.SHOT_RPM)));
@@ -172,9 +175,9 @@ public class RobotContainer
       // opRoller.square().whileTrue(new AutoIndexer(indexer, IndexerConstants.SHOT_RPM));
 
       opRoller.povLeft().whileTrue(new GoHome(pivot, trolley, wrist));
-      opRoller.povRight().whileTrue(new AutoIntake(intake, wrist, trolley, leds));
+      opRoller.povRight().whileTrue(new AutoIntake(intake, wrist, trolley, pivot, leds));
     } else {
-      opRoller.circle().whileTrue(new AutoIntake(intake, wrist, trolley, leds));
+      opRoller.circle().whileTrue(new AutoIntake(intake, wrist, trolley, pivot, leds));
 
       opRoller.L1().whileTrue(new AutoWrist(wrist, WristConstants.INTAKE_SETPOINT_POS));
       opRoller.R1().whileTrue(new AutoWrist(wrist, WristConstants.SHOOTING_SETPOINT_POS));

@@ -138,7 +138,9 @@ public class Trolley extends SubsystemBase {
   // This function returns whether the trolley is "past the frame perimeter".
   // This could technically vary based on where the wrist is, but for now we'll just use a single value.
   public boolean isTrolleyOut() {
-    return getPotentiometerPosition() >= TrolleyConstants.TROLLEY_IN_OUT_THRESHOLD;
+    // return getPotentiometerPosition() >= TrolleyConstants.TROLLEY_IN_OUT_THRESHOLD;
+    // workaround till pot is online
+    return !isTrolleyAtMinInLimitSwitch();
   }
 
   public boolean isTrolleyIn() {

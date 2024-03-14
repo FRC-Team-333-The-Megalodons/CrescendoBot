@@ -54,8 +54,6 @@ public class Pivot extends SubsystemBase {
 
 
     pivotEncoder = new DutyCycleEncoder(PivotConstants.PIVOT_ENCODER_ID);
-    pivotEncoder.setDistancePerRotation(900);
-    pivotEncoder.reset();
 
     pivotController = new PIDController(PivotConstants.kP, PivotConstants.kI, PivotConstants.kD);
 
@@ -73,15 +71,15 @@ public class Pivot extends SubsystemBase {
   public void runPivot(double speed) {
     // Negative value means "up". Positive value means "down".
     if (speed < 0) {
-        if (!isOkToMovePivotUp()) {
-            stopPivot();
-            return;
-        }
+      if (!isOkToMovePivotUp()) {
+        stopPivot();
+        return;
+      }
     } else if (speed > 0) {
-        if (!isOkToMovePivotDown()) {
-            stopPivot();
-            return;
-        }
+      if (!isOkToMovePivotDown()) {
+        stopPivot();
+        return;
+      }
     }
     pivotMotorLeader.set(speed);
   }
@@ -116,7 +114,7 @@ public class Pivot extends SubsystemBase {
   public boolean isOkToMovePivotDown() {
     if (trolleyRef.isTrolleyOut()) {
       // If the Trolley is out, then we can only move down if we're above the "trolley can move safely" setpoint.
-      return getPivotPosition() > PivotConstants.PIVOT_FURTHEST_DOWN_WHERE_TROLLEY_CAN_MOVE;
+      return getPosition() < PivotConstants.PIVOT_FURTHEST_DOWN_WHERE_TROLLEY_CAN_MOVE;
     }
     return true;
   }
@@ -131,13 +129,14 @@ public class Pivot extends SubsystemBase {
     return false;
   }
 
-  public double getPivotPosition() {
-    return (pivotEncoder.getAbsolutePosition() * -1) + 1.0;
+  public double getPosition() {
+    // return (pivotEncoder.getAbsolutePosition() * -1) + 1.0;
+    return pivotEncoder.getAbsolutePosition();
   }
 
 
-  public void runPivotToTargetAngle(double angle) {
-    double speed = pivotController.calculate(getPivotPosition(), angle);
+  public void setPosition(double setpoint) {
+    double speed = pivotController.calculate(getPosition(), setpoint);
     runPivot(speed);
   }
 
@@ -151,8 +150,7 @@ public class Pivot extends SubsystemBase {
     }
   }
 
-  private boolean mustStopDueToLimit(double speed)
-  {
+  private boolean mustStopDueToLimit(double speed) {
     return false;
     // // TODO: Is positive Up or Down? This code assumes value > 0 means "go Up", might need to be flipped if not so.
     // return ((speed > 0 && getPosition() >= getUpLimitFromState()) ||
@@ -183,7 +181,7 @@ public class Pivot extends SubsystemBase {
   @Override
   public void periodic() {
     final String PREFIX = "Pivot ";
-    SmartDashboard.putNumber(PREFIX+"Position", getPivotPosition());
+    SmartDashboard.putNumber(PREFIX+"Position", getPosition());
     SmartDashboard.putBoolean(PREFIX+"Setpoint", pivotController.atSetpoint());
   }
 }
