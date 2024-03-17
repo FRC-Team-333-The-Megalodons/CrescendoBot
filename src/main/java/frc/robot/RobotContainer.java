@@ -32,6 +32,7 @@ import frc.robot.commands.advanced.AutoPivot;
 import frc.robot.commands.advanced.AutoShooter;
 import frc.robot.commands.advanced.AutoTrolley;
 import frc.robot.commands.advanced.AutoWrist;
+import frc.robot.commands.basic.RunClimber;
 import frc.robot.commands.basic.RunIndexer;
 import frc.robot.commands.basic.RunIntake;
 import frc.robot.commands.basic.RunPivot;
@@ -43,6 +44,7 @@ import frc.robot.commands.sequences.AutoIntake;
 import frc.robot.commands.sequences.GoHome;
 import frc.robot.commands.sequences.ShootingPosition;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.LEDStrip;
@@ -71,6 +73,7 @@ public class RobotContainer
   private final Wrist wrist = new Wrist();
   private final Indexer indexer = new Indexer();
   private final Shooter shooter = new Shooter();
+  private final Climber climber = new Climber();
   private final LEDStrip leds = new LEDStrip();
   private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
                                                                          "swerve/neo"));
@@ -177,8 +180,10 @@ public class RobotContainer
       // opRoller.square().whileTrue(new AutoShooter(shooter, ShooterConstants.SHOT_RPM));
       // opRoller.square().whileTrue(new AutoIndexer(indexer, IndexerConstants.SHOT_RPM));)
 
-      opRoller.povLeft().whileTrue(new GoHome(pivot, trolley, wrist));
-      opRoller.povRight().whileTrue(new AutoIntake(intake, wrist, trolley, pivot, leds));
+      // opRoller.povLeft().whileTrue(new GoHome(pivot, trolley, wrist));
+      // opRoller.povRight().whileTrue(new AutoIntake(intake, wrist, trolley, pivot, leds));
+      opRoller.povLeft().whileTrue(new RunClimber(climber, 0.1));
+      opRoller.povRight().whileTrue(new RunClimber(climber, -0.1));
     } else {
       opRoller.L2().whileTrue(new GoHome(pivot, trolley, wrist));
 
